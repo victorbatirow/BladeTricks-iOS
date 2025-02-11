@@ -48,6 +48,8 @@
 //      -- Adjust spins in and out
 //          --- Example:
 //          --- Bs royale 270 to forward out - BECOMES -> Bs royale 360 out
+//
+// Fahrvergnugen
 
 import Combine
 
@@ -57,7 +59,7 @@ class TrickViewModel: ObservableObject {
 
     func generateTrick() {
         // CONSTANTS: Trick Names -- Order: easy to hard
-        let allTricks = ["Makio", "Grind", "Soul", "Mizou", "Porn Star", "Acid", "Fahrvergnugen", "Royale", "Unity", "Savannah", "X-Grind", "Torque Soul", "Mistrail", "UFO", "Torque", "Backslide", "Cab Driver", "Christ Makio", "Fastslide", "Stub Soul", "Tea Kettle", "Pudslide"]
+        let allTricks = ["Makio", "Grind", "Soul", "Mizou", "Porn Star", "Acid", "Fahrv", "Royale", "Unity", "X-Grind", "Torque Soul", "Mistrail", "Savannah", "UFO", "Torque", "Backslide", "Cab Driver", "Christ Makio", "Fastslide", "Stub Soul", "Tea Kettle", "Pudslide"]
         let soulplateTricks = ["Makio", "Soul", "Mizou", "Porn Star", "Acid", "X-Grind", "Torque Soul", "Mistrail", "Christ Makio", "Stub Soul", "Tea Kettle"]
         let grooveTricks = ["Grind", "Fahrvergnugen ", "Royale", "Unity", "Savannah", "Torque", "Backslide", "Cab Driver", "UFO", "Fastslide", "Pudslide"]
         let topsideNegativeTricks = ["Makio", "Soul", "Mizou", "Porn Star", "Acid", "Torque Soul", "Mistrail", "Christ Makio"]
@@ -314,7 +316,8 @@ class TrickViewModel: ObservableObject {
 
             // Edge Case: forward stance 270 frontside = True Spin
             if (currentStance == "Forward" && spinIn == "270 FS") {
-                spinIn = "270 FS (True Spin)"
+                spinIn = "270 FS"
+                // spinIn = "270 FS (True Spin)"
             }
             
             // 2.3 Choose Spin Out
@@ -373,7 +376,7 @@ class TrickViewModel: ObservableObject {
         // Update trick name label
 
         // Add additional logic here if necessary, e.g., combining tricks, spins, etc.
-        displayTrickName = "Trick: \(trickName)"
+        displayTrickName = "\(trickName)"
         // displayTrickName = "Trick: \(trickName) Generated with \(currentDifficulty.level)"
         
     }

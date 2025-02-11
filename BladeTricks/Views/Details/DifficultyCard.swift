@@ -14,26 +14,25 @@ struct DifficultyCard: View {
     var body: some View {
         ZStack {
             // MARK: Card
-            RoundedRectangle(cornerRadius: 30)
-                .fill(Color.difficultyCardBackground.opacity(isActive ? 1 : 0.2))
+            RoundedRectangle(cornerRadius: 15)
+                .fill(Color.difficultyCardBackground.opacity(isActive ? 1 : 0.4))
                 .frame(width: 60, height: 100)
                 .shadow(color: .black.opacity(0.25), radius: 10, x: 5, y: 4)
                 .overlay {
                     // MARK: Card Border
-                    RoundedRectangle(cornerRadius: 30)
+                    RoundedRectangle(cornerRadius: 15)
                         .strokeBorder(.white.opacity(isActive ? 0.5 : 0.2))
                         .blendMode(.overlay)
                 }
-                .innerShadow(shape: RoundedRectangle(cornerRadius: 30), color: .white.opacity(0.25), lineWidth: 1, offsetX: 1, offsetY: 1, blur: 0, blendMode: .overlay)
+                .innerShadow(shape: RoundedRectangle(cornerRadius: 15), color: .white.opacity(0.25), lineWidth: 1, offsetX: 1, offsetY: 1, blur: 0, blendMode: .overlay)
             
             // MARK: Content
             VStack(spacing: 15) {
-                // MARK: Forecast Date
                 // Conditional gradient text
                 Text(difficulty.level)
                     .font(.headline)
                     .frame(width: 60, height: 20, alignment: .center)
-                    .foregroundColor(isActive ? .clear : .black) // Clear for active to show gradient, black for inactive
+                    .foregroundColor(isActive ? .clear : .white) // Clear for active to show gradient, black for inactive
                     .background(
                         LinearGradient(gradient: Gradient(colors: isActive ? [.yellow, .white] : [.black, .black]), startPoint: .bottom, endPoint: .top)
                             .mask(
