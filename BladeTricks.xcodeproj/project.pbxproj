@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5711358E2BE078E700748F26 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5711358D2BE078E700748F26 /* SettingsView.swift */; };
+		571135912BE079D900748F26 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571135902BE079D900748F26 /* TabBar.swift */; };
+		571135932BE079E300748F26 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571135922BE079E300748F26 /* NavigationBar.swift */; };
+		571135962BE07AF600748F26 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571135952BE07AF600748F26 /* SegmentedControl.swift */; };
+		571135982BE07C6000748F26 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571135972BE07C6000748F26 /* Blur.swift */; };
+		57139FC92BE0862E00C17A36 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 57139FC82BE0862E00C17A36 /* BottomSheet */; };
 		5721B8D02BD89968007793E0 /* BladeTricksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721B8CF2BD89968007793E0 /* BladeTricksApp.swift */; };
 		5721B8D22BD89968007793E0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721B8D12BD89968007793E0 /* ContentView.swift */; };
 		5721B8D42BD8996A007793E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5721B8D32BD8996A007793E0 /* Assets.xcassets */; };
@@ -18,6 +24,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5711358D2BE078E700748F26 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		571135902BE079D900748F26 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
+		571135922BE079E300748F26 /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
+		571135952BE07AF600748F26 /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
+		571135972BE07C6000748F26 /* Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
 		5721B8CC2BD89968007793E0 /* BladeTricks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BladeTricks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5721B8CF2BD89968007793E0 /* BladeTricksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BladeTricksApp.swift; sourceTree = "<group>"; };
 		5721B8D12BD89968007793E0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -34,12 +45,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57139FC92BE0862E00C17A36 /* BottomSheet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5711358F2BE079B900748F26 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				571135902BE079D900748F26 /* TabBar.swift */,
+				571135922BE079E300748F26 /* NavigationBar.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		571135942BE07ACA00748F26 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				571135952BE07AF600748F26 /* SegmentedControl.swift */,
+				571135972BE07C6000748F26 /* Blur.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		5721B8C32BD89968007793E0 = {
 			isa = PBXGroup;
 			children = (
@@ -90,7 +120,9 @@
 			isa = PBXGroup;
 			children = (
 				5721B8EC2BDE68A5007793E0 /* Main */,
+				5711358F2BE079B900748F26 /* Navigation */,
 				5721B8F32BDE6C26007793E0 /* Details */,
+				571135942BE07ACA00748F26 /* Components */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -123,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				5721B8EE2BDE68D7007793E0 /* DifficultyCard.swift */,
+				5711358D2BE078E700748F26 /* SettingsView.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";
@@ -143,6 +176,9 @@
 			dependencies = (
 			);
 			name = BladeTricks;
+			packageProductDependencies = (
+				57139FC82BE0862E00C17A36 /* BottomSheet */,
+			);
 			productName = BladeTricks;
 			productReference = 5721B8CC2BD89968007793E0 /* BladeTricks.app */;
 			productType = "com.apple.product-type.application";
@@ -171,6 +207,9 @@
 				Base,
 			);
 			mainGroup = 5721B8C32BD89968007793E0;
+			packageReferences = (
+				57139FC72BE0862E00C17A36 /* XCRemoteSwiftPackageReference "BottomSheet" */,
+			);
 			productRefGroup = 5721B8CD2BD89968007793E0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -197,11 +236,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				571135982BE07C6000748F26 /* Blur.swift in Sources */,
+				5711358E2BE078E700748F26 /* SettingsView.swift in Sources */,
 				5721B8E42BDE5750007793E0 /* TrickViewModel.swift in Sources */,
 				5721B8F22BDE6C19007793E0 /* Extensions.swift in Sources */,
+				571135912BE079D900748F26 /* TabBar.swift in Sources */,
 				5721B8D22BD89968007793E0 /* ContentView.swift in Sources */,
+				571135932BE079E300748F26 /* NavigationBar.swift in Sources */,
 				5721B8D02BD89968007793E0 /* BladeTricksApp.swift in Sources */,
 				5721B8EB2BDE6622007793E0 /* DifficultyModel.swift in Sources */,
+				571135962BE07AF600748F26 /* SegmentedControl.swift in Sources */,
 				5721B8EF2BDE68D7007793E0 /* DifficultyCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -408,6 +452,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		57139FC72BE0862E00C17A36 /* XCRemoteSwiftPackageReference "BottomSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Wouter125/BottomSheet";
+			requirement = {
+				kind = exactVersion;
+				version = 1.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		57139FC82BE0862E00C17A36 /* BottomSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 57139FC72BE0862E00C17A36 /* XCRemoteSwiftPackageReference "BottomSheet" */;
+			productName = BottomSheet;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5721B8C42BD89968007793E0 /* Project object */;
 }

@@ -51,12 +51,22 @@
 //
 // Fahrvergnugen
 
+import Foundation
 import Combine
 
 class TrickViewModel: ObservableObject {
     @Published var displayTrickName: String = "Press the button to generate a trick."
     @Published var currentDifficulty: Difficulty = Difficulty.levels[0]  // Default to first difficulty
 
+    init() {
+        let savedDifficultyLevel = UserDefaults.standard.string(forKey: "selectedDifficultyLevel") ?? Difficulty.levels[0].level
+        if let savedDifficulty = Difficulty.levels.first(where: {$0.level == savedDifficultyLevel}) {
+            currentDifficulty = savedDifficulty
+        } else {
+            currentDifficulty = Difficulty.levels[0] // default difficulty
+        }
+    }
+    
     func generateTrick() {
         // CONSTANTS: Trick Names -- Order: easy to hard
         let allTricks = ["Makio", "Grind", "Soul", "Mizou", "Porn Star", "Acid", "Fahrv", "Royale", "Unity", "X-Grind", "Torque Soul", "Mistrail", "Savannah", "UFO", "Torque", "Backslide", "Cab Driver", "Christ Makio", "Fastslide", "Stub Soul", "Tea Kettle", "Pudslide"]
@@ -387,7 +397,7 @@ class TrickViewModel: ObservableObject {
         }
     
     func setDifficulty(_ difficulty: Difficulty) {
-            currentDifficulty = difficulty
-//            generateTrick()
-        }
+        currentDifficulty = difficulty
+        UserDefaults.standard.set(difficulty.level, forKey: "selectedDifficultyLevel")
+    }
 }

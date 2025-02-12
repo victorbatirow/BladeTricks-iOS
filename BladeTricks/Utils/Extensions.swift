@@ -1,11 +1,10 @@
 //
 //  Extensions.swift
-//  BladeTricks
+//  Weather
 //
-//  Created by Victor on 2024-04-28.
+//  Created by Dara To on 2022-06-12.
 //
 
-import Foundation
 import SwiftUI
 
 extension Color {
@@ -20,6 +19,15 @@ extension Color {
 //    static let tabBarBorder = Color("Tab Bar Border").opacity(0.5)
     static let difficultyCardBackground = Color("Forecast Card Background")
 //    static let probabilityText = Color("Probability Text")
+}
+
+extension View {
+    func backgroundBlur(radius: CGFloat = 3, opaque: Bool = false) -> some View {
+        self
+            .background(
+                Blur(radius: radius, opaque: opaque)
+            )
+    }
 }
 
 extension View {

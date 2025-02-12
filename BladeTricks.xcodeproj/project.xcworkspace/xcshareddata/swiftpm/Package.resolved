@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "bottomsheet",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Wouter125/BottomSheet",
+      "state" : {
+        "revision" : "4ece70e05cf8b4842a669b7cb74930506e2654d3",
+        "version" : "1.3.0"
+      }
+    }
+  ],
+  "version" : 2
+}

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import BottomSheet
 
 struct DifficultyCard: View {
     var difficulty: Difficulty
