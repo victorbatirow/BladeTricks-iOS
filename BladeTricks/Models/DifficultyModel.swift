@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum DifficultyLevel: String, CaseIterable {
-    case aleatory = "aleatory"
+enum DifficultyLevel: String, Codable, CaseIterable {
+    case customSettings = "Custom Settings"
     case rookie = "Rookie"
     case novice = "Novice"
     case appretice = "Appretice"
@@ -28,8 +28,9 @@ struct Difficulty: Equatable, Identifiable {
     var difficultyLevel: DifficultyLevel
     var probability: Int
     var settings: DifficultySettings
+    var isCustom: Bool // Add this to determine if the settings are custom
     
-    struct DifficultySettings {
+    struct DifficultySettings : Codable {
             var difficultyStamp: String
             var fakieChance: Double
             var topsideChance: Double
@@ -48,8 +49,8 @@ struct Difficulty: Equatable, Identifiable {
     
     var icon: String {
         switch difficultyLevel {
-        case .aleatory:
-            return "custom"
+        case .customSettings:
+            return "IconCustom"
         case .rookie:
             return "IconLvl1"
         case .novice:
@@ -81,17 +82,17 @@ extension Difficulty {
 //    static let day: TimeInterval = 60 * 60 * 24
     
     static let levels: [Difficulty] = [
-//        Difficulty(level: "lvl. ?", difficultyLevel: .aleatory, probability: 0, settings: DifficultySettings(difficultyStamp: "Aleatory", fakieChance: 0.1, topsideChance: 0.1, negativeChance: 0.05, rewindChance: 0.1, tricksCAP: 10, soulplateForwardInSpinsCAP: 2, soulplateFakieInSpinsCAP: 1, soulplateForwardOutSpinsCAP: 2, soulplateFakieOutSpinsCAP: 1, grooveForwardInSpinsCAP: 1, grooveFakieInSpinsCAP: 1, grooveSidewaysOutSpinsCAP: 1)),
-        Difficulty(level: "lvl. 1", difficultyLevel: .rookie, probability: 0, settings: DifficultySettings(difficultyStamp: "Rookie", fakieChance: 0, topsideChance: 0, negativeChance: 0, rewindChance: 0, tricksCAP: 6, soulplateForwardInSpinsCAP: 1, soulplateFakieInSpinsCAP: 1, soulplateForwardOutSpinsCAP: 1, soulplateFakieOutSpinsCAP: 1, grooveForwardInSpinsCAP: 1, grooveFakieInSpinsCAP: 1, grooveSidewaysOutSpinsCAP: 1)),
-        Difficulty(level: "lvl. 2", difficultyLevel: .novice, probability: 0, settings: DifficultySettings(difficultyStamp: "Novice", fakieChance: 0, topsideChance: 0, negativeChance: 0, rewindChance: 0, tricksCAP: 9, soulplateForwardInSpinsCAP: 2, soulplateFakieInSpinsCAP: 1, soulplateForwardOutSpinsCAP: 1, soulplateFakieOutSpinsCAP: 1, grooveForwardInSpinsCAP: 2, grooveFakieInSpinsCAP: 1, grooveSidewaysOutSpinsCAP: 2)),
-        Difficulty(level: "lvl. 3", difficultyLevel: .appretice, probability: 0, settings: DifficultySettings(difficultyStamp: "Appretice", fakieChance: 0.2, topsideChance: 0, negativeChance: 0, rewindChance: 0, tricksCAP: 10, soulplateForwardInSpinsCAP: 2, soulplateFakieInSpinsCAP: 2, soulplateForwardOutSpinsCAP: 2, soulplateFakieOutSpinsCAP: 2, grooveForwardInSpinsCAP:2, grooveFakieInSpinsCAP: 1, grooveSidewaysOutSpinsCAP: 2)),
-        Difficulty(level: "lvl. 4", difficultyLevel: .adept, probability: 0, settings: DifficultySettings(difficultyStamp: "Adept", fakieChance: 0.2, topsideChance: 0.1, negativeChance: 0, rewindChance: 0, tricksCAP: 12, soulplateForwardInSpinsCAP: 2, soulplateFakieInSpinsCAP: 2, soulplateForwardOutSpinsCAP: 2, soulplateFakieOutSpinsCAP: 2, grooveForwardInSpinsCAP: 2, grooveFakieInSpinsCAP:2, grooveSidewaysOutSpinsCAP: 3)),
-        Difficulty(level: "lvl. 5", difficultyLevel: .elite, probability: 0, settings: DifficultySettings(difficultyStamp: "Elite", fakieChance: 0.3, topsideChance: 0.2, negativeChance: 0, rewindChance: 0.1, tricksCAP: 13, soulplateForwardInSpinsCAP: 3, soulplateFakieInSpinsCAP: 3, soulplateForwardOutSpinsCAP: 2, soulplateFakieOutSpinsCAP: 1, grooveForwardInSpinsCAP: 2, grooveFakieInSpinsCAP: 2, grooveSidewaysOutSpinsCAP: 3)),
-        Difficulty(level: "lvl. 6", difficultyLevel: .veteran, probability: 0, settings: DifficultySettings(difficultyStamp: "Veteran", fakieChance: 0.3, topsideChance: 0.3, negativeChance: 0.05, rewindChance: 0.15, tricksCAP: 13, soulplateForwardInSpinsCAP: 3, soulplateFakieInSpinsCAP: 3, soulplateForwardOutSpinsCAP: 2, soulplateFakieOutSpinsCAP: 2, grooveForwardInSpinsCAP: 2, grooveFakieInSpinsCAP: 3, grooveSidewaysOutSpinsCAP: 4)),
-        Difficulty(level: "lvl. 7", difficultyLevel: .master, probability: 0, settings: DifficultySettings(difficultyStamp: "Master", fakieChance: 0.4, topsideChance: 0.4, negativeChance: 0.05, rewindChance: 0.2, tricksCAP: 16, soulplateForwardInSpinsCAP: 3, soulplateFakieInSpinsCAP: 4, soulplateForwardOutSpinsCAP: 2, soulplateFakieOutSpinsCAP: 1, grooveForwardInSpinsCAP: 3, grooveFakieInSpinsCAP: 3, grooveSidewaysOutSpinsCAP: 5)),
-        Difficulty(level: "lvl. 8", difficultyLevel: .sage, probability: 0, settings: DifficultySettings(difficultyStamp: "Sage", fakieChance: 0.4, topsideChance: 0.5, negativeChance: 0.07, rewindChance: 0.25, tricksCAP: 19, soulplateForwardInSpinsCAP: 4, soulplateFakieInSpinsCAP: 4, soulplateForwardOutSpinsCAP: 2, soulplateFakieOutSpinsCAP: 1, grooveForwardInSpinsCAP: 3, grooveFakieInSpinsCAP: 3, grooveSidewaysOutSpinsCAP: 5)),
-        Difficulty(level: "lvl. 9", difficultyLevel: .legend, probability: 0, settings: DifficultySettings(difficultyStamp: "Legend", fakieChance: 0.5, topsideChance: 0.5, negativeChance: 0.10, rewindChance: 0.3, tricksCAP: 21, soulplateForwardInSpinsCAP: 4, soulplateFakieInSpinsCAP: 5, soulplateForwardOutSpinsCAP: 3, soulplateFakieOutSpinsCAP: 3, grooveForwardInSpinsCAP: 3, grooveFakieInSpinsCAP: 4, grooveSidewaysOutSpinsCAP: 6)),
-        Difficulty(level: "lvl. 10", difficultyLevel: .mythic, probability: 0, settings: DifficultySettings(difficultyStamp: "Mythic", fakieChance: 0.5, topsideChance: 0.5, negativeChance: 0.20, rewindChance: 0.4, tricksCAP: 22, soulplateForwardInSpinsCAP: 5, soulplateFakieInSpinsCAP: 5, soulplateForwardOutSpinsCAP: 3, soulplateFakieOutSpinsCAP: 3, grooveForwardInSpinsCAP: 4, grooveFakieInSpinsCAP: 4, grooveSidewaysOutSpinsCAP: 6))
+        Difficulty(level: "Own", difficultyLevel: .customSettings, probability: 0, settings: DifficultySettings(difficultyStamp: "Custom Settings", fakieChance: 0.1, topsideChance: 0, negativeChance: 0, rewindChance: 0, tricksCAP: 3, soulplateForwardInSpinsCAP: 2, soulplateFakieInSpinsCAP: 1, soulplateForwardOutSpinsCAP: 2, soulplateFakieOutSpinsCAP: 1, grooveForwardInSpinsCAP: 1, grooveFakieInSpinsCAP: 1, grooveSidewaysOutSpinsCAP: 1), isCustom: true),
+        Difficulty(level: "lvl. 1", difficultyLevel: .rookie, probability: 0, settings: DifficultySettings(difficultyStamp: "Rookie", fakieChance: 0, topsideChance: 0, negativeChance: 0, rewindChance: 0, tricksCAP: 6, soulplateForwardInSpinsCAP: 1, soulplateFakieInSpinsCAP: 1, soulplateForwardOutSpinsCAP: 1, soulplateFakieOutSpinsCAP: 1, grooveForwardInSpinsCAP: 1, grooveFakieInSpinsCAP: 1, grooveSidewaysOutSpinsCAP: 1), isCustom: false),
+        Difficulty(level: "lvl. 2", difficultyLevel: .novice, probability: 0, settings: DifficultySettings(difficultyStamp: "Novice", fakieChance: 0, topsideChance: 0, negativeChance: 0, rewindChance: 0, tricksCAP: 9, soulplateForwardInSpinsCAP: 2, soulplateFakieInSpinsCAP: 1, soulplateForwardOutSpinsCAP: 1, soulplateFakieOutSpinsCAP: 1, grooveForwardInSpinsCAP: 2, grooveFakieInSpinsCAP: 1, grooveSidewaysOutSpinsCAP: 2), isCustom: false),
+        Difficulty(level: "lvl. 3", difficultyLevel: .appretice, probability: 0, settings: DifficultySettings(difficultyStamp: "Appretice", fakieChance: 0.2, topsideChance: 0, negativeChance: 0, rewindChance: 0, tricksCAP: 10, soulplateForwardInSpinsCAP: 2, soulplateFakieInSpinsCAP: 2, soulplateForwardOutSpinsCAP: 2, soulplateFakieOutSpinsCAP: 2, grooveForwardInSpinsCAP:2, grooveFakieInSpinsCAP: 1, grooveSidewaysOutSpinsCAP: 2), isCustom: false),
+        Difficulty(level: "lvl. 4", difficultyLevel: .adept, probability: 0, settings: DifficultySettings(difficultyStamp: "Adept", fakieChance: 0.2, topsideChance: 0.1, negativeChance: 0, rewindChance: 0, tricksCAP: 12, soulplateForwardInSpinsCAP: 2, soulplateFakieInSpinsCAP: 2, soulplateForwardOutSpinsCAP: 2, soulplateFakieOutSpinsCAP: 2, grooveForwardInSpinsCAP: 2, grooveFakieInSpinsCAP:2, grooveSidewaysOutSpinsCAP: 3), isCustom: false),
+        Difficulty(level: "lvl. 5", difficultyLevel: .elite, probability: 0, settings: DifficultySettings(difficultyStamp: "Elite", fakieChance: 0.3, topsideChance: 0.2, negativeChance: 0, rewindChance: 0.1, tricksCAP: 13, soulplateForwardInSpinsCAP: 3, soulplateFakieInSpinsCAP: 3, soulplateForwardOutSpinsCAP: 2, soulplateFakieOutSpinsCAP: 1, grooveForwardInSpinsCAP: 2, grooveFakieInSpinsCAP: 2, grooveSidewaysOutSpinsCAP: 3), isCustom: false),
+        Difficulty(level: "lvl. 6", difficultyLevel: .veteran, probability: 0, settings: DifficultySettings(difficultyStamp: "Veteran", fakieChance: 0.3, topsideChance: 0.3, negativeChance: 0.05, rewindChance: 0.15, tricksCAP: 13, soulplateForwardInSpinsCAP: 3, soulplateFakieInSpinsCAP: 3, soulplateForwardOutSpinsCAP: 2, soulplateFakieOutSpinsCAP: 2, grooveForwardInSpinsCAP: 2, grooveFakieInSpinsCAP: 3, grooveSidewaysOutSpinsCAP: 4), isCustom: false),
+        Difficulty(level: "lvl. 7", difficultyLevel: .master, probability: 0, settings: DifficultySettings(difficultyStamp: "Master", fakieChance: 0.4, topsideChance: 0.4, negativeChance: 0.05, rewindChance: 0.2, tricksCAP: 16, soulplateForwardInSpinsCAP: 3, soulplateFakieInSpinsCAP: 4, soulplateForwardOutSpinsCAP: 2, soulplateFakieOutSpinsCAP: 1, grooveForwardInSpinsCAP: 3, grooveFakieInSpinsCAP: 3, grooveSidewaysOutSpinsCAP: 5), isCustom: false),
+        Difficulty(level: "lvl. 8", difficultyLevel: .sage, probability: 0, settings: DifficultySettings(difficultyStamp: "Sage", fakieChance: 0.4, topsideChance: 0.5, negativeChance: 0.07, rewindChance: 0.25, tricksCAP: 19, soulplateForwardInSpinsCAP: 4, soulplateFakieInSpinsCAP: 4, soulplateForwardOutSpinsCAP: 2, soulplateFakieOutSpinsCAP: 1, grooveForwardInSpinsCAP: 3, grooveFakieInSpinsCAP: 3, grooveSidewaysOutSpinsCAP: 5), isCustom: false),
+        Difficulty(level: "lvl. 9", difficultyLevel: .legend, probability: 0, settings: DifficultySettings(difficultyStamp: "Legend", fakieChance: 0.5, topsideChance: 0.5, negativeChance: 0.10, rewindChance: 0.3, tricksCAP: 21, soulplateForwardInSpinsCAP: 4, soulplateFakieInSpinsCAP: 5, soulplateForwardOutSpinsCAP: 3, soulplateFakieOutSpinsCAP: 3, grooveForwardInSpinsCAP: 3, grooveFakieInSpinsCAP: 4, grooveSidewaysOutSpinsCAP: 6), isCustom: false),
+        Difficulty(level: "lvl. 10", difficultyLevel: .mythic, probability: 0, settings: DifficultySettings(difficultyStamp: "Mythic", fakieChance: 0.5, topsideChance: 0.5, negativeChance: 0.20, rewindChance: 0.4, tricksCAP: 22, soulplateForwardInSpinsCAP: 5, soulplateFakieInSpinsCAP: 5, soulplateForwardOutSpinsCAP: 3, soulplateFakieOutSpinsCAP: 3, grooveForwardInSpinsCAP: 4, grooveFakieInSpinsCAP: 4, grooveSidewaysOutSpinsCAP: 6), isCustom: false)
             
     ]
     

@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     var bottomSheetTranslationProrated: CGFloat = 1
     @State private var selection = 0
-    @ObservedObject var viewModel = TrickViewModel()
+    @EnvironmentObject var viewModel: TrickViewModel  // Use the shared view model
     
     var body: some View {
         ScrollView {
@@ -31,7 +31,7 @@ struct SettingsView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 12) {
                             ForEach(Difficulty.levels, id: \.id) { difficulty in
-                                DifficultyCard(difficulty: difficulty, isActive: viewModel.currentDifficulty == difficulty)
+                                DifficultyCard(difficulty: difficulty, isActive: viewModel.currentDifficulty.id == difficulty.id)
                                     .id(difficulty.id)
                                     .onTapGesture {
                                         viewModel.setDifficulty(difficulty)
@@ -47,11 +47,11 @@ struct SettingsView: View {
                     .onAppear {
                         value.scrollTo(viewModel.currentDifficulty.id, anchor: .center)
                     }
+                    
+                    if viewModel.currentDifficulty.isCustom {
+                        customSettingsView
+                    }
                 }
-                
-                // MARK: Forecast Widgets
-//                Image("Forecast Widgets")
-//                    .opacity(bottomSheetTranslationProrated)
             }
         }
         .backgroundBlur(radius: 25, opaque: true)
@@ -75,11 +75,35 @@ struct SettingsView: View {
                 .frame(maxHeight: .infinity, alignment: .top)
         }
     }
+    
+    private var customSettingsView: some View {
+        Group {
+            Text("Customize Your Difficulty").font(.headline).padding()
+            
+            // Replace or add this Slider within your existing Group
+            if viewModel.currentDifficulty.isCustom {
+                Slider(value: $viewModel.customSettings.fakieChance, in: 0...1, step: 0.05) {
+                    Text("Fakie Chance")
+                } minimumValueLabel: {
+                    Text("0%")
+                } maximumValueLabel: {
+                    Text("100%")
+                }
+                .onChange(of: viewModel.customSettings.fakieChance) { _ in
+                    viewModel.applyCustomSettings()
+                }
+                .padding()
+
+                // Repeat this pattern for other settings like topsideChance, negativeChance, etc.
+            }
+        }
+    }
 }
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        SettingsView(bottomSheetTranslationProrated: 1)
+            .environmentObject(TrickViewModel())  // Providing the environment object here
             .background(Color.background)
             .preferredColorScheme(.dark)
     }

@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct BladeTricksApp: App {
+    
+//    @StateObject var viewModel = TrickViewModel()  // Use @StateObject for ownership
+    @StateObject var viewModel = TrickViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environmentObject(viewModel)
         }
     }
 }

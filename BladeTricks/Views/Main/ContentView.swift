@@ -15,6 +15,7 @@ enum BottomSheetPosition: CGFloat, CaseIterable {
 }
 
 struct ContentView: View {
+    @EnvironmentObject var viewModel: TrickViewModel  // Access the shared instance
     @State var bottomSheetPosition: BottomSheetPosition = .middle
     @State var bottomSheetTranslation: CGFloat = BottomSheetPosition.middle.rawValue
     @State var hasDragged: Bool = false
@@ -27,62 +28,55 @@ struct ContentView: View {
         NavigationView {
             GeometryReader { geometry in
                 let screenHeight = geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom
-                let imageOffset = screenHeight + 36
+                let buttonOffset = screenHeight + 36
                 
                 ZStack {
-                    // MARK: Background Color
-                    Color.background
-                        .ignoresSafeArea()
+                    // Background
+                    Color.background.ignoresSafeArea()
                     
-                    // MARK: Background Image
-                    Image("Background")
-                        .resizable()
-                        .ignoresSafeArea()
-//                        .offset(y: -bottomSheetTranslationProrated * imageOffset)
+                    // Background Image
+                    Image("Background").resizable().ignoresSafeArea()
                     
-                    // MARK: House Image
-                    Image("House")
-                        .frame(maxHeight: .infinity, alignment: .top)
-                        .padding(.top, 257)
-                        .offset(y: -bottomSheetTranslationProrated * imageOffset)
-                    
-                    // MARK: Current Weather
-                    VStack(spacing: -10 * (1 - bottomSheetTranslationProrated)) {
-                        Text("Montreal")
-                            .font(.largeTitle)
+                    // Main Content
+                    VStack {
+                        Text(" ").font(.largeTitle).padding(.top, 51)
+                        Text(viewModel.displayTrickName) // Display generated trick name
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .lineLimit(nil)
+                            .multilineTextAlignment(.center)
+                            .padding(.top, 20)
                         
-                        VStack {
-                            Text(attributedString)
-                            
-                            Text("H:24°   L:18°")
-                                .font(.title3.weight(.semibold))
-                                .opacity(1 - bottomSheetTranslationProrated)
+                        Button(action: {
+                            viewModel.generateTrick() // Generate trick
+                        }) {
+                            Text("Generate Trick")
+                                .foregroundColor(.white)
+                                .frame(width: 200, height: 50)
+                                .background(Color.blue)
+                                .cornerRadius(10)
                         }
+                        .frame(maxHeight: .infinity, alignment: .top)
+                        .padding(.top, 157)
+                        .offset(y: -bottomSheetTranslationProrated * buttonOffset)
                         
                         Spacer()
                     }
-                    .padding(.top, 51)
-                    .offset(y: -bottomSheetTranslationProrated * 46)
                     
-                    // MARK: Bottom Sheet
+                    // Bottom Sheet
                     BottomSheetView(position: $bottomSheetPosition) {
-                        Text(bottomSheetTranslationProrated.formatted())
+//                        Text(bottomSheetTranslationProrated.formatted())
                     } content: {
                         SettingsView(bottomSheetTranslationProrated: bottomSheetTranslationProrated)
                     }
                     .onBottomSheetDrag { translation in
                         bottomSheetTranslation = translation / screenHeight
-                        
                         withAnimation(.easeInOut) {
-                            if bottomSheetPosition == BottomSheetPosition.top {
-                                hasDragged = true 
-                            } else {
-                                hasDragged = false
-                            }
+                            hasDragged = bottomSheetPosition == .top
                         }
                     }
                     
-                    // MARK: Tab Bar
+                    // Tab Bar
                     TabBar(action: {
                         bottomSheetPosition = .top
                     })
@@ -95,22 +89,18 @@ struct ContentView: View {
     
     private var attributedString: AttributedString {
         var string = AttributedString("19°" + (hasDragged ? " | " : "\n ") + "Mostly Clear")
-        
         if let temp = string.range(of: "19°") {
             string[temp].font = .system(size: (96 - (bottomSheetTranslationProrated * (96 - 20))), weight: hasDragged ? .semibold : .thin)
             string[temp].foregroundColor = hasDragged ? .secondary : .primary
         }
-        
         if let pipe = string.range(of: " | ") {
             string[pipe].font = .title3.weight(.semibold)
             string[pipe].foregroundColor = .secondary.opacity(bottomSheetTranslationProrated)
         }
-        
         if let weather = string.range(of: "Mostly Clear") {
             string[weather].font = .title3.weight(.semibold)
             string[weather].foregroundColor = .secondary
         }
-        
         return string
     }
 }
@@ -118,6 +108,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(TrickViewModel())
             .preferredColorScheme(.dark)
     }
 }

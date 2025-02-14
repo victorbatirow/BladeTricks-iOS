@@ -9,17 +9,6 @@
 // have a number for difficulty for each array, where the difficulty number is goes as length of array
 // var trick = allTricks[Math.floor(Math.random()*allTricks.trickDifficulty )];
 
-// DIFFICULTY SYSTEM:
-// - Have pre-set difficulties (1-5 maybe 1-6 for rough and tough grinds)
-// - Have a custom difficulty option where user can manually set all generating options
-//      -- trick difficulty (higher difficulty = higher tricksCAP for the allTricks list)
-//      -- set fakie probability
-//          --- slider with value from 0-1  OR...
-//          --- segmented control with 3-5 options of  probability (eg. 0%, 25%, 50%, 75%, 100%)
-//      -- set topside probability
-//      -- set negative probability
-//      -- set rewind probability
-
 
 // TRICKS TO ADD:
 // - Something is wrong with the misfits
@@ -57,17 +46,70 @@ import Combine
 class TrickViewModel: ObservableObject {
     @Published var displayTrickName: String = "Press the button to generate a trick."
     @Published var currentDifficulty: Difficulty = Difficulty.levels[0]  // Default to first difficulty
+    @Published var customSettings: Difficulty.DifficultySettings
+    private var lastTricks: [String] = []  // This array will store the history of generated tricks
+
 
     init() {
-        let savedDifficultyLevel = UserDefaults.standard.string(forKey: "selectedDifficultyLevel") ?? Difficulty.levels[0].level
+        let defaultDifficulty = Difficulty.levels[0] // Default to first difficulty
+        self.currentDifficulty = defaultDifficulty
+        self.customSettings = defaultDifficulty.settings // Temporarily initialize with default settings
+
+        // Now that all properties are initialized, you can safely use instance methods
+        self.customSettings = loadCustomSettings() ?? defaultDifficulty.settings // Load custom settings or default
+
+        let savedDifficultyLevel = UserDefaults.standard.string(forKey: "selectedDifficultyLevel") ?? defaultDifficulty.level
         if let savedDifficulty = Difficulty.levels.first(where: {$0.level == savedDifficultyLevel}) {
             currentDifficulty = savedDifficulty
-        } else {
-            currentDifficulty = Difficulty.levels[0] // default difficulty
         }
     }
     
+    func loadCustomSettings() -> Difficulty.DifficultySettings? {
+        if let settingsData = UserDefaults.standard.data(forKey: "customSettings"),
+           let settings = try? JSONDecoder().decode(Difficulty.DifficultySettings.self, from: settingsData) {
+            return settings
+        }
+        return nil
+    }
+    
+    func saveCustomSettings() {
+        if let settingsData = try? JSONEncoder().encode(customSettings) {
+            UserDefaults.standard.set(settingsData, forKey: "customSettings")
+        }
+    }
+    
+    func applyCustomSettings() {
+            currentDifficulty.settings = customSettings
+            saveCustomSettings()
+        }
+    
     func generateTrick() {
+        var uniqueTrickFound = false
+        var newTrickName = ""
+        
+        while !uniqueTrickFound {
+            // Generate a trick
+            newTrickName = generateTrickName()  // Assuming this function generates the full trick name
+
+            // Check if the trick has been generated in the last three attempts
+            if !lastTricks.contains(newTrickName) {
+                uniqueTrickFound = true
+                lastTricks.append(newTrickName)
+                
+                // Keep only the last three entries in the history
+                if lastTricks.count > 3 {
+                    lastTricks.removeFirst()
+                }
+            } else {
+                print("repeated trick found, re-generating....")
+            }
+        }
+        
+        displayTrickName = newTrickName
+    }
+    
+    private func generateTrickName() -> String {
+        
         // CONSTANTS: Trick Names -- Order: easy to hard
         let allTricks = ["Makio", "Grind", "Soul", "Mizou", "Porn Star", "Acid", "Fahrv", "Royale", "Unity", "X-Grind", "Torque Soul", "Mistrail", "Savannah", "UFO", "Torque", "Backslide", "Cab Driver", "Christ Makio", "Fastslide", "Stub Soul", "Tea Kettle", "Pudslide"]
         let soulplateTricks = ["Makio", "Soul", "Mizou", "Porn Star", "Acid", "X-Grind", "Torque Soul", "Mistrail", "Christ Makio", "Stub Soul", "Tea Kettle"]
@@ -81,7 +123,7 @@ class TrickViewModel: ObservableObject {
         let soulplateFakieOutSpins = ["", "to Forward", "Full-Cab Out"]
         let grooveForwardInSpins = ["FS", "BS", "270 BS", "270 FS"]
         let grooveFakieInSpins = ["FS", "BS", "270 BS", "270 FS"]
-        let grooveSidewaysOutSpins = ["to Fakie", "to Forward", "270 Out", "270 to Fakie Out", "270 to Forward Out", "450 Out"]
+        let grooveSidewaysOutSpins = ["to Fakie", "to Forward", "270 Out", "270 Out to Fakie", "270 Out to Forward", "450 Out"]
         
         // Game Difficulty Options
         var difficulty: Double = 0.8
@@ -386,18 +428,41 @@ class TrickViewModel: ObservableObject {
         // Update trick name label
 
         // Add additional logic here if necessary, e.g., combining tricks, spins, etc.
-        displayTrickName = "\(trickName)"
+        return trickName
         // displayTrickName = "Trick: \(trickName) Generated with \(currentDifficulty.level)"
         
     }
     
-    private func generateTrickName() -> String {
-            // Implement the logic to generate a trick name based on the current settings
-            return "Some Trick Name"
-        }
     
     func setDifficulty(_ difficulty: Difficulty) {
-        currentDifficulty = difficulty
-        UserDefaults.standard.set(difficulty.level, forKey: "selectedDifficultyLevel")
+            currentDifficulty = difficulty
+            UserDefaults.standard.set(difficulty.level, forKey: "selectedDifficultyLevel")
+            if difficulty.isCustom {
+                customSettings = loadCustomSettings() ?? difficulty.settings // Reload the latest custom settings
+                applyCustomSettings()
+            }
+        }
+    
+    
+    func updateCustomSettings(fakieChance: Double) {
+        if currentDifficulty.isCustom {
+            var updatedSettings = currentDifficulty.settings
+            updatedSettings.fakieChance = fakieChance
+            currentDifficulty.settings = updatedSettings // Update current settings
+            saveSettings() // Persist the updated settings
+        }
+    }
+    
+    func saveSettings() {
+        let settingsData = try? JSONEncoder().encode(currentDifficulty.settings)
+        UserDefaults.standard.set(settingsData, forKey: "customSettings")
+    }
+
+    func loadSettings() {
+        if let settingsData = UserDefaults.standard.data(forKey: "customSettings"),
+           let settings = try? JSONDecoder().decode(Difficulty.DifficultySettings.self, from: settingsData) {
+            currentDifficulty.settings = settings
+        }
     }
 }
+
