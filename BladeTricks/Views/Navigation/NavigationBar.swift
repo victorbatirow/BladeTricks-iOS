@@ -43,4 +43,3 @@ struct Trapezoid: Shape {
         return path
     }
 }
-

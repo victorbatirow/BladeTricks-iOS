@@ -78,11 +78,14 @@ struct SettingsView: View {
     
     private var customSettingsView: some View {
         Group {
+            settingsCardView
             settingsTitle
-            fakieChanceSlider
-            topsideChanceSlider
-            negativeChanceSlider
-            rewindChanceSlider
+            VStack(spacing : 20) {
+                fakieChanceSlider
+                topsideChanceSlider
+                negativeChanceSlider
+                rewindChanceSlider
+            }
             tricksCAPSlider
             soulplateForwardInSpinsCAPSlider
             soulplateFakieInSpinsCAPSlider
@@ -94,6 +97,15 @@ struct SettingsView: View {
         }
         .opacity(Double(bottomSheetTranslationProrated))
     }
+    
+    private var settingsCardView: some View {
+            VStack {
+//                DashboardCardView(icon: "flame.fill", title: "Current streak", mainText: "1 Days", color: Color.blue)
+//                DashboardCardView(icon: "rocket.fill", title: "Longest streak", mainText: "2 Days", color: Color.red)
+//                DashboardCardView(icon: "star.fill", title: "Best month", mainText: "January", color: Color.purple)
+//                DashboardCardView(icon: "percent", title: "Completion rate", mainText: "52%", color: Color.orange)
+            }
+        }
 
     private var settingsTitle: some View {
         Text("Customize Your Difficulty")
@@ -113,19 +125,19 @@ struct SettingsView: View {
     }
 
     private var fakieChanceSlider: some View {
-        sliderView(title: "Fakie Chance", value: $viewModel.customSettings.fakieChance, range: 0...1, step: 0.05)
+        DashboardCardView(icon: "flame.fill", title: "Fakie odds", value: $viewModel.customSettings.fakieChance, color: Color.blue, applyCustomSettings: viewModel.applyCustomSettings)
     }
 
     private var topsideChanceSlider: some View {
-        sliderView(title: "Topside Chance", value: $viewModel.customSettings.topsideChance, range: 0...1, step: 0.05)
+        DashboardCardView(icon: "flame.fill", title: "Topside odds", value: $viewModel.customSettings.topsideChance, color: Color.blue, applyCustomSettings: viewModel.applyCustomSettings)
     }
 
     private var negativeChanceSlider: some View {
-        sliderView(title: "Negative Chance", value: $viewModel.customSettings.negativeChance, range: 0...1, step: 0.05)
+        DashboardCardView(icon: "flame.fill", title: "Negative odds", value: $viewModel.customSettings.negativeChance, color: Color.blue, applyCustomSettings: viewModel.applyCustomSettings)
     }
 
     private var rewindChanceSlider: some View {
-        sliderView(title: "Rewind Chance", value: $viewModel.customSettings.rewindChance, range: 0...1, step: 0.05)
+        DashboardCardView(icon: "flame.fill", title: "Rewind odds", value: $viewModel.customSettings.rewindChance, color: Color.blue, applyCustomSettings: viewModel.applyCustomSettings)
     }
 
     private var tricksCAPSlider: some View {
@@ -295,9 +307,71 @@ struct SettingsView: View {
             }.frame(height: 20)
         }.padding()
     }
-
-
 }
+
+struct DashboardCardView: View {
+    var icon: String
+    var title: String
+    @Binding var value: Double  // This binds to the slider value
+    var color: Color
+    @State private var lastDragValue: CGFloat = 0  // To track the last drag position for direction changes
+    var applyCustomSettings: () -> Void  // Callback to apply custom settings
+
+    var body: some View {
+        VStack {
+            HStack {
+                Image(systemName: icon)
+                    .foregroundColor(.white)
+                    .padding(.leading, 10)
+                Text(title)
+                    .foregroundColor(.white)
+                    .fontWeight(.bold)
+                Spacer()
+                Text("\(Int(value * 100))%")  // Display the percentage value
+                    .foregroundColor(.white)
+                    .fontWeight(.bold)
+            }
+            .padding(.top, 5)
+            Spacer()
+        }
+        .background(
+            GeometryReader { geometry in
+                ZStack(alignment: .leading) {
+                    Rectangle()
+                        .fill(color.opacity(0.2))  // Less intense color for unfilled part
+                    Rectangle()
+                        .fill(color)
+                        .frame(width: geometry.size.width * CGFloat(value))  // Dynamic width based on value
+                }
+            }
+        )
+        .cornerRadius(20)
+        .shadow(radius: 10)
+        .padding(.horizontal)
+        .gesture(
+            DragGesture()
+                .onChanged { drag in
+                    let currentDragValue = drag.translation.width
+                    let direction = currentDragValue - lastDragValue
+                    let adjustment = Double(direction / 300)  // Adjust sensitivity by increasing denominator
+                    let proposedValue = max(0, min(1, self.value + adjustment))
+                    if self.value != proposedValue {
+                        self.value = proposedValue
+                        applyCustomSettings()  // Apply settings when value changes
+                    }
+                    lastDragValue = currentDragValue  // Update last drag value for continuous adjustment
+                }
+                .onEnded { _ in
+                    lastDragValue = 0  // Reset on gesture end
+                }
+        )
+    }
+}
+
+
+
+
+
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {

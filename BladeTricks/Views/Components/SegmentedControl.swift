@@ -62,4 +62,3 @@ struct SegmentedControl_Previews: PreviewProvider {
         SegmentedControl(selection: .constant(0))
     }
 }
-

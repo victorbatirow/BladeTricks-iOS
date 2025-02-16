@@ -228,11 +228,14 @@ class TrickViewModel: ObservableObject {
                     currentStance = "Forward"
                 }
             } else if currentStance == "Forward" {
-                // Choose a spin from the list according to the difficulty
-                spinIn = soulplateForwardInSpins[Int.random(in: 0..<soulplateForwardInSpinsCAP)]
-                // Update the skater's current stance
-                if spinIn == "Alley-Oop" || spinIn == "True Spin" {
-                    currentStance = "Fakie"
+                if soulplateForwardInSpinsCAP > 0 {
+                    // Ensure the upper bound does not exceed the array count to avoid index out of range errors
+                    let safeCap = min(soulplateForwardInSpinsCAP, soulplateForwardInSpins.count)
+                    spinIn = soulplateForwardInSpins[Int.random(in: 0..<safeCap)]
+                } else {
+                    // Handle the case where no valid spins are available
+                    spinIn = ""  // Default or error handling spin
+                    // Optionally, handle this scenario more robustly, depending on your application's needs
                 }
             }
             
@@ -483,4 +486,3 @@ class TrickViewModel: ObservableObject {
         }
     }
 }
-
