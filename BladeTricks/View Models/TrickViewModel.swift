@@ -31,6 +31,7 @@
 //      -- if list of grabbable grinds contains the trick, randomly set grab to true or false
 //      -- add grabStamp to the final step (set trick name)
 // - Illusion spins
+// - Step Overs (would require next level logic for foot positions awareness)
 // - Med spins
 // - Quarter pipe option
 //      -- A simple checkbox. if true, skater is skating a quarter pipe
@@ -44,6 +45,23 @@ import Foundation
 import Combine
 
 class TrickViewModel: ObservableObject {
+    
+    // CONSTANTS: Trick Names -- Order: easy to hard
+    let allTricks = ["Makio", "Grind", "Soul", "Mizou", "Porn Star", "Acid", "Fahrv", "Royale", "Unity", "X-Grind", "Torque Soul", "Mistrail", "Savannah", "UFO", "Torque", "Backslide", "Cab Driver", "Christ Makio", "Fastslide", "Stub Soul", "Tea Kettle", "Pudslide"]
+    let soulplateTricks = ["Makio", "Soul", "Mizou", "Porn Star", "Acid", "X-Grind", "Torque Soul", "Mistrail", "Christ Makio", "Stub Soul", "Tea Kettle"]
+    let grooveTricks = ["Grind", "Fahrvergnugen ", "Royale", "Unity", "Savannah", "Torque", "Backslide", "Cab Driver", "UFO", "Fastslide", "Pudslide"]
+    let topsideNegativeTricks = ["Makio", "Soul", "Mizou", "Porn Star", "Acid", "Torque Soul", "Mistrail", "Christ Makio"]
+    
+    // CONSTANTS: Spins -- Order: easy to hard
+    let soulplateForwardInSpins = ["", "Alley-Oop", "True Spin", "360", "Hurricane"]
+    let soulplateFakieInSpins = ["In-Spin", "Out-Spin", "Zero Spin", "Cab Alley-Oop", "Cab True Spin"]
+    let soulplateForwardOutSpins = ["", "to Fakie", "360 Out"]
+    let soulplateFakieOutSpins = ["", "to Forward", "Cab Out"]
+    let grooveForwardInSpins = ["FS", "BS", "270 BS", "270 FS"]
+    let grooveFakieInSpins = ["FS", "BS", "270 BS", "270 FS"]
+    let grooveSidewaysOutSpins = ["to Fakie", "to Forward", "270 Out", "270 Out to Fakie", "270 Out to Forward", "450 Out"]
+    
+    
     @Published var displayTrickName: String = "Press the button to generate a trick."
     @Published var currentDifficulty: Difficulty = Difficulty.levels[0]  // Default to first difficulty
     @Published var customSettings: Difficulty.DifficultySettings
@@ -120,7 +138,7 @@ class TrickViewModel: ObservableObject {
         let soulplateForwardInSpins = ["", "Alley-Oop", "True Spin", "360", "Hurricane"]
         let soulplateFakieInSpins = ["In-Spin", "Out-Spin", "Zero Spin", "Cab Alley-Oop", "Cab True Spin"]
         let soulplateForwardOutSpins = ["", "to Fakie", "360 Out"]
-        let soulplateFakieOutSpins = ["", "to Forward", "Full-Cab Out"]
+        let soulplateFakieOutSpins = ["", "to Forward", "Cab Out"]
         let grooveForwardInSpins = ["FS", "BS", "270 BS", "270 FS"]
         let grooveFakieInSpins = ["FS", "BS", "270 BS", "270 FS"]
         let grooveSidewaysOutSpins = ["to Fakie", "to Forward", "270 Out", "270 Out to Fakie", "270 Out to Forward", "450 Out"]
