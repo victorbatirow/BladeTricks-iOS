@@ -41,7 +41,7 @@ struct ContentView: View {
                     VStack {
                         Text(" ").font(.largeTitle).padding(.top, 51)
                         Text(viewModel.displayTrickName) // Display generated trick name
-                            .font(.title)
+                            .font(.title2)
                             .fontWeight(.bold)
                             .lineLimit(nil)
                             .multilineTextAlignment(.center)
