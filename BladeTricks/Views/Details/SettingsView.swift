@@ -80,7 +80,6 @@ struct SettingsView: View {
             topsideChanceSlider
             negativeChanceSlider
             rewindChanceSlider
-            switchUpChooser
             tricksCAPSlider
             soulplateForwardInSpinsCAPSlider
             soulplateFakieInSpinsCAPSlider
@@ -89,6 +88,12 @@ struct SettingsView: View {
             grooveForwardInSpinsCAPSlider
             grooveFakieInSpinsCAPSlider
             grooveSidewaysOutSpinsCAPSlider
+            switchUpChooser
+            grooveFSToSoulplateSpinsCAPSlider
+            grooveBSToSoulplateSpinsCAPSlider
+            grooveFSToGrooveSpinsCAPSlider
+            grooveBSToGrooveSpinsCAPSlider
+            
         }
         .opacity(Double(bottomSheetTranslationProrated))
     }
@@ -124,8 +129,94 @@ struct SettingsView: View {
             .pickerStyle(SegmentedPickerStyle())
             .padding()
         }
+        
+        
+    }
+    
+    private var grooveFSToSoulplateSpinsCAPSlider: some View {
+        VStack {
+            Text("Groove FS to Soulplate Spins CAP: \(viewModel.customSettings.grooveFSToSoulplateSpinsCAP)")
+                .fontWeight(.semibold)
+            Slider(value: Binding(
+                get: { Double(viewModel.customSettings.grooveFSToSoulplateSpinsCAP) },
+                set: { viewModel.customSettings.grooveFSToSoulplateSpinsCAP = Int($0) }
+            ), in: 0...Double(viewModel.grooveFSToSoulplateSpins.count), step: 1)
+            .onChange(of: viewModel.customSettings.grooveFSToSoulplateSpinsCAP) {
+                viewModel.applyCustomSettings()
+            }
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(viewModel.grooveFSToSoulplateSpins.prefix(viewModel.customSettings.grooveFSToSoulplateSpinsCAP), id: \.self) { spin in
+                        Text(spin).font(.caption)
+                    }
+                }
+            }.frame(height: 20)
+        }.padding()
     }
 
+    private var grooveBSToSoulplateSpinsCAPSlider: some View {
+        VStack {
+            Text("Groove BS to Soulplate Spins CAP: \(viewModel.customSettings.grooveBSToSoulplateSpinsCAP)")
+                .fontWeight(.semibold)
+            Slider(value: Binding(
+                get: { Double(viewModel.customSettings.grooveBSToSoulplateSpinsCAP) },
+                set: { viewModel.customSettings.grooveBSToSoulplateSpinsCAP = Int($0) }
+            ), in: 0...Double(viewModel.grooveBSToSoulplateSpins.count), step: 1)
+            .onChange(of: viewModel.customSettings.grooveBSToSoulplateSpinsCAP) {
+                viewModel.applyCustomSettings()
+            }
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(viewModel.grooveBSToSoulplateSpins.prefix(viewModel.customSettings.grooveBSToSoulplateSpinsCAP), id: \.self) { spin in
+                        Text(spin).font(.caption)
+                    }
+                }
+            }.frame(height: 20)
+        }.padding()
+    }
+    
+    private var grooveFSToGrooveSpinsCAPSlider: some View {
+        VStack {
+            Text("Groove FS to Groove Spins CAP: \(viewModel.customSettings.grooveFSToGrooveSpinsCAP)")
+                .fontWeight(.semibold)
+            Slider(value: Binding(
+                get: { Double(viewModel.customSettings.grooveFSToGrooveSpinsCAP) },
+                set: { viewModel.customSettings.grooveFSToGrooveSpinsCAP = Int($0) }
+            ), in: 0...Double(viewModel.grooveFSToGrooveSpins.count), step: 1)
+            .onChange(of: viewModel.customSettings.grooveFSToGrooveSpinsCAP) {
+                viewModel.applyCustomSettings()
+            }
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(viewModel.grooveFSToGrooveSpins.prefix(viewModel.customSettings.grooveFSToGrooveSpinsCAP), id: \.self) { spin in
+                        Text(spin).font(.caption)
+                    }
+                }
+            }.frame(height: 20)
+        }.padding()
+    }
+    
+    private var grooveBSToGrooveSpinsCAPSlider: some View {
+        VStack {
+            Text("Groove FS to Groove Spins CAP: \(viewModel.customSettings.grooveBSToGrooveSpinsCAP)")
+                .fontWeight(.semibold)
+            Slider(value: Binding(
+                get: { Double(viewModel.customSettings.grooveBSToGrooveSpinsCAP) },
+                set: { viewModel.customSettings.grooveBSToGrooveSpinsCAP = Int($0) }
+            ), in: 0...Double(viewModel.grooveBSToGrooveSpins.count), step: 1)
+            .onChange(of: viewModel.customSettings.grooveBSToGrooveSpinsCAP) {
+                viewModel.applyCustomSettings()
+            }
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(viewModel.grooveBSToGrooveSpins.prefix(viewModel.customSettings.grooveBSToGrooveSpinsCAP), id: \.self) { spin in
+                        Text(spin).font(.caption)
+                    }
+                }
+            }.frame(height: 20)
+        }.padding()
+    }
+    
     private var fakieChanceSlider: some View {
         sliderView(title: "Fakie Chance", value: $viewModel.customSettings.fakieChance, range: 0...1, step: 0.05)
     }

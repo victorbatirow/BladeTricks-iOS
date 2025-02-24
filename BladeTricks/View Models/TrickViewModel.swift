@@ -61,6 +61,12 @@ class TrickViewModel: ObservableObject {
     let grooveFakieInSpins = ["FS", "BS", "270 BS", "270 FS"]
     let grooveSidewaysOutSpins = ["to Fakie", "to Forward", "270 Out", "270 Out to Fakie", "270 Out to Forward", "450 Out"]
     
+    // Switch up Spins
+    let grooveFSToSoulplateSpins = ["", "Alley-Oop", "270", "270 True Spin", "450 Alley-Oop", "450"] // "", "270 true spin", "450" - are reqwind
+    let grooveBSToSoulplateSpins = ["", "True Spin", "270", "270 Alley-Oop", "450 True Spin", "450"] // "", "270 Alley-Oop spin", "450" - are reqwind
+    let grooveFSToGrooveSpins = ["FS", "BS", "360 FS"] // double FA is easier than FS to BS | BS, 360 FS can be regular or rewind
+    let grooveBSToGrooveSpins = ["FS", "FS", "360 BS"] // double BS is easier than BS to FS | FS, 360 BS can be regular or rewind
+    
     
     @Published var displayTrickName: String = "Press the button to generate a trick."
     @Published var currentDifficulty: Difficulty = Difficulty.levels[0]  // Default to first difficulty
@@ -171,6 +177,10 @@ class TrickViewModel: ObservableObject {
         let grooveForwardInSpinsCAP = settings.grooveForwardInSpinsCAP
         let grooveFakieInSpinsCAP = settings.grooveFakieInSpinsCAP
         let grooveSidewaysOutSpinsCAP = settings.grooveSidewaysOutSpinsCAP
+        let grooveFSToSoulplateSpinsCAP = settings.grooveFSToSoulplateSpinsCAP
+        let grooveBSToSoulplateSpinsCAP = settings.grooveBSToSoulplateSpinsCAP
+        let grooveFSToGrooveSpinsCAP = settings.grooveFSToGrooveSpinsCAP
+        let grooveBSToGrooveSpinsCAP = settings.grooveBSToGrooveSpinsCAP
 
         
         // TRICK VARIATIONS (move to inside function)
@@ -186,6 +196,21 @@ class TrickViewModel: ObservableObject {
 //            print("- Rewind chance: \t\(rewindChance * 100)%")
 //            print("TRICKS CAP IS::: \(tricksCAP)")
         
+        // 1.1 Choose Fakie
+        // Set the Fakie chance according to difficulty
+        if trickMode == "single" || trickMode == "entry" {
+            isFakie = (Double.random(in: 0...1) < fakieChance)
+            if isFakie {
+                currentStance = "Fakie"
+                fakieStamp = "Fakie"
+            } else {
+                currentStance = "Forward"
+                fakieStamp = ""
+            }
+        }
+        
+        print("current stance: \(currentStance)")
+        
         // Choose a soulplate or groove trick (this wil determine the spin, topside and negative options) - Difficulty applied
         var trick = allTricks[Int.random(in: 0..<tricksCAP)]
 
@@ -194,21 +219,7 @@ class TrickViewModel: ObservableObject {
             // SOULPLATE TRICK CHOSEN !!!
             print("-> Soulplate trick chosen.")
             
-            // 1.1 Choose Fakie
-            // Set the Fakie chance according to difficulty
-            if trickMode == "single" || trickMode == "entry" {
-                print("HEHEHEHEH ENTRY TRICK")
-                isFakie = (Double.random(in: 0...1) < fakieChance)
-                if isFakie {
-                    currentStance = "Fakie"
-                    fakieStamp = "Fakie"
-                } else {
-                    currentStance = "Forward"
-                    fakieStamp = ""
-                }
-            }
-            
-            // 1.2 Choose Spin in
+            // 1.2 Choose Spin in according to stance
             if currentStance == "Fakie" {
                 // Choose a spin from the list according to the difficulty
                 spinIn = soulplateFakieInSpins[Int.random(in: 0..<soulplateFakieInSpinsCAP)]
@@ -222,6 +233,20 @@ class TrickViewModel: ObservableObject {
                 // Update the skater's current stance
                 if spinIn == "Alley-Oop" || spinIn == "True Spin" {
                     currentStance = "Fakie"
+                }
+            } else if currentStance == "BS" {
+                // if soulplate trick
+                if soulplateTricks.contains(trick) {
+                    spinIn = grooveBSToSoulplateSpins[Int.random(in: 0..<grooveBSToSoulplateSpinsCAP)]
+                } else if grooveTricks.contains(trick) {
+                    spinIn = grooveBSToGrooveSpins[Int.random(in: 0..<grooveBSToGrooveSpinsCAP)]
+                }
+            } else if currentStance == "FS" {
+                // if soulplate trick
+                if soulplateTricks.contains(trick) {
+                    spinIn = grooveFSToSoulplateSpins[Int.random(in: 0..<grooveFSToSoulplateSpinsCAP)]
+                } else if grooveTricks.contains(trick) {
+                    spinIn = grooveFSToGrooveSpins[Int.random(in: 0..<grooveFSToGrooveSpinsCAP)]
                 }
             }
             
@@ -345,53 +370,73 @@ class TrickViewModel: ObservableObject {
             // GROOVE TRICK CHOSEN !!!
             print("-> Groove trick chosen.")
 
-//            var initialStance = ""
-
-            // 1.1 Choose Fakie
-            // Set the Fakie chance according to difficulty
-            if trickMode == "single" || trickMode == "entry" {
-                isFakie = (Double.random(in: 0...1) < fakieChance)
-                if (isFakie) {
-                    currentStance = "Fakie"
-                    fakieStamp = "Fakie"
-                    // initialStance = 'Fakie'
-                } else {
-                    currentStance = "Forward"
-                    fakieStamp = ""
-                    // initialStance = 'Forward'
-                }
-            }
-
-            // 2.2 Choose Spin in
+            // 2.2 Choose Spin in according to stance
             if (currentStance == "Fakie") {
                 spinIn = grooveFakieInSpins[Int.random(in: 0..<grooveFakieInSpinsCAP)]
                 // Update the skater's current stance
-                //currentStance = 'Sideways' // this messes up the edge case for true spins
+                if spinIn.contains("FS") {
+                    currentStance = "FS"
+                } else if spinIn.contains("BS") {
+                    currentStance = "BS"
+                }
             } else if (currentStance == "Forward") {
                 spinIn = grooveForwardInSpins[Int.random(in: 0..<grooveForwardInSpinsCAP)]
                 // Update the skater's current stance
-                //currentStance = 'Sideways' // this messes up the edge case for true spins
+                if spinIn.contains("FS") {
+                    currentStance = "FS"
+                } else if spinIn.contains("BS") {
+                    currentStance = "BS"
+                }
+            } else if currentStance == "BS" {
+                // if soulplate trick
+                if soulplateTricks.contains(trick) {
+                    spinIn = grooveBSToSoulplateSpins[Int.random(in: 0..<grooveBSToSoulplateSpinsCAP)]
+                } else if grooveTricks.contains(trick) {
+                    spinIn = grooveBSToGrooveSpins[Int.random(in: 0..<grooveBSToGrooveSpinsCAP)]
+                }
+            } else if currentStance == "FS" {
+                // if soulplate trick
+                if soulplateTricks.contains(trick) {
+                    spinIn = grooveFSToSoulplateSpins[Int.random(in: 0..<grooveFSToSoulplateSpinsCAP)]
+                } else if grooveTricks.contains(trick) {
+                    spinIn = grooveFSToGrooveSpins[Int.random(in: 0..<grooveFSToGrooveSpinsCAP)]
+                }
             }
 
             // Edge Case: forward stance 270 frontside = True Spin
-            if (currentStance == "Forward" && spinIn == "270 FS") {
-                spinIn = "270 FS"
-                // spinIn = "270 FS (True Spin)"
-            }
+//            if (currentStance == "Forward" && spinIn == "270 FS") {
+//                spinIn = "270 FS"
+//                // spinIn = "270 FS (True Spin)"
+//            }
             
             // 2.3 Choose Spin Out
             if trickMode == "single" || trickMode == "exit" {
-                if (currentStance == "Fakie") {
-                    spinOut = grooveSidewaysOutSpins[Int.random(in: 0..<grooveSidewaysOutSpinsCAP)]
-                    // Update the skater's current stance
-                    if (spinOut == "to Forward") {
-                        currentStance = "Forward"
-                    } else if (spinOut == "to Fakie") {
-                        currentStance = "Fakie"
-                    }
+                spinOut = grooveSidewaysOutSpins[Int.random(in: 0..<grooveSidewaysOutSpinsCAP)]
+                // Update the skater's current stance
+                if (spinOut == "to Forward") {
+                    currentStance = "Forward"
+                } else if (spinOut == "to Fakie") {
+                    currentStance = "Fakie"
                 }
-                
             }
+            // 2.3 Choose Spin Out
+//            if trickMode == "single" || trickMode == "exit" {
+//                if (currentStance == "Fakie") {
+//                    spinOut = grooveSidewaysOutSpins[Int.random(in: 0..<grooveSidewaysOutSpinsCAP)]
+//                    // Update the skater's current stance
+//                    if (spinOut == "to Forward") {
+//                        currentStance = "Forward"
+//                    }
+//                } else {
+//                    spinOut = grooveSidewaysOutSpins[Int.random(in: 0..<grooveSidewaysOutSpinsCAP)];
+//                    // Update the skater's current stance
+//                    if (spinOut == "to Fakie") {
+//                        currentStance = "Fakie"
+//                    }
+//                }
+//            }
+            
+            
             // 2.4 Choose if Spin Out is Rewind
             // ?? should i even do this? everyone's frontside and backside grinds are different & different shoulder fakie
             // Forward + BS || Fakie + 270 BS
