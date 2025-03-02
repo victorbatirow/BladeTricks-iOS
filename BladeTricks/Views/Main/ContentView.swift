@@ -82,12 +82,9 @@ struct ContentView: View {
                         bottomSheetPosition = .top
                     })
                     .offset(y: calculateTabBarOffset())
-
-                    
                 }
             }
             .navigationBarHidden(true)
-            
         }
     }
     

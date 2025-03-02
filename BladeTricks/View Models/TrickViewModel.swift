@@ -12,7 +12,7 @@
 
 // TRICKS TO ADD:
 // - Something is wrong with the misfits
-//      -- zero spin top mistrail makes no sense
+//      -- zero spin top Mistrial makes no sense
 //      -- also  check the true  spin and cabs into misfits
 // - Rough and Tough soulgrind variations (check book of grinds)
 //      -- create isRough/isTough and roughStamp/toughStamp variables
@@ -47,28 +47,37 @@ import Combine
 class TrickViewModel: ObservableObject {
     
     // CONSTANTS: Trick Names -- Order: easy to hard
-    let allTricks = ["Makio", "Grind", "Soul", "Mizou", "Porn Star", "Acid", "Fahrv", "Royale", "Unity", "X-Grind", "Torque Soul", "Mistrail", "Savannah", "UFO", "Torque", "Backslide", "Cab Driver", "Christ Makio", "Fastslide", "Stub Soul", "Tea Kettle", "Pudslide"]
-    let soulplateTricks = ["Makio", "Soul", "Mizou", "Porn Star", "Acid", "X-Grind", "Torque Soul", "Mistrail", "Christ Makio", "Stub Soul", "Tea Kettle"]
+    let allTricks = ["Makio", "Grind", "Soul", "Mizou", "Porn Star", "Acid", "Fahrv", "Royale", "Unity", "X-Grind", "Torque Soul", "Mistrial", "Savannah", "UFO", "Torque", "Backslide", "Cab Driver", "Christ Makio", "Fastslide", "Stub Soul", "Tea Kettle", "Pudslide"]
+    let soulplateTricks = ["Makio", "Soul", "Mizou", "Porn Star", "Acid", "X-Grind", "Torque Soul", "Mistrial", "Christ Makio", "Stub Soul", "Tea Kettle"]
     let grooveTricks = ["Grind", "Fahrvergnugen ", "Royale", "Unity", "Savannah", "Torque", "Backslide", "Cab Driver", "UFO", "Fastslide", "Pudslide"]
-    let topsideNegativeTricks = ["Makio", "Soul", "Mizou", "Porn Star", "Acid", "Torque Soul", "Mistrail", "Christ Makio"]
+    let topsideNegativeTricks = ["Makio", "Soul", "Mizou", "Porn Star", "Acid", "Torque Soul", "Mistrial", "Christ Makio"]
     
     // CONSTANTS: Spins -- Order: easy to hard
-    let soulplateForwardInSpins = ["", "Alley-Oop", "True Spin", "360", "Hurricane"]
-    let soulplateFakieInSpins = ["In-Spin", "Out-Spin", "Zero Spin", "Cab Alley-Oop", "Cab True Spin"]
+    // In-Spins
+    let soulplateForwardInSpins = ["", "Alley-Oop", "True Spin", "360", "Hurricane"] // left(true, hurricane) - right(AO, 360) - neutral("")
+    let soulplateFakieInSpins = ["In-Spin", "Out-Spin", "Zero Spin", "Cab Alley-Oop", "Cab True Spin"] // left(inspin, cab true) - right(outspin, cab AO) - neutral(zero)
+    let grooveForwardInSpins = ["FS", "BS", "270 BS", "270 FS"] // left(BS, 270FS) right(FS, 270 BS) neutral
+    let grooveFakieInSpins = ["FS", "BS", "270 BS", "270 FS"] // left(FS, 270 BS) right(BS, 270 FS)
+    // Out-Spins
     let soulplateForwardOutSpins = ["", "to Fakie", "360 Out"]
     let soulplateFakieOutSpins = ["", "to Forward", "Cab Out"]
-    let grooveForwardInSpins = ["FS", "BS", "270 BS", "270 FS"]
-    let grooveFakieInSpins = ["FS", "BS", "270 BS", "270 FS"]
+// remove "to fakie/forward", add it back after generating the spin out. find out if its forward of fakie using currstance + spinOut (before updating currentStance to count for spin out)
+//    let grooveSidewaysOutSpins = ["to Fakie", "to Forward", "270 Out", "270 Out to Fakie", "270 Out to Forward", "450 Out"]
     let grooveSidewaysOutSpins = ["to Fakie", "to Forward", "270 Out", "270 Out to Fakie", "270 Out to Forward", "450 Out"]
+    // let grooveFsLeftOutSpins = ["to Forward", "270 Out to Fakie", "450 Out to Forward"]
+    // let grooveFsRightOutSpins = ["to Fakie", "270 Out to Forward", "450 Out to Fakie"]
+    // let grooveBsLeftOutSpins = ["to Fakie", "270 Out to Forward", "450 Out to Fakie"]
+    // let grooveBsRightOutSpins = ["to Forward", "270 Out to Fakie", "450 Out to Forward"]
     
     // Switch up Spins
-    let grooveFSToSoulplateSpins = ["", "Alley-Oop", "270", "270 True Spin", "450 Alley-Oop", "450"] // "", "270 true spin", "450" - are reqwind
+    let grooveFSToSoulplateSpins = ["", "Alley-Oop", "270", "270 True Spin", "450 Alley-Oop", "450"] // "", "270 true spin", "450" - are reqwind  --- left()
     let grooveBSToSoulplateSpins = ["", "True Spin", "270", "270 Alley-Oop", "450 True Spin", "450"] // "", "270 Alley-Oop spin", "450" - are reqwind
-    let grooveFSToGrooveSpins = ["FS", "BS", "360 FS"] // double FA is easier than FS to BS | BS, 360 FS can be regular or rewind
-    let grooveBSToGrooveSpins = ["FS", "FS", "360 BS"] // double BS is easier than BS to FS | FS, 360 BS can be regular or rewind
+    let grooveFSToGrooveSpins = ["FS", "BS", "360 FS"] // double FS is easier than FS to BS | BS, 360 FS can be regular or rewind
+    let grooveBSToGrooveSpins = ["BS", "FS", "360 BS"] // double BS is easier than BS to FS | FS, 360 BS can be regular or rewind
     
+    // SkaterSpinDirection = ["N", "L90", "R90", "L, "]
     
-    @Published var displayTrickName: String = "Press the button to generate a trick."
+    @Published var displayTrickName: String = "Press button to generate trick."
     @Published var currentDifficulty: Difficulty = Difficulty.levels[0]  // Default to first difficulty
     @Published var customSettings: Difficulty.DifficultySettings
     @Published var SwitchUpMode: Int = 0  // 0 for single, 1 for double, 2 for triple
@@ -119,18 +128,23 @@ class TrickViewModel: ObservableObject {
             // Generate a trick
             switch SwitchUpMode {
             case 1:  // Double switch-up
-                print("Double Switch-Up")
+                print("---< DOUBLE TRICK >---")
+                print("1st Trick:")
                 let trick1 = generateTrickName(trickMode: "entry")
+                print("2nd Trick:")
                 let trick2 = generateTrickName(trickMode: "exit")
-                newTrickName = "\(trick1)\n to \n\(trick2)"
+                newTrickName = "\(trick1) \n to \n\(trick2)"
             case 2:  // Triple switch-up
-                print("Triple Switch-Up")
+                print("---< TRIPLE TRICK >---")
+                print("1st Trick:")
                 let trick1 = generateTrickName(trickMode: "entry")
+                print("2nd Trick:")
                 let trick2 = generateTrickName(trickMode: "mid")
+                print("3rd Trick:")
                 let trick3 = generateTrickName(trickMode: "exit")
-                newTrickName = "\(trick1)\n to \n\(trick2)\n to \n\(trick3)"
+                newTrickName = "\(trick1) to \n\(trick2) to \n\(trick3)"
             default:  // Single trick
-                print("Single Trick")
+                print("---< SINGLE TRICK >---")
                 newTrickName = generateTrickName(trickMode: "single")
             }
 
@@ -144,7 +158,7 @@ class TrickViewModel: ObservableObject {
                     lastTricks.removeFirst()
                 }
             } else {
-                print("repeated trick found, re-generating....")
+                print("* repeated trick found, re-generating....")
             }
         }
         
@@ -152,8 +166,6 @@ class TrickViewModel: ObservableObject {
     }
     
     private func generateTrickName(trickMode: String)-> String {
-        
-        print("---> GENERATING A NEW TRICK <---")
 
         // TRICK NAME DISPLAYED VARIABLES
         var trickName: String = ""
@@ -190,11 +202,13 @@ class TrickViewModel: ObservableObject {
         var isRewind: Bool = false
 
         
-//            print("\n\n- Fakie chance: \(fakieChance * 100)%")
-//            print("- Topside chance: \(topsideChance * 100)%")
-//            print("- Negative chance: \(negativeChance * 100)%")
-//            print("- Rewind chance: \t\(rewindChance * 100)%")
-//            print("TRICKS CAP IS::: \(tricksCAP)")
+//        print("""
+//        - Fakie chance:     \(fakieChance * 100)%
+//        - Topside chance:   \(topsideChance * 100)%
+//        - Negative chance:  \(negativeChance * 100)%
+//        - Rewind chance:    \(rewindChance * 100)%
+//        - Trick CAP:        \(tricksCAP)
+//        """)
         
         // 1.1 Choose Fakie
         // Set the Fakie chance according to difficulty
@@ -207,9 +221,12 @@ class TrickViewModel: ObservableObject {
                 currentStance = "Forward"
                 fakieStamp = ""
             }
+            print("Entry stance: \(currentStance)")
+        } else {
+            print("Transition stance: \(currentStance)")
         }
         
-        print("current stance: \(currentStance)")
+        
         
         // Choose a soulplate or groove trick (this wil determine the spin, topside and negative options) - Difficulty applied
         var trick = allTricks[Int.random(in: 0..<tricksCAP)]
@@ -217,7 +234,6 @@ class TrickViewModel: ObservableObject {
         // Find out if the chosen trick is done with soul plate
         if soulplateTricks.contains(trick) {
             // SOULPLATE TRICK CHOSEN !!!
-            print("-> Soulplate trick chosen.")
             
             // 1.2 Choose Spin in according to stance
             if currentStance == "Fakie" {
@@ -235,18 +251,22 @@ class TrickViewModel: ObservableObject {
                     currentStance = "Fakie"
                 }
             } else if currentStance == "BS" {
-                // if soulplate trick
-                if soulplateTricks.contains(trick) {
-                    spinIn = grooveBSToSoulplateSpins[Int.random(in: 0..<grooveBSToSoulplateSpinsCAP)]
-                } else if grooveTricks.contains(trick) {
-                    spinIn = grooveBSToGrooveSpins[Int.random(in: 0..<grooveBSToGrooveSpinsCAP)]
+                // Choose a spin from the list according to the difficulty
+                spinIn = grooveBSToSoulplateSpins[Int.random(in: 0..<grooveBSToSoulplateSpinsCAP)]
+                // Update the skater's current stance
+                if spinIn == "True Spin" || spinIn == "270 Alley-Oop" || spinIn == "450 True Spin" {
+                    currentStance = "Fakie"
+                } else {
+                    currentStance = "Forward"
                 }
             } else if currentStance == "FS" {
-                // if soulplate trick
-                if soulplateTricks.contains(trick) {
-                    spinIn = grooveFSToSoulplateSpins[Int.random(in: 0..<grooveFSToSoulplateSpinsCAP)]
-                } else if grooveTricks.contains(trick) {
-                    spinIn = grooveFSToGrooveSpins[Int.random(in: 0..<grooveFSToGrooveSpinsCAP)]
+                // Choose a spin from the list according to the difficulty
+                spinIn = grooveFSToSoulplateSpins[Int.random(in: 0..<grooveFSToSoulplateSpinsCAP)]
+                // Update the skater's current stance
+                if spinIn == "Alley-Oop" || spinIn == "270 True Spin" || spinIn == "450 Alley-Oop" {
+                    currentStance = "Fakie"
+                } else {
+                    currentStance = "Forward"
                 }
             }
             
@@ -337,21 +357,21 @@ class TrickViewModel: ObservableObject {
             if (trick == "Sweatstance" && (spinIn == "True Spin" || spinIn == "Cab True Spin" || spinIn == "Zero Spin")) {
                 trick = "Kind Grind"
             }
-            // Edge Case: Alley-Oop Top Mistrail = Misfit
-            if (trick == "Mistrail" && isTopside == true && spinIn == "Alley-Oop") {
+            // Edge Case: Alley-Oop Top Mistrial = Misfit
+            if (trick == "Mistrial" && isTopside == true && spinIn == "Alley-Oop") {
                 trick = "Misfit"
                 spinIn = ""
                 topsideStamp = ""
             }
-            // Edge Case: Cab Alley-Oop top mistrail = Misfit
-            if (trick == "Mistrail" && isTopside == true && spinIn == "Cab Alley-Oop") {
+            // Edge Case: Cab Alley-Oop top Mistrial = Misfit
+            if (trick == "Mistrial" && isTopside == true && spinIn == "Cab Alley-Oop") {
                 trick = "Misfit"
                 spinIn = "Cab"
                 topsideStamp = ""
             }
-            // Edge Case: True Spin Top Mistrail = True Spin Misfit
+            // Edge Case: True Spin Top Mistrial = True Spin Misfit
             // MAYBE USE CURRENT STANCE FAKIE INSTEAD OF SPIN IN???
-            if (trick == "Mistrail" && isTopside == true && (spinIn == "True Spin" || spinIn == "Cab True Spin")) {
+            if (trick == "Mistrial" && isTopside == true && (spinIn == "True Spin" || spinIn == "Cab True Spin")) {
                 trick = "Misfit"
                 topsideStamp = ""
             }
@@ -368,7 +388,6 @@ class TrickViewModel: ObservableObject {
             
         } else {
             // GROOVE TRICK CHOSEN !!!
-            print("-> Groove trick chosen.")
 
             // 2.2 Choose Spin in according to stance
             if (currentStance == "Fakie") {
@@ -388,18 +407,16 @@ class TrickViewModel: ObservableObject {
                     currentStance = "BS"
                 }
             } else if currentStance == "BS" {
-                // if soulplate trick
-                if soulplateTricks.contains(trick) {
-                    spinIn = grooveBSToSoulplateSpins[Int.random(in: 0..<grooveBSToSoulplateSpinsCAP)]
-                } else if grooveTricks.contains(trick) {
-                    spinIn = grooveBSToGrooveSpins[Int.random(in: 0..<grooveBSToGrooveSpinsCAP)]
+                spinIn = grooveBSToGrooveSpins[Int.random(in: 0..<grooveBSToGrooveSpinsCAP)]
+                // Update the skater's current stance
+                if spinIn.contains("FS") {
+                    currentStance = "FS"
                 }
             } else if currentStance == "FS" {
-                // if soulplate trick
-                if soulplateTricks.contains(trick) {
-                    spinIn = grooveFSToSoulplateSpins[Int.random(in: 0..<grooveFSToSoulplateSpinsCAP)]
-                } else if grooveTricks.contains(trick) {
-                    spinIn = grooveFSToGrooveSpins[Int.random(in: 0..<grooveFSToGrooveSpinsCAP)]
+                spinIn = grooveFSToGrooveSpins[Int.random(in: 0..<grooveFSToGrooveSpinsCAP)]
+                // Update the skater's current stance
+                if spinIn.contains("BS") {
+                    currentStance = "BS"
                 }
             }
 
@@ -472,9 +489,15 @@ class TrickViewModel: ObservableObject {
 
             // FINAL STEP: Set trick name
             trickName = (fakieStamp + " " + spinIn + " " + trick + rewindStamp + " " + spinOut);
-
+            
         }
 
+        print("Spin In      \(spinIn)")
+        print("Trick        \(trick)")
+        if trickMode == "single" || trickMode == "exit" {
+            print("Spin Out     \(spinOut)")
+        }
+        
         // Update trick name label
 
         // Add additional logic here if necessary, e.g., combining tricks, spins, etc.

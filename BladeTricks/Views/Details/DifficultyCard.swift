@@ -43,16 +43,15 @@ struct DifficultyCard: View {
                     )
                 
                 VStack(spacing: -10) {
-                    // MARK: Forecast Small Icon
+                    // MARK: Difficulty Level Small Icon
                     Image(getImageName(for: difficulty.icon, isActive: isActive))
                         .resizable()
                         .frame(width: 70, height: 70)
                     
                     // MARK: Forecast Probability
-                    Text(difficulty.probability, format: .percent)
+                    Text("")
                         .font(.footnote.weight(.semibold))
                         .foregroundColor(Color.probabilityText)
-                        .opacity(difficulty.probability > 0 ? 1 : 0)
                 }
                 .frame(height: 42)
                 

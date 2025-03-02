@@ -47,6 +47,7 @@ struct SettingsView: View {
                     
                     if viewModel.currentDifficulty.isCustom {
                         customSettingsView
+                            //.disabled(!viewModel.currentDifficulty.isCustom)  // Disable if not custom settings
                     }
                 }
             }
@@ -75,19 +76,25 @@ struct SettingsView: View {
     
     private var customSettingsView: some View {
         Group {
+            // Title
             settingsTitle
+            // Probabilities
             fakieChanceSlider
             topsideChanceSlider
             negativeChanceSlider
             rewindChanceSlider
+            // Tricks
             tricksCAPSlider
+            // Spin In
             soulplateForwardInSpinsCAPSlider
             soulplateFakieInSpinsCAPSlider
-            soulplateForwardOutSpinsCAPSlider
-            soulplateFakieOutSpinsCAPSlider
             grooveForwardInSpinsCAPSlider
             grooveFakieInSpinsCAPSlider
+            // Spin Out
+            soulplateForwardOutSpinsCAPSlider
+            soulplateFakieOutSpinsCAPSlider
             grooveSidewaysOutSpinsCAPSlider
+            // SwitchUp
             switchUpChooser
             grooveFSToSoulplateSpinsCAPSlider
             grooveBSToSoulplateSpinsCAPSlider
@@ -147,7 +154,7 @@ struct SettingsView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(viewModel.grooveFSToSoulplateSpins.prefix(viewModel.customSettings.grooveFSToSoulplateSpinsCAP), id: \.self) { spin in
-                        Text(spin).font(.caption)
+                        Text("\(spin),").font(.caption)
                     }
                 }
             }.frame(height: 20)
@@ -168,7 +175,7 @@ struct SettingsView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(viewModel.grooveBSToSoulplateSpins.prefix(viewModel.customSettings.grooveBSToSoulplateSpinsCAP), id: \.self) { spin in
-                        Text(spin).font(.caption)
+                        Text("\(spin),").font(.caption)
                     }
                 }
             }.frame(height: 20)
@@ -189,7 +196,7 @@ struct SettingsView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(viewModel.grooveFSToGrooveSpins.prefix(viewModel.customSettings.grooveFSToGrooveSpinsCAP), id: \.self) { spin in
-                        Text(spin).font(.caption)
+                        Text("\(spin),").font(.caption)
                     }
                 }
             }.frame(height: 20)
@@ -210,7 +217,7 @@ struct SettingsView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(viewModel.grooveBSToGrooveSpins.prefix(viewModel.customSettings.grooveBSToGrooveSpinsCAP), id: \.self) { spin in
-                        Text(spin).font(.caption)
+                        Text("\(spin),").font(.caption)
                     }
                 }
             }.frame(height: 20)
@@ -247,7 +254,7 @@ struct SettingsView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(viewModel.allTricks.prefix(viewModel.customSettings.tricksCAP), id: \.self) { trick in
-                        Text(trick).font(.caption)
+                        Text("\(trick),").font(.caption)
                     }
                 }
             }.frame(height: 20)
@@ -268,7 +275,7 @@ struct SettingsView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(viewModel.soulplateForwardInSpins.prefix(viewModel.customSettings.soulplateForwardInSpinsCAP), id: \.self) { spin in
-                        Text(spin).font(.caption)
+                        Text("\(spin),").font(.caption)
                     }
                 }
             }.frame(height: 20)
@@ -289,7 +296,7 @@ struct SettingsView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(viewModel.soulplateFakieInSpins.prefix(viewModel.customSettings.soulplateFakieInSpinsCAP), id: \.self) { spin in
-                        Text(spin).font(.caption)
+                        Text("\(spin),").font(.caption)
                     }
                 }
             }.frame(height: 20)
@@ -310,7 +317,7 @@ struct SettingsView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(viewModel.soulplateForwardOutSpins.prefix(viewModel.customSettings.soulplateForwardOutSpinsCAP), id: \.self) { spin in
-                        Text(spin).font(.caption)
+                        Text("\(spin),").font(.caption)
                     }
                 }
             }.frame(height: 20)
@@ -331,7 +338,7 @@ struct SettingsView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(viewModel.soulplateFakieOutSpins.prefix(viewModel.customSettings.soulplateFakieOutSpinsCAP), id: \.self) { spin in
-                        Text(spin).font(.caption)
+                        Text("\(spin),").font(.caption)
                     }
                 }
             }.frame(height: 20)
@@ -352,7 +359,7 @@ struct SettingsView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(viewModel.grooveForwardInSpins.prefix(viewModel.customSettings.grooveForwardInSpinsCAP), id: \.self) { spin in
-                        Text(spin).font(.caption)
+                        Text("\(spin),").font(.caption)
                     }
                 }
             }.frame(height: 20)
@@ -373,7 +380,7 @@ struct SettingsView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(viewModel.grooveFakieInSpins.prefix(viewModel.customSettings.grooveFakieInSpinsCAP), id: \.self) { spin in
-                        Text(spin).font(.caption)
+                        Text("\(spin),").font(.caption)
                     }
                 }
             }.frame(height: 20)
@@ -394,7 +401,7 @@ struct SettingsView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(viewModel.grooveSidewaysOutSpins.prefix(viewModel.customSettings.grooveSidewaysOutSpinsCAP), id: \.self) { spin in
-                        Text(spin).font(.caption)
+                        Text("\(spin),").font(.caption)
                     }
                 }
             }.frame(height: 20)
