@@ -20,6 +20,7 @@
 		5721B8EB2BDE6622007793E0 /* DifficultyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721B8EA2BDE6622007793E0 /* DifficultyModel.swift */; };
 		5721B8EF2BDE68D7007793E0 /* DifficultyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721B8EE2BDE68D7007793E0 /* DifficultyCard.swift */; };
 		5721B8F22BDE6C19007793E0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721B8F12BDE6C19007793E0 /* Extensions.swift */; };
+		57CD49982BED5C350030A5C6 /* TrickModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CD49972BED5C350030A5C6 /* TrickModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		5721B8EA2BDE6622007793E0 /* DifficultyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifficultyModel.swift; sourceTree = "<group>"; };
 		5721B8EE2BDE68D7007793E0 /* DifficultyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifficultyCard.swift; sourceTree = "<group>"; };
 		5721B8F12BDE6C19007793E0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		57CD49972BED5C350030A5C6 /* TrickModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrickModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				5721B8EA2BDE6622007793E0 /* DifficultyModel.swift */,
+				57CD49972BED5C350030A5C6 /* TrickModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 				571135932BE079E300748F26 /* NavigationBar.swift in Sources */,
 				5721B8D02BD89968007793E0 /* BladeTricksApp.swift in Sources */,
 				5721B8EB2BDE6622007793E0 /* DifficultyModel.swift in Sources */,
+				57CD49982BED5C350030A5C6 /* TrickModel.swift in Sources */,
 				5721B8EF2BDE68D7007793E0 /* DifficultyCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
