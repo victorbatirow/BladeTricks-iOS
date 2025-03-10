@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct SettingsView: View {
     var bottomSheetTranslationProrated: CGFloat = 1
@@ -100,7 +101,7 @@ struct SettingsView: View {
             grooveBSToSoulplateSpinsCAPSlider
             grooveFSToGrooveSpinsCAPSlider
             grooveBSToGrooveSpinsCAPSlider
-            
+            switchUpRewindToggle
         }
         .opacity(Double(bottomSheetTranslationProrated))
     }
@@ -147,13 +148,13 @@ struct SettingsView: View {
             Slider(value: Binding(
                 get: { Double(viewModel.customSettings.grooveFSToSoulplateSpinsCAP) },
                 set: { viewModel.customSettings.grooveFSToSoulplateSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.grooveFSToSoulplateSpins.count), step: 1)
+            ), in: 0...Double(viewModel.fsToSoulplateSpins.count), step: 1)
             .onChange(of: viewModel.customSettings.grooveFSToSoulplateSpinsCAP) {
                 viewModel.applyCustomSettings()
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(viewModel.grooveFSToSoulplateSpins.prefix(viewModel.customSettings.grooveFSToSoulplateSpinsCAP), id: \.self) { spin in
+                    ForEach(viewModel.fsToSoulplateSpins.prefix(viewModel.customSettings.grooveFSToSoulplateSpinsCAP), id: \.self) { spin in
                         Text("\(spin),").font(.caption)
                     }
                 }
@@ -168,13 +169,13 @@ struct SettingsView: View {
             Slider(value: Binding(
                 get: { Double(viewModel.customSettings.grooveBSToSoulplateSpinsCAP) },
                 set: { viewModel.customSettings.grooveBSToSoulplateSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.grooveBSToSoulplateSpins.count), step: 1)
+            ), in: 0...Double(viewModel.bsToSoulplateSpins.count), step: 1)
             .onChange(of: viewModel.customSettings.grooveBSToSoulplateSpinsCAP) {
                 viewModel.applyCustomSettings()
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(viewModel.grooveBSToSoulplateSpins.prefix(viewModel.customSettings.grooveBSToSoulplateSpinsCAP), id: \.self) { spin in
+                    ForEach(viewModel.bsToSoulplateSpins.prefix(viewModel.customSettings.grooveBSToSoulplateSpinsCAP), id: \.self) { spin in
                         Text("\(spin),").font(.caption)
                     }
                 }
@@ -189,13 +190,13 @@ struct SettingsView: View {
             Slider(value: Binding(
                 get: { Double(viewModel.customSettings.grooveFSToGrooveSpinsCAP) },
                 set: { viewModel.customSettings.grooveFSToGrooveSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.grooveFSToGrooveSpins.count), step: 1)
+            ), in: 0...Double(viewModel.fsToGrooveSpins.count), step: 1)
             .onChange(of: viewModel.customSettings.grooveFSToGrooveSpinsCAP) {
                 viewModel.applyCustomSettings()
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(viewModel.grooveFSToGrooveSpins.prefix(viewModel.customSettings.grooveFSToGrooveSpinsCAP), id: \.self) { spin in
+                    ForEach(viewModel.fsToGrooveSpins.prefix(viewModel.customSettings.grooveFSToGrooveSpinsCAP), id: \.self) { spin in
                         Text("\(spin),").font(.caption)
                     }
                 }
@@ -210,13 +211,13 @@ struct SettingsView: View {
             Slider(value: Binding(
                 get: { Double(viewModel.customSettings.grooveBSToGrooveSpinsCAP) },
                 set: { viewModel.customSettings.grooveBSToGrooveSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.grooveBSToGrooveSpins.count), step: 1)
+            ), in: 0...Double(viewModel.bsToGrooveSpins.count), step: 1)
             .onChange(of: viewModel.customSettings.grooveBSToGrooveSpinsCAP) {
                 viewModel.applyCustomSettings()
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(viewModel.grooveBSToGrooveSpins.prefix(viewModel.customSettings.grooveBSToGrooveSpinsCAP), id: \.self) { spin in
+                    ForEach(viewModel.bsToGrooveSpins.prefix(viewModel.customSettings.grooveBSToGrooveSpinsCAP), id: \.self) { spin in
                         Text("\(spin),").font(.caption)
                     }
                 }
@@ -237,7 +238,7 @@ struct SettingsView: View {
     }
 
     private var rewindChanceSlider: some View {
-        sliderView(title: "Rewind Chance", value: $viewModel.customSettings.rewindChance, range: 0...1, step: 0.05)
+        sliderView(title: "Rewind Chance", value: $viewModel.customSettings.rewindOutChance, range: 0...1, step: 0.05)
     }
 
     private var tricksCAPSlider: some View {
@@ -268,13 +269,13 @@ struct SettingsView: View {
             Slider(value: Binding(
                 get: { Double(viewModel.customSettings.soulplateForwardInSpinsCAP) },
                 set: { viewModel.customSettings.soulplateForwardInSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.soulplateForwardInSpins.count), step: 1)
+            ), in: 0...Double(viewModel.forwardToSoulplateSpins.count), step: 1)
             .onChange(of: viewModel.customSettings.soulplateForwardInSpinsCAP) {
                 viewModel.applyCustomSettings()
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(viewModel.soulplateForwardInSpins.prefix(viewModel.customSettings.soulplateForwardInSpinsCAP), id: \.self) { spin in
+                    ForEach(viewModel.forwardToSoulplateSpins.prefix(viewModel.customSettings.soulplateForwardInSpinsCAP), id: \.self) { spin in
                         Text("\(spin),").font(.caption)
                     }
                 }
@@ -289,13 +290,13 @@ struct SettingsView: View {
             Slider(value: Binding(
                 get: { Double(viewModel.customSettings.soulplateFakieInSpinsCAP) },
                 set: { viewModel.customSettings.soulplateFakieInSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.soulplateFakieInSpins.count), step: 1)
+            ), in: 0...Double(viewModel.fakieToSoulplateSpins.count), step: 1)
             .onChange(of: viewModel.customSettings.soulplateFakieInSpinsCAP) {
                 viewModel.applyCustomSettings()
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(viewModel.soulplateFakieInSpins.prefix(viewModel.customSettings.soulplateFakieInSpinsCAP), id: \.self) { spin in
+                    ForEach(viewModel.fakieToSoulplateSpins.prefix(viewModel.customSettings.soulplateFakieInSpinsCAP), id: \.self) { spin in
                         Text("\(spin),").font(.caption)
                     }
                 }
@@ -310,13 +311,13 @@ struct SettingsView: View {
             Slider(value: Binding(
                 get: { Double(viewModel.customSettings.soulplateForwardOutSpinsCAP) },
                 set: { viewModel.customSettings.soulplateForwardOutSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.soulplateForwardOutSpins.count), step: 1)
+            ), in: 0...Double(viewModel.forwardOutSpins.count), step: 1)
             .onChange(of: viewModel.customSettings.soulplateForwardOutSpinsCAP) {
                 viewModel.applyCustomSettings()
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(viewModel.soulplateForwardOutSpins.prefix(viewModel.customSettings.soulplateForwardOutSpinsCAP), id: \.self) { spin in
+                    ForEach(viewModel.forwardOutSpins.prefix(viewModel.customSettings.soulplateForwardOutSpinsCAP), id: \.self) { spin in
                         Text("\(spin),").font(.caption)
                     }
                 }
@@ -331,13 +332,13 @@ struct SettingsView: View {
             Slider(value: Binding(
                 get: { Double(viewModel.customSettings.soulplateFakieOutSpinsCAP) },
                 set: { viewModel.customSettings.soulplateFakieOutSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.soulplateFakieOutSpins.count), step: 1)
+            ), in: 0...Double(viewModel.fakieOutSpins.count), step: 1)
             .onChange(of: viewModel.customSettings.soulplateFakieOutSpinsCAP) {
                 viewModel.applyCustomSettings()
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(viewModel.soulplateFakieOutSpins.prefix(viewModel.customSettings.soulplateFakieOutSpinsCAP), id: \.self) { spin in
+                    ForEach(viewModel.fakieOutSpins.prefix(viewModel.customSettings.soulplateFakieOutSpinsCAP), id: \.self) { spin in
                         Text("\(spin),").font(.caption)
                     }
                 }
@@ -352,13 +353,13 @@ struct SettingsView: View {
             Slider(value: Binding(
                 get: { Double(viewModel.customSettings.grooveForwardInSpinsCAP) },
                 set: { viewModel.customSettings.grooveForwardInSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.grooveForwardInSpins.count), step: 1)
+            ), in: 0...Double(viewModel.forwardToGrooveSpins.count), step: 1)
             .onChange(of: viewModel.customSettings.grooveForwardInSpinsCAP) {
                 viewModel.applyCustomSettings()
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(viewModel.grooveForwardInSpins.prefix(viewModel.customSettings.grooveForwardInSpinsCAP), id: \.self) { spin in
+                    ForEach(viewModel.forwardToGrooveSpins.prefix(viewModel.customSettings.grooveForwardInSpinsCAP), id: \.self) { spin in
                         Text("\(spin),").font(.caption)
                     }
                 }
@@ -373,13 +374,13 @@ struct SettingsView: View {
             Slider(value: Binding(
                 get: { Double(viewModel.customSettings.grooveFakieInSpinsCAP) },
                 set: { viewModel.customSettings.grooveFakieInSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.grooveFakieInSpins.count), step: 1)
+            ), in: 0...Double(viewModel.fakieToGrooveSpins.count), step: 1)
             .onChange(of: viewModel.customSettings.grooveFakieInSpinsCAP) {
                 viewModel.applyCustomSettings()
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(viewModel.grooveFakieInSpins.prefix(viewModel.customSettings.grooveFakieInSpinsCAP), id: \.self) { spin in
+                    ForEach(viewModel.fakieToGrooveSpins.prefix(viewModel.customSettings.grooveFakieInSpinsCAP), id: \.self) { spin in
                         Text("\(spin),").font(.caption)
                     }
                 }
@@ -405,6 +406,16 @@ struct SettingsView: View {
                     }
                 }
             }.frame(height: 20)
+        }.padding()
+    }
+    
+    private var switchUpRewindToggle: some View {
+        VStack {
+            // Toggle for enabling/disabling a feature
+            Toggle("Rewinds on Switch-Ups:", isOn: $viewModel.customSettings.switchUpRewindAllowed)
+                .onReceive(viewModel.$customSettings.map { $0.switchUpRewindAllowed }) { _ in
+                    viewModel.applyCustomSettings()
+                }.frame(height: 20)
         }.padding()
     }
 
