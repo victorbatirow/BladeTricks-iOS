@@ -14,8 +14,8 @@
             filePath = "BladeTricks/View Models/TrickViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
+            startingLineNumber = "246"
+            endingLineNumber = "246"
             landmarkName = "trickGenerator(previousTrick:trickMode:)"
             landmarkType = "7">
             <Locations>
@@ -77,8 +77,8 @@
             filePath = "BladeTricks/View Models/TrickViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "375"
-            endingLineNumber = "375"
+            startingLineNumber = "372"
+            endingLineNumber = "372"
             landmarkName = "trickGenerator(previousTrick:trickMode:)"
             landmarkType = "7">
             <Locations>
@@ -140,8 +140,8 @@
             filePath = "BladeTricks/View Models/TrickViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "311"
-            endingLineNumber = "311"
+            startingLineNumber = "308"
+            endingLineNumber = "308"
             landmarkName = "trickGenerator(previousTrick:trickMode:)"
             landmarkType = "7">
             <Locations>
@@ -203,8 +203,8 @@
             filePath = "BladeTricks/View Models/TrickViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "343"
-            endingLineNumber = "343"
+            startingLineNumber = "340"
+            endingLineNumber = "340"
             landmarkName = "trickGenerator(previousTrick:trickMode:)"
             landmarkType = "7">
             <Locations>
@@ -266,10 +266,330 @@
             filePath = "BladeTricks/View Models/TrickViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "279"
-            endingLineNumber = "279"
+            startingLineNumber = "276"
+            endingLineNumber = "276"
             landmarkName = "trickGenerator(previousTrick:trickMode:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C41BE274-4A31-4CB0-A3DB-0E73F0B1B7D3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BladeTricks/View Models/TrickViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "709"
+            endingLineNumber = "709"
+            landmarkName = "trickGenerator(previousTrick:trickMode:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6698D0C1-1FF7-4B9E-A785-367EEEC83EA5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BladeTricks/View Models/TrickViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "678"
+            endingLineNumber = "678"
+            landmarkName = "trickGenerator(previousTrick:trickMode:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "6698D0C1-1FF7-4B9E-A785-367EEEC83EA5 - 25e8641f347af981"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BladeTricks.TrickViewModel.trickGenerator(previousTrick: Swift.Optional&lt;BladeTricks.Trick&gt;, trickMode: Swift.String) -&gt; BladeTricks.Trick"
+                  moduleName = "BladeTricks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/victor/Desktop/BladeTricks/BladeTricks/View%20Models/TrickViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "671"
+                  endingLineNumber = "671"
+                  offsetFromSymbolStart = "44372">
+               </Location>
+               <Location
+                  uuid = "6698D0C1-1FF7-4B9E-A785-367EEEC83EA5 - 2572bf3eaf63b7d9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #13 (Swift.String) -&gt; Swift.Bool in BladeTricks.TrickViewModel.trickGenerator(previousTrick: Swift.Optional&lt;BladeTricks.Trick&gt;, trickMode: Swift.String) -&gt; BladeTricks.Trick"
+                  moduleName = "BladeTricks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/victor/Desktop/BladeTricks/BladeTricks/View%20Models/TrickViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "671"
+                  endingLineNumber = "671"
+                  offsetFromSymbolStart = "64">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "108B13C4-A66C-411C-B3ED-451BD7EEDDCD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BladeTricks/View Models/TrickViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "683"
+            endingLineNumber = "683"
+            landmarkName = "trickGenerator(previousTrick:trickMode:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "108B13C4-A66C-411C-B3ED-451BD7EEDDCD - 25e8641f347af92c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BladeTricks.TrickViewModel.trickGenerator(previousTrick: Swift.Optional&lt;BladeTricks.Trick&gt;, trickMode: Swift.String) -&gt; BladeTricks.Trick"
+                  moduleName = "BladeTricks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/victor/Desktop/BladeTricks/BladeTricks/View%20Models/TrickViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "676"
+                  endingLineNumber = "676"
+                  offsetFromSymbolStart = "44932">
+               </Location>
+               <Location
+                  uuid = "108B13C4-A66C-411C-B3ED-451BD7EEDDCD - c721610daf581d4a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #15 (Swift.String) -&gt; Swift.Bool in BladeTricks.TrickViewModel.trickGenerator(previousTrick: Swift.Optional&lt;BladeTricks.Trick&gt;, trickMode: Swift.String) -&gt; BladeTricks.Trick"
+                  moduleName = "BladeTricks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/victor/Desktop/BladeTricks/BladeTricks/View%20Models/TrickViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "676"
+                  endingLineNumber = "676"
+                  offsetFromSymbolStart = "64">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "67E5C4DE-4F7F-420B-8704-8558827E1BE9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BladeTricks/View Models/TrickViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "693"
+            endingLineNumber = "693"
+            landmarkName = "trickGenerator(previousTrick:trickMode:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "67E5C4DE-4F7F-420B-8704-8558827E1BE9 - 25e8641f347afb96"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BladeTricks.TrickViewModel.trickGenerator(previousTrick: Swift.Optional&lt;BladeTricks.Trick&gt;, trickMode: Swift.String) -&gt; BladeTricks.Trick"
+                  moduleName = "BladeTricks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/victor/Desktop/BladeTricks/BladeTricks/View%20Models/TrickViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "686"
+                  endingLineNumber = "686"
+                  offsetFromSymbolStart = "45668">
+               </Location>
+               <Location
+                  uuid = "67E5C4DE-4F7F-420B-8704-8558827E1BE9 - e9170b1cafbce1f2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #17 (Swift.String) -&gt; Swift.Bool in BladeTricks.TrickViewModel.trickGenerator(previousTrick: Swift.Optional&lt;BladeTricks.Trick&gt;, trickMode: Swift.String) -&gt; BladeTricks.Trick"
+                  moduleName = "BladeTricks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/victor/Desktop/BladeTricks/BladeTricks/View%20Models/TrickViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "686"
+                  endingLineNumber = "686"
+                  offsetFromSymbolStart = "64">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AEEC7301-C363-4B28-A0FE-CDB730245951"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BladeTricks/View Models/TrickViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "698"
+            endingLineNumber = "698"
+            landmarkName = "trickGenerator(previousTrick:trickMode:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "AEEC7301-C363-4B28-A0FE-CDB730245951 - 25e8641f347afb3d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BladeTricks.TrickViewModel.trickGenerator(previousTrick: Swift.Optional&lt;BladeTricks.Trick&gt;, trickMode: Swift.String) -&gt; BladeTricks.Trick"
+                  moduleName = "BladeTricks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/victor/Desktop/BladeTricks/BladeTricks/View%20Models/TrickViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "691"
+                  endingLineNumber = "691"
+                  offsetFromSymbolStart = "46228">
+               </Location>
+               <Location
+                  uuid = "AEEC7301-C363-4B28-A0FE-CDB730245951 - 8cc5ad6baf914b5f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #19 (Swift.String) -&gt; Swift.Bool in BladeTricks.TrickViewModel.trickGenerator(previousTrick: Swift.Optional&lt;BladeTricks.Trick&gt;, trickMode: Swift.String) -&gt; BladeTricks.Trick"
+                  moduleName = "BladeTricks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/victor/Desktop/BladeTricks/BladeTricks/View%20Models/TrickViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "691"
+                  endingLineNumber = "691"
+                  offsetFromSymbolStart = "64">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E5B8DA9D-DD9C-4FFB-B180-E369115FFC14"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BladeTricks/View Models/TrickViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "673"
+            endingLineNumber = "673"
+            landmarkName = "trickGenerator(previousTrick:trickMode:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F19A9ED7-5F24-4F1D-8BE8-5978CC25FABE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BladeTricks/View Models/TrickViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "728"
+            endingLineNumber = "728"
+            landmarkName = "trickGenerator(previousTrick:trickMode:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F19A9ED7-5F24-4F1D-8BE8-5978CC25FABE - 25e8641f347ac0f8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BladeTricks.TrickViewModel.trickGenerator(previousTrick: Swift.Optional&lt;BladeTricks.Trick&gt;, trickMode: Swift.String) -&gt; BladeTricks.Trick"
+                  moduleName = "BladeTricks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/victor/Desktop/BladeTricks/BladeTricks/View%20Models/TrickViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "728"
+                  endingLineNumber = "728"
+                  offsetFromSymbolStart = "49708">
+               </Location>
+               <Location
+                  uuid = "F19A9ED7-5F24-4F1D-8BE8-5978CC25FABE - 25e8641f347ac0f8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BladeTricks.TrickViewModel.trickGenerator(previousTrick: Swift.Optional&lt;BladeTricks.Trick&gt;, trickMode: Swift.String) -&gt; BladeTricks.Trick"
+                  moduleName = "BladeTricks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/victor/Desktop/BladeTricks/BladeTricks/View%20Models/TrickViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "728"
+                  endingLineNumber = "728"
+                  offsetFromSymbolStart = "49828">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0B77867E-FC22-4C13-9AF1-83373221A286"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BladeTricks/View Models/TrickViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "714"
+            endingLineNumber = "714"
+            landmarkName = "trickGenerator(previousTrick:trickMode:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "0B77867E-FC22-4C13-9AF1-83373221A286 - 25e8641f347afe55"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BladeTricks.TrickViewModel.trickGenerator(previousTrick: Swift.Optional&lt;BladeTricks.Trick&gt;, trickMode: Swift.String) -&gt; BladeTricks.Trick"
+                  moduleName = "BladeTricks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/victor/Desktop/BladeTricks/BladeTricks/View%20Models/TrickViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "715"
+                  endingLineNumber = "715"
+                  offsetFromSymbolStart = "48156">
+               </Location>
+               <Location
+                  uuid = "0B77867E-FC22-4C13-9AF1-83373221A286 - 25e8641f347afe0a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BladeTricks.TrickViewModel.trickGenerator(previousTrick: Swift.Optional&lt;BladeTricks.Trick&gt;, trickMode: Swift.String) -&gt; BladeTricks.Trick"
+                  moduleName = "BladeTricks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/victor/Desktop/BladeTricks/BladeTricks/View%20Models/TrickViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "714"
+                  endingLineNumber = "714"
+                  offsetFromSymbolStart = "48172">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

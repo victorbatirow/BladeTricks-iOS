@@ -40,7 +40,7 @@ struct Trick {
         spinIn: String = "",
         spinInDirection: String = "",
         trickName: String = "",
-         type: TrickType = .soulplate,
+        type: TrickType = .soulplate,
         isTopside: Bool = false,
         isNegative: Bool = false,
         grindStance: Stance = .forward,

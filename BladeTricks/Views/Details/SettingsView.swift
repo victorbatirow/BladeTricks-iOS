@@ -94,7 +94,8 @@ struct SettingsView: View {
             // Spin Out
             soulplateForwardOutSpinsCAPSlider
             soulplateFakieOutSpinsCAPSlider
-            grooveSidewaysOutSpinsCAPSlider
+            fsOutSpinsCAPSlider
+            bsOutSpinsCAPSlider
             // SwitchUp
             switchUpChooser
             grooveFSToSoulplateSpinsCAPSlider
@@ -102,6 +103,9 @@ struct SettingsView: View {
             grooveFSToGrooveSpinsCAPSlider
             grooveBSToGrooveSpinsCAPSlider
             switchUpRewindToggle
+            Spacer(minLength: 50)
+            Text("Scroll to top button goes here").opacity(0.2)
+            Spacer(minLength: 50)
         }
         .opacity(Double(bottomSheetTranslationProrated))
     }
@@ -388,20 +392,41 @@ struct SettingsView: View {
         }.padding()
     }
 
-    private var grooveSidewaysOutSpinsCAPSlider: some View {
+    private var fsOutSpinsCAPSlider: some View {
         VStack {
-            Text("Groove Sideways Out Spins CAP: \(viewModel.customSettings.grooveSidewaysOutSpinsCAP)")
+            Text("FS Out Spins CAP: \(viewModel.customSettings.fsOutSpinsCAP)")
                 .fontWeight(.semibold)
             Slider(value: Binding(
-                get: { Double(viewModel.customSettings.grooveSidewaysOutSpinsCAP) },
-                set: { viewModel.customSettings.grooveSidewaysOutSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.grooveSidewaysOutSpins.count), step: 1)
-            .onChange(of: viewModel.customSettings.grooveSidewaysOutSpinsCAP) {
+                get: { Double(viewModel.customSettings.fsOutSpinsCAP) },
+                set: { viewModel.customSettings.fsOutSpinsCAP = Int($0) }
+            ), in: 0...Double(viewModel.fsOutSpins.count), step: 1)
+            .onChange(of: viewModel.customSettings.fsOutSpinsCAP) {
                 viewModel.applyCustomSettings()
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(viewModel.grooveSidewaysOutSpins.prefix(viewModel.customSettings.grooveSidewaysOutSpinsCAP), id: \.self) { spin in
+                    ForEach(viewModel.fsOutSpins.prefix(viewModel.customSettings.fsOutSpinsCAP), id: \.self) { spin in
+                        Text("\(spin),").font(.caption)
+                    }
+                }
+            }.frame(height: 20)
+        }.padding()
+    }
+    
+    private var bsOutSpinsCAPSlider: some View {
+        VStack {
+            Text("BS Out Spins CAP: \(viewModel.customSettings.bsOutSpinsCAP)")
+                .fontWeight(.semibold)
+            Slider(value: Binding(
+                get: { Double(viewModel.customSettings.bsOutSpinsCAP) },
+                set: { viewModel.customSettings.bsOutSpinsCAP = Int($0) }
+            ), in: 0...Double(viewModel.bsOutSpins.count), step: 1)
+            .onChange(of: viewModel.customSettings.bsOutSpinsCAP) {
+                viewModel.applyCustomSettings()
+            }
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(viewModel.bsOutSpins.prefix(viewModel.customSettings.bsOutSpinsCAP), id: \.self) { spin in
                         Text("\(spin),").font(.caption)
                     }
                 }
