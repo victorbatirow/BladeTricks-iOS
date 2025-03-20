@@ -260,7 +260,7 @@ struct SettingsView: View {
     }
 
     private var rewindChanceSlider: some View {
-        sliderView(title: "Rewind Chance", value: $viewModel.customSettings.rewindOutChance, range: 0...1, step: 0.05)
+        sliderView(title: "Rewind Spin Out Chance", value: $viewModel.customSettings.rewindOutChance, range: 0...1, step: 0.05)
     }
 
     private var tricksCAPSlider: some View {

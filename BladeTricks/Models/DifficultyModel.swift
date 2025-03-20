@@ -18,7 +18,7 @@ enum DifficultyLevel: String, Codable, CaseIterable {
     case master = "Master"
     case sage = "Sage"
     case legend = "Legend"
-    case mythic = "Mythic"
+    case myth = "Myth"
 }
 
 struct Difficulty: Equatable, Identifiable {
@@ -74,7 +74,7 @@ struct Difficulty: Equatable, Identifiable {
             return "IconLvl8"
         case .legend:
             return "IconLvl9"
-        case .mythic:
+        case .myth:
             return "IconLvl10"
         }
     }
@@ -93,7 +93,7 @@ extension Difficulty {
         Difficulty(level: "lvl. 7", difficultyLevel: .master, settings: DifficultySettings(difficultyStamp: "Master", fakieChance: 0.4, topsideChance: 0.4, negativeChance: 0.05, rewindOutChance: 0.2, switchUpRewindAllowed: true, tricksCAP: 16, soulplateForwardInSpinsCAP: 4, soulplateFakieInSpinsCAP: 4, soulplateForwardOutSpinsCAP: 2, soulplateFakieOutSpinsCAP: 3, grooveForwardInSpinsCAP: 3, grooveFakieInSpinsCAP: 3, grooveFSToSoulplateSpinsCAP: 4, grooveBSToSoulplateSpinsCAP: 4, grooveFSToGrooveSpinsCAP: 2, grooveBSToGrooveSpinsCAP: 2, fsOutSpinsCAP: 4, bsOutSpinsCAP: 4), isCustom: false),
         Difficulty(level: "lvl. 8", difficultyLevel: .sage, settings: DifficultySettings(difficultyStamp: "Sage", fakieChance: 0.4, topsideChance: 0.5, negativeChance: 0.075, rewindOutChance: 0.25, switchUpRewindAllowed: true, tricksCAP: 19, soulplateForwardInSpinsCAP: 5, soulplateFakieInSpinsCAP: 5, soulplateForwardOutSpinsCAP: 3, soulplateFakieOutSpinsCAP: 3, grooveForwardInSpinsCAP: 3, grooveFakieInSpinsCAP: 3, grooveFSToSoulplateSpinsCAP: 5, grooveBSToSoulplateSpinsCAP: 5, grooveFSToGrooveSpinsCAP: 2, grooveBSToGrooveSpinsCAP: 3, fsOutSpinsCAP: 4, bsOutSpinsCAP: 4), isCustom: false),
         Difficulty(level: "lvl. 9", difficultyLevel: .legend, settings: DifficultySettings(difficultyStamp: "Legend", fakieChance: 0.5, topsideChance: 0.5, negativeChance: 0.10, rewindOutChance: 0.3, switchUpRewindAllowed: true, tricksCAP: 21, soulplateForwardInSpinsCAP: 6, soulplateFakieInSpinsCAP: 6, soulplateForwardOutSpinsCAP: 4, soulplateFakieOutSpinsCAP: 3, grooveForwardInSpinsCAP: 6, grooveFakieInSpinsCAP: 6, grooveFSToSoulplateSpinsCAP: 5, grooveBSToSoulplateSpinsCAP: 6, grooveFSToGrooveSpinsCAP: 3, grooveBSToGrooveSpinsCAP: 3, fsOutSpinsCAP: 5, bsOutSpinsCAP: 5), isCustom: false),
-        Difficulty(level: "lvl. 10", difficultyLevel: .mythic, settings: DifficultySettings(difficultyStamp: "Mythic", fakieChance: 0.5, topsideChance: 0.5, negativeChance: 0.20, rewindOutChance: 0.4, switchUpRewindAllowed: true, tricksCAP: 22, soulplateForwardInSpinsCAP: 7, soulplateFakieInSpinsCAP: 7, soulplateForwardOutSpinsCAP: 4, soulplateFakieOutSpinsCAP: 4, grooveForwardInSpinsCAP: 6, grooveFakieInSpinsCAP: 6, grooveFSToSoulplateSpinsCAP: 6, grooveBSToSoulplateSpinsCAP: 6, grooveFSToGrooveSpinsCAP: 3, grooveBSToGrooveSpinsCAP: 3, fsOutSpinsCAP: 6, bsOutSpinsCAP: 6), isCustom: false)
+        Difficulty(level: "lvl. 10", difficultyLevel: .myth, settings: DifficultySettings(difficultyStamp: "Myth", fakieChance: 0.5, topsideChance: 0.5, negativeChance: 0.20, rewindOutChance: 0.4, switchUpRewindAllowed: true, tricksCAP: 22, soulplateForwardInSpinsCAP: 7, soulplateFakieInSpinsCAP: 7, soulplateForwardOutSpinsCAP: 4, soulplateFakieOutSpinsCAP: 4, grooveForwardInSpinsCAP: 6, grooveFakieInSpinsCAP: 6, grooveFSToSoulplateSpinsCAP: 6, grooveBSToSoulplateSpinsCAP: 6, grooveFSToGrooveSpinsCAP: 3, grooveBSToGrooveSpinsCAP: 3, fsOutSpinsCAP: 6, bsOutSpinsCAP: 6), isCustom: false)
     ]
 }
 

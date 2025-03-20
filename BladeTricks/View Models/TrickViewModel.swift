@@ -275,7 +275,7 @@ class TrickViewModel: ObservableObject {
         }
         
         
-        // Choose a soulplate or groove trick (this wil determine the spin, topside and negative options) - Difficulty applied
+        // Choose a soulplate or groove trick (this will determine the spin, topside and negative options) - Difficulty applied
         trickObject.trickName = allTricks[Int.random(in: 0..<settings.tricksCAP)]
 //        trickObject.trickName = grooveTricks[Int.random(in: 0..<2)]
         trickNameStamp = trickObject.trickName
@@ -755,7 +755,16 @@ class TrickViewModel: ObservableObject {
                     let matchingCount = fsOutSpins[0..<settings.fsOutSpinsCAP].filter { item in
                         fsOutSpinsAllowed.contains(where: { $0.caseInsensitiveCompare(item) == .orderedSame })
                     }.count
-                    trickObject.spinOut = fsOutSpinsAllowed[Int.random(in: 0..<(matchingCount))]
+                    
+                    if matchingCount > 0 {
+                            trickObject.spinOut = fsOutSpinsAllowed[Int.random(in: 0..<(matchingCount))]
+                        } else {
+                            // Fallback option when no spins are allowed
+                            trickObject.spinOut = fsOutSpinsAllowed.first ?? ""  // Use the first option or empty string
+                            print("Warning: No valid BS out spins available after filtering. Using fallback.")
+                        }
+                    print("")
+                    
                     spinOutStamp = trickObject.spinOut
                     if trickObject.spinInDirection == "L" {
                         if fsOutSpinsRight.contains(trickObject.spinOut) {
@@ -770,7 +779,16 @@ class TrickViewModel: ObservableObject {
                     let matchingCount = bsOutSpins[0..<settings.bsOutSpinsCAP].filter { item in
                         bsOutSpinsAllowed.contains(where: { $0.caseInsensitiveCompare(item) == .orderedSame })
                     }.count
-                    trickObject.spinOut = bsOutSpinsAllowed[Int.random(in: 0..<(matchingCount))]
+                    
+                    if matchingCount > 0 {
+                            trickObject.spinOut = bsOutSpinsAllowed[Int.random(in: 0..<matchingCount)]
+                        } else {
+                            // Fallback option when no spins are allowed
+                            trickObject.spinOut = bsOutSpinsAllowed.first ?? ""  // Use the first option or empty string
+                            print("Warning: No valid BS out spins available after filtering. Using fallback.")
+                        }
+                    print("")
+                    
                     spinOutStamp = trickObject.spinOut
                     if trickObject.spinInDirection == "L" {
                         if bsOutSpinsRight.contains(trickObject.spinOut) {
