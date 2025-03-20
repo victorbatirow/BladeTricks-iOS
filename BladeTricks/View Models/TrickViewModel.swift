@@ -276,8 +276,8 @@ class TrickViewModel: ObservableObject {
         
         
         // Choose a soulplate or groove trick (this wil determine the spin, topside and negative options) - Difficulty applied
-//        trickObject.trickName = allTricks[Int.random(in: 0..<settings.tricksCAP)]
-        trickObject.trickName = grooveTricks[Int.random(in: 0..<2)]
+        trickObject.trickName = allTricks[Int.random(in: 0..<settings.tricksCAP)]
+//        trickObject.trickName = grooveTricks[Int.random(in: 0..<2)]
         trickNameStamp = trickObject.trickName
 
         // Find out if the chosen trick is done with soul plate

@@ -8,6 +8,51 @@
 import SwiftUI
 import Combine
 
+// Move these outside of SettingsView struct, at file scope level
+struct CustomSliderStyle: ViewModifier {
+    @Binding var value: Double
+    let range: ClosedRange<Double>
+    
+    func body(content: Content) -> some View {
+        content
+            .opacity(0.001) // Almost invisible but still interactive
+            .background(
+                GeometryReader { geometry in
+                    ZStack(alignment: .leading) {
+                        // Background bar
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.gray.opacity(0.2))
+                            .frame(height: 6)
+                        
+                        // Filled bar
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.blue)
+                            .frame(width: fillWidth(totalWidth: geometry.size.width), height: 6)
+                        
+                        // Drag circle
+                        Circle()
+                            .fill(Color.blue)
+                            .frame(width: 20, height: 20)
+                            .position(x: fillWidth(totalWidth: geometry.size.width), y: geometry.size.height / 2)
+                            .shadow(radius: 2)
+                    }
+                }
+                .allowsHitTesting(false) // Make the overlay non-interactive
+            )
+    }
+    
+    private func fillWidth(totalWidth: CGFloat) -> CGFloat {
+        let percent = (value - range.lowerBound) / (range.upperBound - range.lowerBound)
+        return max(10, min(totalWidth, totalWidth * CGFloat(percent)))
+    }
+}
+
+extension View {
+    func customSliderStyle(value: Binding<Double>, range: ClosedRange<Double>) -> some View {
+        self.modifier(CustomSliderStyle(value: value, range: range))
+    }
+}
+
 struct SettingsView: View {
     var bottomSheetTranslationProrated: CGFloat = 1
     @State private var selection = 0
@@ -116,15 +161,24 @@ struct SettingsView: View {
             .padding()
     }
 
+    // Update the sliderView function
     private func sliderView(title: String, value: Binding<Double>, range: ClosedRange<Double>, step: Double) -> some View {
-        VStack {
-            Text("\(title): \(Int(value.wrappedValue * 100))%")
-                .fontWeight(.semibold)
-            Slider(value: value, in: range, step: step)
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text(title)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text("\(Int(value.wrappedValue * 100))%")
+                    .font(.subheadline.bold())
+                    .foregroundColor(.primary)
+            }
+            
+            CustomSlider(value: value, range: range, step: step)
                 .onChange(of: value.wrappedValue) {
                     viewModel.applyCustomSettings()
                 }
-        }.padding()
+        }.padding(.horizontal)
     }
     
     private var switchUpChooser: some View {
@@ -146,87 +200,51 @@ struct SettingsView: View {
     }
     
     private var grooveFSToSoulplateSpinsCAPSlider: some View {
-        VStack {
-            Text("Groove FS to Soulplate Spins CAP: \(viewModel.customSettings.grooveFSToSoulplateSpinsCAP)")
-                .fontWeight(.semibold)
-            Slider(value: Binding(
-                get: { Double(viewModel.customSettings.grooveFSToSoulplateSpinsCAP) },
-                set: { viewModel.customSettings.grooveFSToSoulplateSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.fsToSoulplateSpins.count), step: 1)
-            .onChange(of: viewModel.customSettings.grooveFSToSoulplateSpinsCAP) {
-                viewModel.applyCustomSettings()
-            }
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(viewModel.fsToSoulplateSpins.prefix(viewModel.customSettings.grooveFSToSoulplateSpinsCAP), id: \.self) { spin in
-                        Text("\(spin),").font(.caption)
-                    }
-                }
-            }.frame(height: 20)
-        }.padding()
+        CAPSliderView(
+            title: "Groove FS to Soulplate Spins",
+            currentValue: viewModel.customSettings.grooveFSToSoulplateSpinsCAP,
+            values: viewModel.fsToSoulplateSpins,
+            range: 0...Double(viewModel.fsToSoulplateSpins.count)
+        ) { newValue in
+            viewModel.customSettings.grooveFSToSoulplateSpinsCAP = newValue
+            viewModel.applyCustomSettings()
+        }
     }
 
     private var grooveBSToSoulplateSpinsCAPSlider: some View {
-        VStack {
-            Text("Groove BS to Soulplate Spins CAP: \(viewModel.customSettings.grooveBSToSoulplateSpinsCAP)")
-                .fontWeight(.semibold)
-            Slider(value: Binding(
-                get: { Double(viewModel.customSettings.grooveBSToSoulplateSpinsCAP) },
-                set: { viewModel.customSettings.grooveBSToSoulplateSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.bsToSoulplateSpins.count), step: 1)
-            .onChange(of: viewModel.customSettings.grooveBSToSoulplateSpinsCAP) {
-                viewModel.applyCustomSettings()
-            }
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(viewModel.bsToSoulplateSpins.prefix(viewModel.customSettings.grooveBSToSoulplateSpinsCAP), id: \.self) { spin in
-                        Text("\(spin),").font(.caption)
-                    }
-                }
-            }.frame(height: 20)
-        }.padding()
+        CAPSliderView(
+            title: "Groove BS to Soulplate Spins",
+            currentValue: viewModel.customSettings.grooveBSToSoulplateSpinsCAP,
+            values: viewModel.bsToSoulplateSpins,
+            range: 0...Double(viewModel.bsToSoulplateSpins.count)
+        ) { newValue in
+            viewModel.customSettings.grooveBSToSoulplateSpinsCAP = newValue
+            viewModel.applyCustomSettings()
+        }
     }
     
     private var grooveFSToGrooveSpinsCAPSlider: some View {
-        VStack {
-            Text("Groove FS to Groove Spins CAP: \(viewModel.customSettings.grooveFSToGrooveSpinsCAP)")
-                .fontWeight(.semibold)
-            Slider(value: Binding(
-                get: { Double(viewModel.customSettings.grooveFSToGrooveSpinsCAP) },
-                set: { viewModel.customSettings.grooveFSToGrooveSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.fsToGrooveSpins.count), step: 1)
-            .onChange(of: viewModel.customSettings.grooveFSToGrooveSpinsCAP) {
-                viewModel.applyCustomSettings()
-            }
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(viewModel.fsToGrooveSpins.prefix(viewModel.customSettings.grooveFSToGrooveSpinsCAP), id: \.self) { spin in
-                        Text("\(spin),").font(.caption)
-                    }
-                }
-            }.frame(height: 20)
-        }.padding()
+        CAPSliderView(
+            title: "Groove FS to Groove Spins",
+            currentValue: viewModel.customSettings.grooveFSToGrooveSpinsCAP,
+            values: viewModel.fsToGrooveSpins,
+            range: 0...Double(viewModel.fsToGrooveSpins.count)
+        ) { newValue in
+            viewModel.customSettings.grooveFSToGrooveSpinsCAP = newValue
+            viewModel.applyCustomSettings()
+        }
     }
     
     private var grooveBSToGrooveSpinsCAPSlider: some View {
-        VStack {
-            Text("Groove FS to Groove Spins CAP: \(viewModel.customSettings.grooveBSToGrooveSpinsCAP)")
-                .fontWeight(.semibold)
-            Slider(value: Binding(
-                get: { Double(viewModel.customSettings.grooveBSToGrooveSpinsCAP) },
-                set: { viewModel.customSettings.grooveBSToGrooveSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.bsToGrooveSpins.count), step: 1)
-            .onChange(of: viewModel.customSettings.grooveBSToGrooveSpinsCAP) {
-                viewModel.applyCustomSettings()
-            }
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(viewModel.bsToGrooveSpins.prefix(viewModel.customSettings.grooveBSToGrooveSpinsCAP), id: \.self) { spin in
-                        Text("\(spin),").font(.caption)
-                    }
-                }
-            }.frame(height: 20)
-        }.padding()
+        CAPSliderView(
+            title: "Groove BS to Groove Spins",
+            currentValue: viewModel.customSettings.grooveBSToGrooveSpinsCAP,
+            values: viewModel.bsToGrooveSpins,
+            range: 0...Double(viewModel.bsToGrooveSpins.count)
+        ) { newValue in
+            viewModel.customSettings.grooveBSToGrooveSpinsCAP = newValue
+            viewModel.applyCustomSettings()
+        }
     }
     
     private var fakieChanceSlider: some View {
@@ -246,192 +264,111 @@ struct SettingsView: View {
     }
 
     private var tricksCAPSlider: some View {
-        VStack {
-            Text("Bag of Tricks: \(viewModel.customSettings.tricksCAP)")
-                .fontWeight(.semibold)
-            Slider(value: Binding(
-                get: { Double(viewModel.customSettings.tricksCAP) },
-                set: { viewModel.customSettings.tricksCAP = Int($0) }
-            ), in: 5...Double(viewModel.allTricks.count), step: 1)
-            .onChange(of: viewModel.customSettings.tricksCAP) {
-                viewModel.applyCustomSettings()
-            }
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(viewModel.allTricks.prefix(viewModel.customSettings.tricksCAP), id: \.self) { trick in
-                        Text("\(trick),").font(.caption)
-                    }
-                }
-            }.frame(height: 20)
-        }.padding()
+        CAPSliderView(
+            title: "Bag of Tricks",
+            currentValue: viewModel.customSettings.tricksCAP,
+            values: viewModel.allTricks,
+            range: 5...Double(viewModel.allTricks.count)
+        ) { newValue in
+            viewModel.customSettings.tricksCAP = newValue
+            viewModel.applyCustomSettings()
+        }
     }
     
     private var soulplateForwardInSpinsCAPSlider: some View {
-        VStack {
-            Text("Soulplate Forward In Spins CAP: \(viewModel.customSettings.soulplateForwardInSpinsCAP)")
-                .fontWeight(.semibold)
-            Slider(value: Binding(
-                get: { Double(viewModel.customSettings.soulplateForwardInSpinsCAP) },
-                set: { viewModel.customSettings.soulplateForwardInSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.forwardToSoulplateSpins.count), step: 1)
-            .onChange(of: viewModel.customSettings.soulplateForwardInSpinsCAP) {
-                viewModel.applyCustomSettings()
-            }
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(viewModel.forwardToSoulplateSpins.prefix(viewModel.customSettings.soulplateForwardInSpinsCAP), id: \.self) { spin in
-                        Text("\(spin),").font(.caption)
-                    }
-                }
-            }.frame(height: 20)
-        }.padding()
+        CAPSliderView(
+            title: "Soulplate Forward In Spins",
+            currentValue: viewModel.customSettings.soulplateForwardInSpinsCAP,
+            values: viewModel.forwardToSoulplateSpins,
+            range: 0...Double(viewModel.forwardToSoulplateSpins.count)
+        ) { newValue in
+            viewModel.customSettings.soulplateForwardInSpinsCAP = newValue
+            viewModel.applyCustomSettings()
+        }
     }
     
     private var soulplateFakieInSpinsCAPSlider: some View {
-        VStack {
-            Text("Soulplate Fakie In Spins CAP: \(viewModel.customSettings.soulplateFakieInSpinsCAP)")
-                .fontWeight(.semibold)
-            Slider(value: Binding(
-                get: { Double(viewModel.customSettings.soulplateFakieInSpinsCAP) },
-                set: { viewModel.customSettings.soulplateFakieInSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.fakieToSoulplateSpins.count), step: 1)
-            .onChange(of: viewModel.customSettings.soulplateFakieInSpinsCAP) {
-                viewModel.applyCustomSettings()
-            }
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(viewModel.fakieToSoulplateSpins.prefix(viewModel.customSettings.soulplateFakieInSpinsCAP), id: \.self) { spin in
-                        Text("\(spin),").font(.caption)
-                    }
-                }
-            }.frame(height: 20)
-        }.padding()
+        CAPSliderView(
+            title: "Soulplate Fakie In Spins",
+            currentValue: viewModel.customSettings.soulplateFakieInSpinsCAP,
+            values: viewModel.fakieToSoulplateSpins,
+            range: 0...Double(viewModel.fakieToSoulplateSpins.count)
+        ) { newValue in
+            viewModel.customSettings.soulplateFakieInSpinsCAP = newValue
+            viewModel.applyCustomSettings()
+        }
     }
 
     private var soulplateForwardOutSpinsCAPSlider: some View {
-        VStack {
-            Text("Soulplate Forward Out Spins CAP: \(viewModel.customSettings.soulplateForwardOutSpinsCAP)")
-                .fontWeight(.semibold)
-            Slider(value: Binding(
-                get: { Double(viewModel.customSettings.soulplateForwardOutSpinsCAP) },
-                set: { viewModel.customSettings.soulplateForwardOutSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.forwardOutSpins.count), step: 1)
-            .onChange(of: viewModel.customSettings.soulplateForwardOutSpinsCAP) {
-                viewModel.applyCustomSettings()
-            }
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(viewModel.forwardOutSpins.prefix(viewModel.customSettings.soulplateForwardOutSpinsCAP), id: \.self) { spin in
-                        Text("\(spin),").font(.caption)
-                    }
-                }
-            }.frame(height: 20)
-        }.padding()
+        CAPSliderView(
+            title: "Soulplate Forward Out Spins",
+            currentValue: viewModel.customSettings.soulplateForwardOutSpinsCAP,
+            values: viewModel.forwardOutSpins,
+            range: 0...Double(viewModel.forwardOutSpins.count)
+        ) { newValue in
+            viewModel.customSettings.soulplateForwardOutSpinsCAP = newValue
+            viewModel.applyCustomSettings()
+        }
     }
 
     private var soulplateFakieOutSpinsCAPSlider: some View {
-        VStack {
-            Text("Soulplate Fakie Out Spins CAP: \(viewModel.customSettings.soulplateFakieOutSpinsCAP)")
-                .fontWeight(.semibold)
-            Slider(value: Binding(
-                get: { Double(viewModel.customSettings.soulplateFakieOutSpinsCAP) },
-                set: { viewModel.customSettings.soulplateFakieOutSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.fakieOutSpins.count), step: 1)
-            .onChange(of: viewModel.customSettings.soulplateFakieOutSpinsCAP) {
-                viewModel.applyCustomSettings()
-            }
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(viewModel.fakieOutSpins.prefix(viewModel.customSettings.soulplateFakieOutSpinsCAP), id: \.self) { spin in
-                        Text("\(spin),").font(.caption)
-                    }
-                }
-            }.frame(height: 20)
-        }.padding()
+        CAPSliderView(
+            title: "Soulplate Fakie Out Spins",
+            currentValue: viewModel.customSettings.soulplateFakieOutSpinsCAP,
+            values: viewModel.fakieOutSpins,
+            range: 0...Double(viewModel.fakieOutSpins.count)
+        ) { newValue in
+            viewModel.customSettings.soulplateFakieOutSpinsCAP = newValue
+            viewModel.applyCustomSettings()
+        }
     }
 
     private var grooveForwardInSpinsCAPSlider: some View {
-        VStack {
-            Text("Groove Forward In Spins CAP: \(viewModel.customSettings.grooveForwardInSpinsCAP)")
-                .fontWeight(.semibold)
-            Slider(value: Binding(
-                get: { Double(viewModel.customSettings.grooveForwardInSpinsCAP) },
-                set: { viewModel.customSettings.grooveForwardInSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.forwardToGrooveSpins.count), step: 1)
-            .onChange(of: viewModel.customSettings.grooveForwardInSpinsCAP) {
-                viewModel.applyCustomSettings()
-            }
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(viewModel.forwardToGrooveSpins.prefix(viewModel.customSettings.grooveForwardInSpinsCAP), id: \.self) { spin in
-                        Text("\(spin),").font(.caption)
-                    }
-                }
-            }.frame(height: 20)
-        }.padding()
+        CAPSliderView(
+            title: "Groove Forward In Spins",
+            currentValue: viewModel.customSettings.grooveForwardInSpinsCAP,
+            values: viewModel.forwardToGrooveSpins,
+            range: 0...Double(viewModel.forwardToGrooveSpins.count)
+        ) { newValue in
+            viewModel.customSettings.grooveForwardInSpinsCAP = newValue
+            viewModel.applyCustomSettings()
+        }
     }
 
     private var grooveFakieInSpinsCAPSlider: some View {
-        VStack {
-            Text("Groove Fakie In Spins CAP: \(viewModel.customSettings.grooveFakieInSpinsCAP)")
-                .fontWeight(.semibold)
-            Slider(value: Binding(
-                get: { Double(viewModel.customSettings.grooveFakieInSpinsCAP) },
-                set: { viewModel.customSettings.grooveFakieInSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.fakieToGrooveSpins.count), step: 1)
-            .onChange(of: viewModel.customSettings.grooveFakieInSpinsCAP) {
-                viewModel.applyCustomSettings()
-            }
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(viewModel.fakieToGrooveSpins.prefix(viewModel.customSettings.grooveFakieInSpinsCAP), id: \.self) { spin in
-                        Text("\(spin),").font(.caption)
-                    }
-                }
-            }.frame(height: 20)
-        }.padding()
+        CAPSliderView(
+            title: "Groove Fakie In Spins",
+            currentValue: viewModel.customSettings.grooveFakieInSpinsCAP,
+            values: viewModel.fakieToGrooveSpins,
+            range: 0...Double(viewModel.fakieToGrooveSpins.count)
+        ) { newValue in
+            viewModel.customSettings.grooveFakieInSpinsCAP = newValue
+            viewModel.applyCustomSettings()
+        }
     }
 
     private var fsOutSpinsCAPSlider: some View {
-        VStack {
-            Text("FS Out Spins CAP: \(viewModel.customSettings.fsOutSpinsCAP)")
-                .fontWeight(.semibold)
-            Slider(value: Binding(
-                get: { Double(viewModel.customSettings.fsOutSpinsCAP) },
-                set: { viewModel.customSettings.fsOutSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.fsOutSpins.count), step: 1)
-            .onChange(of: viewModel.customSettings.fsOutSpinsCAP) {
-                viewModel.applyCustomSettings()
-            }
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(viewModel.fsOutSpins.prefix(viewModel.customSettings.fsOutSpinsCAP), id: \.self) { spin in
-                        Text("\(spin),").font(.caption)
-                    }
-                }
-            }.frame(height: 20)
-        }.padding()
+        CAPSliderView(
+            title: "FS Out Spins",
+            currentValue: viewModel.customSettings.fsOutSpinsCAP,
+            values: viewModel.fsOutSpins,
+            range: 0...Double(viewModel.fsOutSpins.count)
+        ) { newValue in
+            viewModel.customSettings.fsOutSpinsCAP = newValue
+            viewModel.applyCustomSettings()
+        }
     }
-    
+
     private var bsOutSpinsCAPSlider: some View {
-        VStack {
-            Text("BS Out Spins CAP: \(viewModel.customSettings.bsOutSpinsCAP)")
-                .fontWeight(.semibold)
-            Slider(value: Binding(
-                get: { Double(viewModel.customSettings.bsOutSpinsCAP) },
-                set: { viewModel.customSettings.bsOutSpinsCAP = Int($0) }
-            ), in: 0...Double(viewModel.bsOutSpins.count), step: 1)
-            .onChange(of: viewModel.customSettings.bsOutSpinsCAP) {
-                viewModel.applyCustomSettings()
-            }
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(viewModel.bsOutSpins.prefix(viewModel.customSettings.bsOutSpinsCAP), id: \.self) { spin in
-                        Text("\(spin),").font(.caption)
-                    }
-                }
-            }.frame(height: 20)
-        }.padding()
+        CAPSliderView(
+            title: "BS Out Spins",
+            currentValue: viewModel.customSettings.bsOutSpinsCAP,
+            values: viewModel.bsOutSpins,
+            range: 0...Double(viewModel.bsOutSpins.count)
+        ) { newValue in
+            viewModel.customSettings.bsOutSpinsCAP = newValue
+            viewModel.applyCustomSettings()
+        }
     }
     
     private var switchUpRewindToggle: some View {
@@ -453,5 +390,133 @@ struct SettingsView_Previews: PreviewProvider {
             .environmentObject(TrickViewModel())  // Providing the environment object here
             .background(Color.background)
             .preferredColorScheme(.dark)
+    }
+}
+
+struct CustomSlider: View {
+    @Binding var value: Double
+    let range: ClosedRange<Double>
+    let step: Double
+    
+    @GestureState private var isDragging = false
+    @State private var startLocation: CGFloat?
+    
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                // Container rectangle
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.gray.opacity(0.3), lineWidth: 2)
+                    .background(Color.gray.opacity(0.1))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .frame(height: 12)
+                
+                // Fill rectangle
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.blue)
+                    .frame(width: self.getWidth(width: geometry.size.width), height: 12)
+            }
+            .gesture(
+                DragGesture(minimumDistance: 8) // Increased minimum distance
+                    .updating($isDragging) { value, state, _ in
+                        state = true
+                    }
+                    .onChanged { gesture in
+                        // Store initial location on first touch
+                        if startLocation == nil {
+                            startLocation = gesture.location.x
+                            
+                            // Check if the gesture is more vertical than horizontal
+                            let verticalMovement = abs(gesture.translation.height)
+                            let horizontalMovement = abs(gesture.translation.width)
+                            
+                            // If moving more vertically, don't handle the slider
+                            if verticalMovement > horizontalMovement {
+                                startLocation = nil
+                                return
+                            }
+                        }
+                        
+                        guard let start = startLocation else { return }
+                        
+                        let width = geometry.size.width
+                        let xPos = start + gesture.translation.width
+                        let percent = Double(xPos / width)
+                        let newValue = range.lowerBound + (range.upperBound - range.lowerBound) * percent
+                        let steppedValue = round(newValue / step) * step
+                        value = max(range.lowerBound, min(range.upperBound, steppedValue))
+                    }
+                    .onEnded { _ in
+                        startLocation = nil
+                    }
+            )
+        }
+        .frame(height: 12)
+    }
+    
+    private func getWidth(width: CGFloat) -> CGFloat {
+        let percent = (value - range.lowerBound) / (range.upperBound - range.lowerBound)
+        return max(0, min(width, width * CGFloat(percent)))
+    }
+}
+
+struct CAPSliderView: View {
+    let title: String
+    let currentValue: Int
+    let values: [String]
+    let range: ClosedRange<Double>
+    let onValueChanged: (Int) -> Void
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text(title)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text("\(currentValue)")
+                    .font(.subheadline.bold())
+                    .foregroundColor(.primary)
+            }
+            
+            CustomSlider(
+                value: Binding(
+                    get: { Double(currentValue) },
+                    set: { onValueChanged(Int($0)) }
+                ),
+                range: range,
+                step: 1
+            )
+            
+            ScrollViewReader { proxy in
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(values.prefix(currentValue), id: \.self) { value in
+                            Text(value)
+                                .font(.caption)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(Color.secondary.opacity(0.2))
+                                .cornerRadius(4)
+                                .id(value)
+                                .transition(.opacity.combined(with: .scale))
+                        }
+                    }
+                    .padding(.horizontal, 4)
+                    .animation(.easeInOut(duration: 0.3), value: currentValue)
+                }
+                .onChange(of: currentValue) { newValue in
+                    if let lastValue = values.prefix(newValue).last {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                proxy.scrollTo(lastValue, anchor: .trailing)
+                            }
+                        }
+                    }
+                }
+            }
+            .frame(height: 30)
+        }
+        .padding(.horizontal)
     }
 }
