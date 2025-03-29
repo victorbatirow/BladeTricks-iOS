@@ -20,7 +20,17 @@
 		5721B8EB2BDE6622007793E0 /* DifficultyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721B8EA2BDE6622007793E0 /* DifficultyModel.swift */; };
 		5721B8EF2BDE68D7007793E0 /* DifficultyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721B8EE2BDE68D7007793E0 /* DifficultyCard.swift */; };
 		5721B8F22BDE6C19007793E0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721B8F12BDE6C19007793E0 /* Extensions.swift */; };
+		5730463C2D8D0DE4006EC422 /* SpinSettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5730463B2D8D0DE4006EC422 /* SpinSettingsManager.swift */; };
+		5730463E2D8D0E0F006EC422 /* SpinSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5730463D2D8D0E0F006EC422 /* SpinSettingsView.swift */; };
+		57398D5D2D894D00007D12A3 /* PercentageSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57398D5C2D894D00007D12A3 /* PercentageSlider.swift */; };
+		57398D5F2D8A3308007D12A3 /* RangeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57398D5E2D8A3308007D12A3 /* RangeSlider.swift */; };
+		574963422D95FE9C001F0F23 /* SpinModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574963412D95FE9C001F0F23 /* SpinModel.swift */; };
+		574963472D97495C001F0F23 /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574963462D97495C001F0F23 /* SettingsService.swift */; };
+		574963492D975104001F0F23 /* TrickRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574963482D975104001F0F23 /* TrickRepository.swift */; };
+		5760B9CC2D7EB86900CAFBD0 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760B9CB2D7EB86900CAFBD0 /* SegmentedControl.swift */; };
+		5760B9D62D7F72CD00CAFBD0 /* ArrowNavigationPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760B9D52D7F72CD00CAFBD0 /* ArrowNavigationPicker.swift */; };
 		57CD49982BED5C350030A5C6 /* TrickModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CD49972BED5C350030A5C6 /* TrickModel.swift */; };
+		57FD81AD2D89483600B2895E /* CustomToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57FD81AC2D89483600B2895E /* CustomToggle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,7 +47,17 @@
 		5721B8EA2BDE6622007793E0 /* DifficultyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifficultyModel.swift; sourceTree = "<group>"; };
 		5721B8EE2BDE68D7007793E0 /* DifficultyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifficultyCard.swift; sourceTree = "<group>"; };
 		5721B8F12BDE6C19007793E0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		5730463B2D8D0DE4006EC422 /* SpinSettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinSettingsManager.swift; sourceTree = "<group>"; };
+		5730463D2D8D0E0F006EC422 /* SpinSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinSettingsView.swift; sourceTree = "<group>"; };
+		57398D5C2D894D00007D12A3 /* PercentageSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentageSlider.swift; sourceTree = "<group>"; };
+		57398D5E2D8A3308007D12A3 /* RangeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSlider.swift; sourceTree = "<group>"; };
+		574963412D95FE9C001F0F23 /* SpinModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinModel.swift; sourceTree = "<group>"; };
+		574963462D97495C001F0F23 /* SettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
+		574963482D975104001F0F23 /* TrickRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrickRepository.swift; sourceTree = "<group>"; };
+		5760B9CB2D7EB86900CAFBD0 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
+		5760B9D52D7F72CD00CAFBD0 /* ArrowNavigationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowNavigationPicker.swift; sourceTree = "<group>"; };
 		57CD49972BED5C350030A5C6 /* TrickModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrickModel.swift; sourceTree = "<group>"; };
+		57FD81AC2D89483600B2895E /* CustomToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToggle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +85,11 @@
 			isa = PBXGroup;
 			children = (
 				571135972BE07C6000748F26 /* Blur.swift */,
+				57FD81AC2D89483600B2895E /* CustomToggle.swift */,
+				57398D5C2D894D00007D12A3 /* PercentageSlider.swift */,
+				57398D5E2D8A3308007D12A3 /* RangeSlider.swift */,
+				5760B9CB2D7EB86900CAFBD0 /* SegmentedControl.swift */,
+				5760B9D52D7F72CD00CAFBD0 /* ArrowNavigationPicker.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -88,10 +113,11 @@
 		5721B8CE2BD89968007793E0 /* BladeTricks */ = {
 			isa = PBXGroup;
 			children = (
-				5721B8CF2BD89968007793E0 /* BladeTricksApp.swift */,
-				5721B8E62BDE5AB0007793E0 /* Views */,
-				5721B8E52BDE575F007793E0 /* View Models */,
+				574963432D974648001F0F23 /* App */,
 				5721B8E92BDE6606007793E0 /* Models */,
+				5721B8E52BDE575F007793E0 /* View Models */,
+				574963442D974679001F0F23 /* Services */,
+				5721B8E62BDE5AB0007793E0 /* Views */,
 				5721B8F02BDE6BF5007793E0 /* Utils */,
 				5721B8D32BD8996A007793E0 /* Assets.xcassets */,
 				5721B8D52BD8996A007793E0 /* Preview Content */,
@@ -119,8 +145,8 @@
 			isa = PBXGroup;
 			children = (
 				5721B8EC2BDE68A5007793E0 /* Main */,
+				574963452D9746D5001F0F23 /* Settings */,
 				5711358F2BE079B900748F26 /* Navigation */,
-				5721B8F32BDE6C26007793E0 /* Details */,
 				571135942BE07ACA00748F26 /* Components */,
 			);
 			path = Views;
@@ -131,6 +157,7 @@
 			children = (
 				5721B8EA2BDE6622007793E0 /* DifficultyModel.swift */,
 				57CD49972BED5C350030A5C6 /* TrickModel.swift */,
+				574963412D95FE9C001F0F23 /* SpinModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -151,13 +178,32 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		5721B8F32BDE6C26007793E0 /* Details */ = {
+		574963432D974648001F0F23 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				5721B8CF2BD89968007793E0 /* BladeTricksApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		574963442D974679001F0F23 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				5730463B2D8D0DE4006EC422 /* SpinSettingsManager.swift */,
+				574963462D97495C001F0F23 /* SettingsService.swift */,
+				574963482D975104001F0F23 /* TrickRepository.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		574963452D9746D5001F0F23 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
 				5721B8EE2BDE68D7007793E0 /* DifficultyCard.swift */,
 				5711358D2BE078E700748F26 /* SettingsView.swift */,
+				5730463D2D8D0E0F006EC422 /* SpinSettingsView.swift */,
 			);
-			path = Details;
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -239,14 +285,24 @@
 				571135982BE07C6000748F26 /* Blur.swift in Sources */,
 				5711358E2BE078E700748F26 /* SettingsView.swift in Sources */,
 				5721B8E42BDE5750007793E0 /* TrickViewModel.swift in Sources */,
+				5760B9D62D7F72CD00CAFBD0 /* ArrowNavigationPicker.swift in Sources */,
+				574963422D95FE9C001F0F23 /* SpinModel.swift in Sources */,
 				5721B8F22BDE6C19007793E0 /* Extensions.swift in Sources */,
 				571135912BE079D900748F26 /* TabBar.swift in Sources */,
 				5721B8D22BD89968007793E0 /* ContentView.swift in Sources */,
 				571135932BE079E300748F26 /* NavigationBar.swift in Sources */,
+				5730463C2D8D0DE4006EC422 /* SpinSettingsManager.swift in Sources */,
+				574963472D97495C001F0F23 /* SettingsService.swift in Sources */,
+				57FD81AD2D89483600B2895E /* CustomToggle.swift in Sources */,
+				57398D5D2D894D00007D12A3 /* PercentageSlider.swift in Sources */,
 				5721B8D02BD89968007793E0 /* BladeTricksApp.swift in Sources */,
 				5721B8EB2BDE6622007793E0 /* DifficultyModel.swift in Sources */,
+				574963492D975104001F0F23 /* TrickRepository.swift in Sources */,
+				57398D5F2D8A3308007D12A3 /* RangeSlider.swift in Sources */,
 				57CD49982BED5C350030A5C6 /* TrickModel.swift in Sources */,
+				5760B9CC2D7EB86900CAFBD0 /* SegmentedControl.swift in Sources */,
 				5721B8EF2BDE68D7007793E0 /* DifficultyCard.swift in Sources */,
+				5730463E2D8D0E0F006EC422 /* SpinSettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,7 +432,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"ASSETCATALOG_COMPILER_APPICON_NAME[sdk=iphoneos*]" = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BladeTricks/Preview Content\"";
@@ -386,8 +444,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -405,7 +462,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"ASSETCATALOG_COMPILER_APPICON_NAME[sdk=iphoneos*]" = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BladeTricks/Preview Content\"";
@@ -415,8 +474,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

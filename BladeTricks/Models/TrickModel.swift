@@ -21,48 +21,46 @@ enum TrickType: String, Codable, CaseIterable {
 
 
 struct Trick {
-    var id = UUID()
     var initialStance: Stance
-    var spinIn: String
-    var spinInDirection: String
+    var spinIn: Spin?  // Changed from String to Spin?
     var trickName: String
     var type: TrickType
     var isTopside: Bool
     var isNegative: Bool
     var grindStance: Stance
-    var spinOut: String
-    var spinOutDirection: String
-    var isSpinOutRewind: Bool
+    var spinOut: Spin?  // Changed from String to Spin?
     var outStance: Stance
     var trickFullName: String
 
     init(initialStance: Stance = .forward,
-        spinIn: String = "",
-        spinInDirection: String = "",
+        spinIn: Spin? = nil,
         trickName: String = "",
         type: TrickType = .soulplate,
         isTopside: Bool = false,
         isNegative: Bool = false,
         grindStance: Stance = .forward,
-        spinOut: String = "",
-        spinOutDirection: String = "",
-        isSpinOutRewind: Bool = false,
+        spinOut: Spin? = nil,
         outStance: Stance = .forward,
         trickFullName: String = "") {
         
         self.initialStance = initialStance
         self.spinIn = spinIn
-        self.spinInDirection = spinInDirection
         self.trickName = trickName
         self.type = type
         self.isTopside = isTopside
         self.isNegative = isNegative
         self.grindStance = grindStance
         self.spinOut = spinOut
-        self.spinOutDirection = spinOutDirection
-        self.isSpinOutRewind = isSpinOutRewind
         self.outStance = outStance
         self.trickFullName = trickFullName
     }
+    
+    // Helper computed properties for backward compatibility
+    var spinInName: String {
+        return spinIn?.name ?? ""
+    }
+    
+    var spinOutName: String {
+        return spinOut?.name ?? ""
+    }
 }
-
