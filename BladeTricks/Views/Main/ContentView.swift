@@ -68,7 +68,8 @@ struct ContentView: View {
 //                        Text(bottomSheetTranslationProrated.formatted())
                     } content: {
                         SettingsView(bottomSheetTranslationProrated: bottomSheetTranslationProrated)
-                            .frame(height: 700)  // Set the frame height to full screen height
+                            .frame(height: 700)
+                            .environmentObject(viewModel) // Make sure this is here
                     }
                     .onBottomSheetDrag { translation in
                         bottomSheetTranslation = translation / screenHeight

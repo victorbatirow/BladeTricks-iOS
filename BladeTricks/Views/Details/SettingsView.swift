@@ -13,6 +13,7 @@ struct CustomSliderStyle: ViewModifier {
     @Binding var value: Double
     let range: ClosedRange<Double>
     
+    
     func body(content: Content) -> some View {
         content
             .opacity(0.001) // Almost invisible but still interactive
@@ -57,6 +58,20 @@ struct SettingsView: View {
     var bottomSheetTranslationProrated: CGFloat = 1
     @State private var selection = 0
     @EnvironmentObject var viewModel: TrickViewModel  // Use the shared view model
+    private var currentSettings: Difficulty.DifficultySettings {
+        // Don't force a complete view refresh, but still ensure our value is reactive
+        let _ = viewModel.currentDifficulty.difficultyLevel
+        
+        if viewModel.currentDifficulty.isCustom {
+            return viewModel.customSettings
+        } else {
+            // Get the settings directly from the difficulty levels array to ensure we get fresh data
+            if let matchingDifficulty = Difficulty.levels.first(where: { $0.difficultyLevel == viewModel.currentDifficulty.difficultyLevel }) {
+                return matchingDifficulty.settings
+            }
+            return viewModel.currentDifficulty.settings
+        }
+    }
     
     var body: some View {
         ScrollView {
@@ -77,10 +92,11 @@ struct SettingsView: View {
                                 DifficultyCard(difficulty: difficulty, isActive: viewModel.currentDifficulty.id == difficulty.id)
                                     .id(difficulty.id)
                                     .onTapGesture {
-                                        viewModel.setDifficulty(difficulty)
-                                        withAnimation {
-                                            value.scrollTo(difficulty.id, anchor: .center)
+                                        // Add this line to prevent event propagation
+                                        withAnimation(.easeInOut(duration: 0.2)) {
+                                            viewModel.setDifficulty(difficulty)
                                         }
+                                        value.scrollTo(difficulty.id, anchor: .center)
                                     }
                             }
                         }
@@ -91,10 +107,8 @@ struct SettingsView: View {
                         value.scrollTo(viewModel.currentDifficulty.id, anchor: .center)
                     }
                     
-                    if viewModel.currentDifficulty.isCustom {
-                        customSettingsView
-                            //.disabled(!viewModel.currentDifficulty.isCustom)  // Disable if not custom settings
-                    }
+                    customSettingsView
+                        .disabled(!viewModel.currentDifficulty.isCustom)  // Disable if not custom settings
                 }
             }
         }
@@ -118,6 +132,13 @@ struct SettingsView: View {
                 .frame(height: 20)
                 .frame(maxHeight: .infinity, alignment: .top)
         }
+        .onChange(of: viewModel.currentDifficulty.id) { _ in
+            print("Difficulty changed to: \(viewModel.currentDifficulty.difficultyLevel.rawValue)")
+            print("Fakie Chance: \(viewModel.currentDifficulty.settings.fakieChance)")
+            print("Topside Chance: \(viewModel.currentDifficulty.settings.topsideChance)")
+            print("Current Settings Fakie Chance: \(currentSettings.fakieChance)")
+        }
+//        .id(viewModel.currentDifficulty.id)
     }
     
     private var customSettingsView: some View {
@@ -186,8 +207,14 @@ struct SettingsView: View {
             Text("Switch-Ups")
                 .fontWeight(.semibold)
             // Segmented Control for choosing trick type
-            // Use viewModel.trickGenerationMode directly in Picker
-            Picker("Trick Type", selection: $viewModel.SwitchUpMode) {
+            Picker("Trick Type", selection: Binding<Int>(
+                get: { viewModel.SwitchUpMode },
+                set: { newValue in
+                    if viewModel.currentDifficulty.isCustom {
+                        viewModel.SwitchUpMode = newValue
+                    }
+                }
+            )) {
                 Text("Single").tag(0)
                 Text("Double").tag(1)
                 Text("Triple").tag(2)
@@ -195,189 +222,253 @@ struct SettingsView: View {
             .pickerStyle(SegmentedPickerStyle())
             .padding()
         }
-        
-        
     }
     
     private var grooveFSToSoulplateSpinsCAPSlider: some View {
         CAPSliderView(
             title: "Groove FS to Soulplate Spins",
-            currentValue: viewModel.customSettings.grooveFSToSoulplateSpinsCAP,
+            currentValue: currentSettings.grooveFSToSoulplateSpinsCAP,
             values: viewModel.fsToSoulplateSpins,
             range: 0...Double(viewModel.fsToSoulplateSpins.count)
         ) { newValue in
-            viewModel.customSettings.grooveFSToSoulplateSpinsCAP = newValue
-            viewModel.applyCustomSettings()
+            if viewModel.currentDifficulty.isCustom {
+                viewModel.customSettings.grooveFSToSoulplateSpinsCAP = newValue
+                viewModel.applyCustomSettings()
+            }
         }
     }
 
     private var grooveBSToSoulplateSpinsCAPSlider: some View {
         CAPSliderView(
             title: "Groove BS to Soulplate Spins",
-            currentValue: viewModel.customSettings.grooveBSToSoulplateSpinsCAP,
+            currentValue: currentSettings.grooveBSToSoulplateSpinsCAP,
             values: viewModel.bsToSoulplateSpins,
             range: 0...Double(viewModel.bsToSoulplateSpins.count)
         ) { newValue in
-            viewModel.customSettings.grooveBSToSoulplateSpinsCAP = newValue
-            viewModel.applyCustomSettings()
+            if viewModel.currentDifficulty.isCustom {
+                viewModel.customSettings.grooveBSToSoulplateSpinsCAP = newValue
+                viewModel.applyCustomSettings()
+            }
         }
     }
     
     private var grooveFSToGrooveSpinsCAPSlider: some View {
         CAPSliderView(
             title: "Groove FS to Groove Spins",
-            currentValue: viewModel.customSettings.grooveFSToGrooveSpinsCAP,
+            currentValue: currentSettings.grooveFSToGrooveSpinsCAP,
             values: viewModel.fsToGrooveSpins,
             range: 0...Double(viewModel.fsToGrooveSpins.count)
         ) { newValue in
-            viewModel.customSettings.grooveFSToGrooveSpinsCAP = newValue
-            viewModel.applyCustomSettings()
+            if viewModel.currentDifficulty.isCustom {
+                viewModel.customSettings.grooveFSToGrooveSpinsCAP = newValue
+                viewModel.applyCustomSettings()
+            }
         }
     }
     
     private var grooveBSToGrooveSpinsCAPSlider: some View {
         CAPSliderView(
             title: "Groove BS to Groove Spins",
-            currentValue: viewModel.customSettings.grooveBSToGrooveSpinsCAP,
+            currentValue: currentSettings.grooveBSToGrooveSpinsCAP,
             values: viewModel.bsToGrooveSpins,
             range: 0...Double(viewModel.bsToGrooveSpins.count)
         ) { newValue in
-            viewModel.customSettings.grooveBSToGrooveSpinsCAP = newValue
-            viewModel.applyCustomSettings()
+            if viewModel.currentDifficulty.isCustom {
+                viewModel.customSettings.grooveBSToGrooveSpinsCAP = newValue
+                viewModel.applyCustomSettings()
+            }
         }
     }
     
     private var fakieChanceSlider: some View {
-        sliderView(title: "Fakie Chance", value: $viewModel.customSettings.fakieChance, range: 0...1, step: 0.05)
+        // Use a binding that only writes to customSettings when in custom mode
+        let binding = Binding<Double>(
+            get: { self.currentSettings.fakieChance },
+            set: { newValue in
+                if viewModel.currentDifficulty.isCustom {
+                    viewModel.customSettings.fakieChance = newValue
+                }
+            }
+        )
+        return sliderView(title: "Fakie Chance", value: binding, range: 0...1, step: 0.05)
     }
 
     private var topsideChanceSlider: some View {
-        sliderView(title: "Topside Chance", value: $viewModel.customSettings.topsideChance, range: 0...1, step: 0.05)
+        let binding = Binding<Double>(
+            get: { self.currentSettings.topsideChance },
+            set: { newValue in
+                if viewModel.currentDifficulty.isCustom {
+                    viewModel.customSettings.topsideChance = newValue
+                }
+            }
+        )
+        return sliderView(title: "Topside Chance", value: binding, range: 0...1, step: 0.05)
     }
 
     private var negativeChanceSlider: some View {
-        sliderView(title: "Negative Chance", value: $viewModel.customSettings.negativeChance, range: 0...1, step: 0.05)
+        let binding = Binding<Double>(
+            get: { self.currentSettings.negativeChance },
+            set: { newValue in
+                if viewModel.currentDifficulty.isCustom {
+                    viewModel.customSettings.negativeChance = newValue
+                }
+            }
+        )
+        return sliderView(title: "Negative Chance", value: binding, range: 0...1, step: 0.05)
     }
 
     private var rewindChanceSlider: some View {
-        sliderView(title: "Rewind Spin Out Chance", value: $viewModel.customSettings.rewindOutChance, range: 0...1, step: 0.05)
+        let binding = Binding<Double>(
+            get: { self.currentSettings.rewindOutChance },
+            set: { newValue in
+                if viewModel.currentDifficulty.isCustom {
+                    viewModel.customSettings.rewindOutChance = newValue
+                }
+            }
+        )
+        return sliderView(title: "Rewind Spin Out Chance", value: binding, range: 0...1, step: 0.05)
     }
 
     private var tricksCAPSlider: some View {
         CAPSliderView(
             title: "Bag of Tricks",
-            currentValue: viewModel.customSettings.tricksCAP,
+            currentValue: currentSettings.tricksCAP,
             values: viewModel.allTricks,
             range: 5...Double(viewModel.allTricks.count)
         ) { newValue in
-            viewModel.customSettings.tricksCAP = newValue
-            viewModel.applyCustomSettings()
+            if viewModel.currentDifficulty.isCustom {
+                viewModel.customSettings.tricksCAP = newValue
+                viewModel.applyCustomSettings()
+            }
         }
     }
     
     private var soulplateForwardInSpinsCAPSlider: some View {
         CAPSliderView(
             title: "Soulplate Forward In Spins",
-            currentValue: viewModel.customSettings.soulplateForwardInSpinsCAP,
+            currentValue: currentSettings.soulplateForwardInSpinsCAP,
             values: viewModel.forwardToSoulplateSpins,
             range: 0...Double(viewModel.forwardToSoulplateSpins.count)
         ) { newValue in
-            viewModel.customSettings.soulplateForwardInSpinsCAP = newValue
-            viewModel.applyCustomSettings()
+            if viewModel.currentDifficulty.isCustom {
+                viewModel.customSettings.soulplateForwardInSpinsCAP = newValue
+                viewModel.applyCustomSettings()
+            }
         }
     }
     
     private var soulplateFakieInSpinsCAPSlider: some View {
         CAPSliderView(
             title: "Soulplate Fakie In Spins",
-            currentValue: viewModel.customSettings.soulplateFakieInSpinsCAP,
+            currentValue: currentSettings.soulplateFakieInSpinsCAP,
             values: viewModel.fakieToSoulplateSpins,
             range: 0...Double(viewModel.fakieToSoulplateSpins.count)
         ) { newValue in
-            viewModel.customSettings.soulplateFakieInSpinsCAP = newValue
-            viewModel.applyCustomSettings()
+            if viewModel.currentDifficulty.isCustom {
+                viewModel.customSettings.soulplateFakieInSpinsCAP = newValue
+                viewModel.applyCustomSettings()
+            }
         }
     }
 
     private var soulplateForwardOutSpinsCAPSlider: some View {
         CAPSliderView(
             title: "Soulplate Forward Out Spins",
-            currentValue: viewModel.customSettings.soulplateForwardOutSpinsCAP,
+            currentValue: currentSettings.soulplateForwardOutSpinsCAP,
             values: viewModel.forwardOutSpins,
             range: 0...Double(viewModel.forwardOutSpins.count)
         ) { newValue in
-            viewModel.customSettings.soulplateForwardOutSpinsCAP = newValue
-            viewModel.applyCustomSettings()
+            if viewModel.currentDifficulty.isCustom {
+                viewModel.customSettings.soulplateForwardOutSpinsCAP = newValue
+                viewModel.applyCustomSettings()
+            }
         }
     }
 
     private var soulplateFakieOutSpinsCAPSlider: some View {
         CAPSliderView(
             title: "Soulplate Fakie Out Spins",
-            currentValue: viewModel.customSettings.soulplateFakieOutSpinsCAP,
+            currentValue: currentSettings.soulplateFakieOutSpinsCAP,
             values: viewModel.fakieOutSpins,
             range: 0...Double(viewModel.fakieOutSpins.count)
         ) { newValue in
-            viewModel.customSettings.soulplateFakieOutSpinsCAP = newValue
-            viewModel.applyCustomSettings()
+            if viewModel.currentDifficulty.isCustom {
+                viewModel.customSettings.soulplateFakieOutSpinsCAP = newValue
+                viewModel.applyCustomSettings()
+            }
         }
     }
 
     private var grooveForwardInSpinsCAPSlider: some View {
         CAPSliderView(
             title: "Groove Forward In Spins",
-            currentValue: viewModel.customSettings.grooveForwardInSpinsCAP,
+            currentValue: currentSettings.grooveForwardInSpinsCAP,
             values: viewModel.forwardToGrooveSpins,
             range: 0...Double(viewModel.forwardToGrooveSpins.count)
         ) { newValue in
-            viewModel.customSettings.grooveForwardInSpinsCAP = newValue
-            viewModel.applyCustomSettings()
+            if viewModel.currentDifficulty.isCustom {
+                viewModel.customSettings.grooveForwardInSpinsCAP = newValue
+                viewModel.applyCustomSettings()
+            }
         }
     }
 
     private var grooveFakieInSpinsCAPSlider: some View {
         CAPSliderView(
             title: "Groove Fakie In Spins",
-            currentValue: viewModel.customSettings.grooveFakieInSpinsCAP,
+            currentValue: currentSettings.grooveFakieInSpinsCAP,
             values: viewModel.fakieToGrooveSpins,
             range: 0...Double(viewModel.fakieToGrooveSpins.count)
         ) { newValue in
-            viewModel.customSettings.grooveFakieInSpinsCAP = newValue
-            viewModel.applyCustomSettings()
+            if viewModel.currentDifficulty.isCustom {
+                viewModel.customSettings.grooveFakieInSpinsCAP = newValue
+                viewModel.applyCustomSettings()
+            }
         }
     }
 
     private var fsOutSpinsCAPSlider: some View {
         CAPSliderView(
             title: "FS Out Spins",
-            currentValue: viewModel.customSettings.fsOutSpinsCAP,
+            currentValue: currentSettings.fsOutSpinsCAP,
             values: viewModel.fsOutSpins,
             range: 0...Double(viewModel.fsOutSpins.count)
         ) { newValue in
-            viewModel.customSettings.fsOutSpinsCAP = newValue
-            viewModel.applyCustomSettings()
+            if viewModel.currentDifficulty.isCustom {
+                viewModel.customSettings.fsOutSpinsCAP = newValue
+                viewModel.applyCustomSettings()
+            }
         }
     }
 
     private var bsOutSpinsCAPSlider: some View {
         CAPSliderView(
             title: "BS Out Spins",
-            currentValue: viewModel.customSettings.bsOutSpinsCAP,
+            currentValue: currentSettings.bsOutSpinsCAP,
             values: viewModel.bsOutSpins,
             range: 0...Double(viewModel.bsOutSpins.count)
         ) { newValue in
-            viewModel.customSettings.bsOutSpinsCAP = newValue
-            viewModel.applyCustomSettings()
+            if viewModel.currentDifficulty.isCustom {
+                viewModel.customSettings.bsOutSpinsCAP = newValue
+                viewModel.applyCustomSettings()
+            }
         }
     }
     
     private var switchUpRewindToggle: some View {
         VStack {
             // Toggle for enabling/disabling a feature
-            Toggle("Rewinds on Switch-Ups:", isOn: $viewModel.customSettings.switchUpRewindAllowed)
-                .onReceive(viewModel.$customSettings.map { $0.switchUpRewindAllowed }) { _ in
-                    viewModel.applyCustomSettings()
-                }.frame(height: 20)
+            Toggle("Rewinds on Switch-Ups:", isOn: Binding<Bool>(
+                get: { self.currentSettings.switchUpRewindAllowed },
+                set: { newValue in
+                    if viewModel.currentDifficulty.isCustom {
+                        viewModel.customSettings.switchUpRewindAllowed = newValue
+                        viewModel.applyCustomSettings()
+                    }
+                }
+            ))
+            .frame(height: 20)
+            .opacity(viewModel.currentDifficulty.isCustom ? 1.0 : 0.7)
         }.padding()
     }
 
@@ -397,6 +488,7 @@ struct CustomSlider: View {
     @Binding var value: Double
     let range: ClosedRange<Double>
     let step: Double
+    @Environment(\.isEnabled) private var isEnabled // Get the current enabled stat
     
     @GestureState private var isDragging = false
     @State private var startLocation: CGFloat?
@@ -404,19 +496,20 @@ struct CustomSlider: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
-                // Container rectangle
+                // Container rectangle - make it more transparent when disabled
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color.gray.opacity(0.3), lineWidth: 2)
-                    .background(Color.gray.opacity(0.1))
+                    .stroke(Color.gray.opacity(isEnabled ? 0.3 : 0.15), lineWidth: 2)
+                    .background(Color.gray.opacity(isEnabled ? 0.1 : 0.05))
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .frame(height: 12)
                 
-                // Fill rectangle
+                // Fill rectangle - make it more transparent/grayish when disabled
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.blue)
+                    .fill(isEnabled ? Color.blue : Color.gray)
+                    .opacity(isEnabled ? 1.0 : 0.5)
                     .frame(width: self.getWidth(width: geometry.size.width), height: 12)
             }
-            .gesture(
+            .gesture(isEnabled ?
                 DragGesture(minimumDistance: 8) // Increased minimum distance
                     .updating($isDragging) { value, state, _ in
                         state = true
@@ -449,6 +542,7 @@ struct CustomSlider: View {
                     .onEnded { _ in
                         startLocation = nil
                     }
+                : nil  // No gesture when disabled
             )
         }
         .frame(height: 12)
@@ -466,17 +560,18 @@ struct CAPSliderView: View {
     let values: [String]
     let range: ClosedRange<Double>
     let onValueChanged: (Int) -> Void
+    @Environment(\.isEnabled) private var isEnabled // Get the current enabled state
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text(title)
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(isEnabled ? .secondary : .secondary.opacity(0.7))
                 Spacer()
                 Text("\(currentValue)")
                     .font(.subheadline.bold())
-                    .foregroundColor(.primary)
+                    .foregroundColor(isEnabled ? .primary : .primary.opacity(0.7))
             }
             
             CustomSlider(
@@ -496,7 +591,7 @@ struct CAPSliderView: View {
                                 .font(.caption)
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 4)
-                                .background(Color.secondary.opacity(0.2))
+                                .background(Color.secondary.opacity(isEnabled ? 0.2 : 0.1))
                                 .cornerRadius(4)
                                 .id(value)
                                 .transition(.opacity.combined(with: .scale))
@@ -504,6 +599,7 @@ struct CAPSliderView: View {
                     }
                     .padding(.horizontal, 4)
                     .animation(.easeInOut(duration: 0.3), value: currentValue)
+                    .opacity(isEnabled ? 1.0 : 0.7) // Reduce opacity when disabled
                 }
                 .onChange(of: currentValue) { newValue in
                     if let lastValue = values.prefix(newValue).last {
@@ -520,3 +616,4 @@ struct CAPSliderView: View {
         .padding(.horizontal)
     }
 }
+

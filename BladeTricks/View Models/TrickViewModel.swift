@@ -135,8 +135,16 @@ class TrickViewModel: ObservableObject {
     }
     
     func applyCustomSettings() {
-        currentDifficulty.settings = customSettings
-        saveCustomSettings()
+        // Only apply custom settings when custom difficulty is selected
+        if currentDifficulty.isCustom {
+            // Update the current difficulty settings if we're in custom mode
+            currentDifficulty.settings = customSettings
+            saveCustomSettings()
+            
+            print("Applied custom settings: fakie=\(customSettings.fakieChance)")
+        } else {
+            print("Not applying custom settings because current difficulty is: \(currentDifficulty.difficultyLevel.rawValue)")
+        }
     }
     
     func isDuplicateSwitchUp(trick1: Trick, trick2: Trick) -> Bool {
@@ -164,6 +172,11 @@ class TrickViewModel: ObservableObject {
     }
     
     func generateTrick() {
+        // Debug print to verify which settings are being used
+        print("Generating trick with difficulty: \(currentDifficulty.difficultyLevel.rawValue)")
+        print("  - Fakie chance: \(currentDifficulty.settings.fakieChance)")
+        print("  - Topside chance: \(currentDifficulty.settings.topsideChance)")
+        
         var uniqueTrickFound = false
         var newTrickName = ""
         
@@ -233,6 +246,10 @@ class TrickViewModel: ObservableObject {
     
     private func trickGenerator(previousTrick: Trick? = nil, trickMode: String)-> Trick {
         
+        // Print to confirm which settings we're using
+        print("trickGenerator using difficulty: \(currentDifficulty.difficultyLevel.rawValue)")
+        print("  - With settings: fakie=\(currentDifficulty.settings.fakieChance), topside=\(currentDifficulty.settings.topsideChance)")
+
         // TRICK NAME DISPLAYED VARIABLES
         var fakieStamp: String = ""
         var topsideStamp: String = ""
@@ -908,21 +925,51 @@ class TrickViewModel: ObservableObject {
     
     
     func setDifficulty(_ difficulty: Difficulty) {
-            currentDifficulty = difficulty
-            UserDefaults.standard.set(difficulty.level, forKey: "selectedDifficultyLevel")
-            if difficulty.isCustom {
-                customSettings = loadCustomSettings() ?? difficulty.settings // Reload the latest custom settings
-                applyCustomSettings()
+        print("Setting difficulty to: \(difficulty.difficultyLevel.rawValue)")
+        
+        // Get a fresh copy of the difficulty settings to ensure we're not using modified settings
+        let freshSettings: Difficulty.DifficultySettings
+        
+        if difficulty.isCustom {
+            // For custom difficulty, use the stored custom settings
+            freshSettings = loadCustomSettings() ?? difficulty.settings
+            customSettings = freshSettings // Update the custom settings
+        } else {
+            // For preset difficulties, get the original settings from the levels array
+            if let original = Difficulty.levels.first(where: { $0.difficultyLevel == difficulty.difficultyLevel }) {
+                freshSettings = original.settings
+            } else {
+                freshSettings = difficulty.settings
             }
-            print("""
-                \n
-                - Level name:       \(currentDifficulty.level): \(currentDifficulty.difficultyLevel.rawValue)
-                - Fakie chance:     \(currentDifficulty.settings.fakieChance * 100)%
-                - Topside chance:   \(currentDifficulty.settings.topsideChance * 100)%
-                - Negative chance:  \(currentDifficulty.settings.negativeChance * 100)%
-                - Rewind chance:    \(currentDifficulty.settings.rewindOutChance * 100)%
-                - Trick CAP:        \(currentDifficulty.settings.tricksCAP)
-                """)
         }
+        
+        // Create a new difficulty instance with the correct settings
+        currentDifficulty = Difficulty(
+            id: difficulty.id,
+            level: difficulty.level,
+            difficultyLevel: difficulty.difficultyLevel,
+            settings: freshSettings, // Use the fresh settings
+            isCustom: difficulty.isCustom
+        )
+        
+        // Save the selected difficulty level
+        UserDefaults.standard.set(difficulty.level, forKey: "selectedDifficultyLevel")
+        
+        // Apply custom settings only if we're in custom mode
+        if difficulty.isCustom {
+            applyCustomSettings()
+        }
+        
+        print("""
+            Difficulty set:
+            - Level name:       \(currentDifficulty.level): \(currentDifficulty.difficultyLevel.rawValue)
+            - Is Custom:        \(currentDifficulty.isCustom)
+            - Fakie chance:     \(currentDifficulty.settings.fakieChance * 100)%
+            - Topside chance:   \(currentDifficulty.settings.topsideChance * 100)%
+            - Negative chance:  \(currentDifficulty.settings.negativeChance * 100)%
+            - Rewind chance:    \(currentDifficulty.settings.rewindOutChance * 100)%
+            - Trick CAP:        \(currentDifficulty.settings.tricksCAP)
+            """)
+    }
 }
 
