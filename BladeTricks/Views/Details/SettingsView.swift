@@ -111,8 +111,9 @@ struct SettingsView: View {
                 
                 // MARK: Switch-Up Picker after difficulty cards (in a separate section)
                 VStack {
-                    ClippedSwitchUpPicker(selection: $viewModel.SwitchUpMode, height: 100)
+                    ArrowNavigationPicker(selection: $viewModel.SwitchUpMode)
                 }
+                .padding(.top, 20)
                 .zIndex(-1) // Ensure it's below other interactive elements
 
                 Divider()

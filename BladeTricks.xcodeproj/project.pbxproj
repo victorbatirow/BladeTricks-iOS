@@ -21,7 +21,7 @@
 		5721B8EF2BDE68D7007793E0 /* DifficultyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721B8EE2BDE68D7007793E0 /* DifficultyCard.swift */; };
 		5721B8F22BDE6C19007793E0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721B8F12BDE6C19007793E0 /* Extensions.swift */; };
 		5760B9CC2D7EB86900CAFBD0 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760B9CB2D7EB86900CAFBD0 /* SegmentedControl.swift */; };
-		5760B9D42D7F67EB00CAFBD0 /* SwitchUpPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760B9D32D7F67EB00CAFBD0 /* SwitchUpPicker.swift */; };
+		5760B9D62D7F72CD00CAFBD0 /* ArrowNavigationPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760B9D52D7F72CD00CAFBD0 /* ArrowNavigationPicker.swift */; };
 		57CD49982BED5C350030A5C6 /* TrickModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CD49972BED5C350030A5C6 /* TrickModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,7 +40,7 @@
 		5721B8EE2BDE68D7007793E0 /* DifficultyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifficultyCard.swift; sourceTree = "<group>"; };
 		5721B8F12BDE6C19007793E0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5760B9CB2D7EB86900CAFBD0 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
-		5760B9D32D7F67EB00CAFBD0 /* SwitchUpPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchUpPicker.swift; sourceTree = "<group>"; };
+		5760B9D52D7F72CD00CAFBD0 /* ArrowNavigationPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowNavigationPicker.swift; sourceTree = "<group>"; };
 		57CD49972BED5C350030A5C6 /* TrickModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrickModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,7 +70,7 @@
 			children = (
 				5760B9CB2D7EB86900CAFBD0 /* SegmentedControl.swift */,
 				571135972BE07C6000748F26 /* Blur.swift */,
-				5760B9D32D7F67EB00CAFBD0 /* SwitchUpPicker.swift */,
+				5760B9D52D7F72CD00CAFBD0 /* ArrowNavigationPicker.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -245,9 +245,9 @@
 				571135982BE07C6000748F26 /* Blur.swift in Sources */,
 				5711358E2BE078E700748F26 /* SettingsView.swift in Sources */,
 				5721B8E42BDE5750007793E0 /* TrickViewModel.swift in Sources */,
+				5760B9D62D7F72CD00CAFBD0 /* ArrowNavigationPicker.swift in Sources */,
 				5721B8F22BDE6C19007793E0 /* Extensions.swift in Sources */,
 				571135912BE079D900748F26 /* TabBar.swift in Sources */,
-				5760B9D42D7F67EB00CAFBD0 /* SwitchUpPicker.swift in Sources */,
 				5721B8D22BD89968007793E0 /* ContentView.swift in Sources */,
 				571135932BE079E300748F26 /* NavigationBar.swift in Sources */,
 				5721B8D02BD89968007793E0 /* BladeTricksApp.swift in Sources */,
