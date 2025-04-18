@@ -237,10 +237,10 @@ struct SettingsView: View {
     }
     
     private var grooveFSToSoulplateSpinsCAPSlider: some View {
-        CAPSliderView(
+        SpinOptionCAPSliderView(
             title: "Groove FS to Soulplate Spins",
             currentValue: currentSettings.grooveFSToSoulplateSpinsCAP,
-            values: viewModel.fsToSoulplateSpins,
+            spinOptions: viewModel.fsToSoulplateSpins,
             range: 0...Double(viewModel.fsToSoulplateSpins.count)
         ) { newValue in
             if viewModel.currentDifficulty.isCustom {
@@ -251,10 +251,10 @@ struct SettingsView: View {
     }
 
     private var grooveBSToSoulplateSpinsCAPSlider: some View {
-        CAPSliderView(
+        SpinOptionCAPSliderView(
             title: "Groove BS to Soulplate Spins",
             currentValue: currentSettings.grooveBSToSoulplateSpinsCAP,
-            values: viewModel.bsToSoulplateSpins,
+            spinOptions: viewModel.bsToSoulplateSpins,
             range: 0...Double(viewModel.bsToSoulplateSpins.count)
         ) { newValue in
             if viewModel.currentDifficulty.isCustom {
@@ -265,10 +265,10 @@ struct SettingsView: View {
     }
     
     private var grooveFSToGrooveSpinsCAPSlider: some View {
-        CAPSliderView(
+        SpinOptionCAPSliderView(
             title: "Groove FS to Groove Spins",
             currentValue: currentSettings.grooveFSToGrooveSpinsCAP,
-            values: viewModel.fsToGrooveSpins,
+            spinOptions: viewModel.fsToGrooveSpins,
             range: 0...Double(viewModel.fsToGrooveSpins.count)
         ) { newValue in
             if viewModel.currentDifficulty.isCustom {
@@ -279,10 +279,10 @@ struct SettingsView: View {
     }
     
     private var grooveBSToGrooveSpinsCAPSlider: some View {
-        CAPSliderView(
+        SpinOptionCAPSliderView(
             title: "Groove BS to Groove Spins",
             currentValue: currentSettings.grooveBSToGrooveSpinsCAP,
-            values: viewModel.bsToGrooveSpins,
+            spinOptions: viewModel.bsToGrooveSpins,
             range: 0...Double(viewModel.bsToGrooveSpins.count)
         ) { newValue in
             if viewModel.currentDifficulty.isCustom {
@@ -346,7 +346,7 @@ struct SettingsView: View {
             title: "Bag of Tricks",
             currentValue: currentSettings.tricksCAP,
             values: viewModel.allTricks,
-            range: 5...Double(viewModel.allTricks.count)
+            range: 1...Double(viewModel.allTricks.count)
         ) { newValue in
             if viewModel.currentDifficulty.isCustom {
                 viewModel.customSettings.tricksCAP = newValue
@@ -356,10 +356,10 @@ struct SettingsView: View {
     }
     
     private var soulplateForwardInSpinsCAPSlider: some View {
-        CAPSliderView(
+        SpinOptionCAPSliderView(
             title: "Soulplate Forward In Spins",
             currentValue: currentSettings.soulplateForwardInSpinsCAP,
-            values: viewModel.forwardToSoulplateSpins,
+            spinOptions: viewModel.forwardToSoulplateSpins,
             range: 0...Double(viewModel.forwardToSoulplateSpins.count)
         ) { newValue in
             if viewModel.currentDifficulty.isCustom {
@@ -370,10 +370,10 @@ struct SettingsView: View {
     }
     
     private var soulplateFakieInSpinsCAPSlider: some View {
-        CAPSliderView(
+        SpinOptionCAPSliderView(
             title: "Soulplate Fakie In Spins",
             currentValue: currentSettings.soulplateFakieInSpinsCAP,
-            values: viewModel.fakieToSoulplateSpins,
+            spinOptions: viewModel.fakieToSoulplateSpins,
             range: 0...Double(viewModel.fakieToSoulplateSpins.count)
         ) { newValue in
             if viewModel.currentDifficulty.isCustom {
@@ -384,10 +384,10 @@ struct SettingsView: View {
     }
 
     private var soulplateForwardOutSpinsCAPSlider: some View {
-        CAPSliderView(
+        SpinOptionCAPSliderView(
             title: "Soulplate Forward Out Spins",
             currentValue: currentSettings.soulplateForwardOutSpinsCAP,
-            values: viewModel.forwardOutSpins,
+            spinOptions: viewModel.forwardOutSpins,
             range: 0...Double(viewModel.forwardOutSpins.count)
         ) { newValue in
             if viewModel.currentDifficulty.isCustom {
@@ -398,10 +398,10 @@ struct SettingsView: View {
     }
 
     private var soulplateFakieOutSpinsCAPSlider: some View {
-        CAPSliderView(
+        SpinOptionCAPSliderView(
             title: "Soulplate Fakie Out Spins",
             currentValue: currentSettings.soulplateFakieOutSpinsCAP,
-            values: viewModel.fakieOutSpins,
+            spinOptions: viewModel.fakieOutSpins,
             range: 0...Double(viewModel.fakieOutSpins.count)
         ) { newValue in
             if viewModel.currentDifficulty.isCustom {
@@ -412,10 +412,10 @@ struct SettingsView: View {
     }
 
     private var grooveForwardInSpinsCAPSlider: some View {
-        CAPSliderView(
+        SpinOptionCAPSliderView(
             title: "Groove Forward In Spins",
             currentValue: currentSettings.grooveForwardInSpinsCAP,
-            values: viewModel.forwardToGrooveSpins,
+            spinOptions: viewModel.forwardToGrooveSpins,
             range: 0...Double(viewModel.forwardToGrooveSpins.count)
         ) { newValue in
             if viewModel.currentDifficulty.isCustom {
@@ -426,10 +426,10 @@ struct SettingsView: View {
     }
 
     private var grooveFakieInSpinsCAPSlider: some View {
-        CAPSliderView(
+        SpinOptionCAPSliderView(
             title: "Groove Fakie In Spins",
             currentValue: currentSettings.grooveFakieInSpinsCAP,
-            values: viewModel.fakieToGrooveSpins,
+            spinOptions: viewModel.fakieToGrooveSpins,
             range: 0...Double(viewModel.fakieToGrooveSpins.count)
         ) { newValue in
             if viewModel.currentDifficulty.isCustom {
@@ -440,10 +440,10 @@ struct SettingsView: View {
     }
 
     private var fsOutSpinsCAPSlider: some View {
-        CAPSliderView(
+        SpinOptionCAPSliderView(
             title: "FS Out Spins",
             currentValue: currentSettings.fsOutSpinsCAP,
-            values: viewModel.fsOutSpins,
+            spinOptions: viewModel.fsOutSpins,
             range: 0...Double(viewModel.fsOutSpins.count)
         ) { newValue in
             if viewModel.currentDifficulty.isCustom {
@@ -454,10 +454,10 @@ struct SettingsView: View {
     }
 
     private var bsOutSpinsCAPSlider: some View {
-        CAPSliderView(
+        SpinOptionCAPSliderView(
             title: "BS Out Spins",
             currentValue: currentSettings.bsOutSpinsCAP,
-            values: viewModel.bsOutSpins,
+            spinOptions: viewModel.bsOutSpins,
             range: 0...Double(viewModel.bsOutSpins.count)
         ) { newValue in
             if viewModel.currentDifficulty.isCustom {
@@ -483,8 +483,6 @@ struct SettingsView: View {
             .opacity(viewModel.currentDifficulty.isCustom ? 1.0 : 0.7)
         }.padding()
     }
-
-
 }
 
 struct SettingsView_Previews: PreviewProvider {
@@ -566,6 +564,7 @@ struct CustomSlider: View {
     }
 }
 
+// Keep the existing CAPSliderView for string arrays (for trick names)
 struct CAPSliderView: View {
     let title: String
     let currentValue: Int
@@ -629,3 +628,82 @@ struct CAPSliderView: View {
     }
 }
 
+// Add a new SpinOptionCAPSliderView for SpinOption arrays
+struct SpinOptionCAPSliderView: View {
+    let title: String
+    let currentValue: Int
+    let spinOptions: [TrickViewModel.SpinOption]
+    let range: ClosedRange<Double>
+    let onValueChanged: (Int) -> Void
+    @Environment(\.isEnabled) private var isEnabled
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text(title)
+                    .font(.subheadline)
+                    .foregroundColor(isEnabled ? .secondary : .secondary.opacity(0.7))
+                Spacer()
+                Text("\(currentValue)")
+                    .font(.subheadline.bold())
+                    .foregroundColor(isEnabled ? .primary : .primary.opacity(0.7))
+            }
+            
+            CustomSlider(
+                value: Binding(
+                    get: { Double(currentValue) },
+                    set: { onValueChanged(Int($0)) }
+                ),
+                range: range,
+                step: 1
+            )
+            
+            ScrollViewReader { proxy in
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(spinOptions.prefix(currentValue), id: \.name) { spinOption in
+                            Text(spinOption.name.isEmpty ? "No Spin" : spinOption.name)
+                                .font(.caption)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(
+                                    getBackgroundColor(for: spinOption)
+                                        .opacity(isEnabled ? 0.2 : 0.1)
+                                )
+                                .cornerRadius(4)
+                                .id(spinOption.name)
+                                .transition(.opacity.combined(with: .scale))
+                        }
+                    }
+                    .padding(.horizontal, 4)
+                    .animation(.easeInOut(duration: 0.3), value: currentValue)
+                    .opacity(isEnabled ? 1.0 : 0.7)
+                }
+                .onChange(of: currentValue) { newValue in
+                    if let lastOption = spinOptions.prefix(newValue).last {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                proxy.scrollTo(lastOption.name, anchor: .trailing)
+                            }
+                        }
+                    }
+                }
+            }
+            .frame(height: 30)
+        }
+        .padding(.horizontal)
+    }
+    
+    // Provide visual cues about spin direction
+    private func getBackgroundColor(for spinOption: TrickViewModel.SpinOption) -> Color {
+        let direction = spinOption.direction
+        
+        if direction.hasPrefix("L") {
+            return .blue // Left spins
+        } else if direction.hasPrefix("R") {
+            return .green // Right spins
+        } else {
+            return .secondary // No spin or neutral
+        }
+    }
+}

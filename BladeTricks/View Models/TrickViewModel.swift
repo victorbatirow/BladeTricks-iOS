@@ -56,45 +56,250 @@ class TrickViewModel: ObservableObject {
     // CONSTANTS: Spins -- Order: easy to hard
     // IMPORTANT: Ledge is always on the right side (for Left and Right Spins)
     // Forward to Soulplate
-    let forwardToSoulplateSpins = ["", "Alley-Oop", "Truespin", "360", "Hurricane", "540 Alley-Oop", "540 Truespin"]
-    let forwardToSoulplateSpinsLeft = ["Truespin", "Hurricane", "540 Truespin"]
-    let forwardToSoulplateSpinsRight = ["Alley-Oop", "360", "540 Alley-Oop"]
+    let forwardToSoulplateSpins: [SpinOption] = [
+        SpinOption(name: "", direction: "N0", difficulty: 0),  // No spin
+        SpinOption(name: "Alley-Oop", direction: "R180", difficulty: 1),
+        SpinOption(name: "Truespin", direction: "L180", difficulty: 2),
+        SpinOption(name: "360", direction: "R360", difficulty: 3),
+        SpinOption(name: "Hurricane", direction: "L360", difficulty: 4),
+        SpinOption(name: "540 Alley-Oop", direction: "R540", difficulty: 5),
+        SpinOption(name: "540 Truespin", direction: "L540", difficulty: 6)
+    ]
+
     // Forward to Groove
-    let forwardToGrooveSpins = ["FS", "BS", "270 BS", "270 FS", "450 FS", "450 BS"]
-    let forwardToGrooveSpinsLeft = ["BS", "270 FS", "450 BS"]
-    let forwardToGrooveSpinsRight = ["FS", "270 BS", "450 FS"]
+    let forwardToGrooveSpins: [SpinOption] = [
+        SpinOption(name: "FS", direction: "R90", difficulty: 0),
+        SpinOption(name: "BS", direction: "L90", difficulty: 1),
+        SpinOption(name: "270 BS", direction: "R270", difficulty: 2),
+        SpinOption(name: "270 FS", direction: "L270", difficulty: 3),
+        SpinOption(name: "450 FS", direction: "R450", difficulty: 4),
+        SpinOption(name: "450 BS", direction: "L450", difficulty: 5)
+    ]
+
     // Fakie to Soulplate
-    let fakieToSoulplateSpins = ["In-Spin", "Out-Spin", "Zero Spin", "Cab Alley-Oop", "Cab Truespin", "540 In-Spin", "540 Out-Spin"]
-    let fakieToSoulplateSpinsLeft = ["In-Spin", "Cab Truespin", "540 In-Spin"]
-    let fakieToSoulplateSpinsRight = ["Out-Spin", "Cab Alley-Oop", "540 Out-Spin"]
+    let fakieToSoulplateSpins: [SpinOption] = [
+        SpinOption(name: "In-Spin", direction: "L180", difficulty: 0),
+        SpinOption(name: "Out-Spin", direction: "R180", difficulty: 1),
+        SpinOption(name: "Zero Spin", direction: "N0", difficulty: 2),
+        SpinOption(name: "Cab Alley-Oop", direction: "R360", difficulty: 3),
+        SpinOption(name: "Cab Truespin", direction: "L360", difficulty: 4),
+        SpinOption(name: "540 In-Spin", direction: "L540", difficulty: 5),
+        SpinOption(name: "540 Out-Spin", direction: "R540", difficulty: 6)
+    ]
+
     // Fakie to Groove
-    let fakieToGrooveSpins = ["FS", "BS", "270 BS", "270 FS", "450 FS", "450 BS"]
-    let fakieToGrooveSpinsLeft = ["FS", "270 BS", "450 FS"]
-    let fakieToGrooveSpinsRight = ["BS", "270 FS", "450 BS"]
+    let fakieToGrooveSpins: [SpinOption] = [
+        SpinOption(name: "FS", direction: "L90", difficulty: 0),
+        SpinOption(name: "BS", direction: "R90", difficulty: 1),
+        SpinOption(name: "270 BS", direction: "L270", difficulty: 2),
+        SpinOption(name: "270 FS", direction: "R270", difficulty: 3),
+        SpinOption(name: "450 FS", direction: "L450", difficulty: 4),
+        SpinOption(name: "450 BS", direction: "R450", difficulty: 5)
+    ]
+
     // FS to Soulplate
-    let fsToSoulplateSpins = ["", "Alley-Oop", "270", "270 Truespin", "450 Alley-Oop", "450 (Hurricane)"]
-    let fsToSoulplateSpinsLeft = ["", "270 Truespin", "450 (Hurricane)"]
-    let fsToSoulplateSpinsRight = ["Alley-Oop", "270", "450 Alley-Oop"]
+    let fsToSoulplateSpins: [SpinOption] = [
+        SpinOption(name: "", direction: "L90", difficulty: 0),
+        SpinOption(name: "Alley-Oop", direction: "R90", difficulty: 1),
+        SpinOption(name: "270", direction: "R270", difficulty: 2),
+        SpinOption(name: "270 Truespin", direction: "L270", difficulty: 3),
+        SpinOption(name: "450 Alley-Oop", direction: "R450", difficulty: 4),
+        SpinOption(name: "450 (Hurricane)", direction: "L450", difficulty: 5)
+    ]
+
     // FS to Groove
-    let fsToGrooveSpins = ["FS", "BS", "360 FS"]
+    let fsToGrooveSpins: [SpinOption] = [
+        SpinOption(name: "FS", direction: "N0", difficulty: 0), // No additional rotation
+        SpinOption(name: "BS", direction: "R180", difficulty: 1),
+    //    SpinOption(name: "BS", direction: "L180", difficulty: 1), //add these for rewind logic
+        SpinOption(name: "360 FS", direction: "L360", difficulty: 2)
+    //    SpinOption(name: "360 FS", direction: "R360", difficulty: 2) //add these for rewind logic
+    ]
+
     // BS to Soulplate
-    let bsToSoulplateSpins = ["", "Truespin", "270", "270 Alley-Oop", "450 Truespin", "450"]
-    let bsToSoulplateSpinsLeft = ["Truespin", "270", "450 Truespin"]
-    let bsToSoulplateSpinsRight = ["", "270 Alley-Oop", "450"]
+    let bsToSoulplateSpins: [SpinOption] = [
+        SpinOption(name: "", direction: "R90", difficulty: 0),
+        SpinOption(name: "Truespin", direction: "L90", difficulty: 1),
+        SpinOption(name: "270", direction: "L270", difficulty: 2), // WHY?
+        SpinOption(name: "270 Alley-Oop", direction: "R270", difficulty: 3),
+        SpinOption(name: "450 Truespin", direction: "L450", difficulty: 4),
+        SpinOption(name: "450", direction: "R450", difficulty: 5)
+    ]
+
     // BS to Groove
-    let bsToGrooveSpins = ["BS", "FS", "360 BS"] // FS, 360 BS can be regular or rewind
-    
+    let bsToGrooveSpins: [SpinOption] = [
+        SpinOption(name: "BS", direction: "N0", difficulty: 0), // No additional rotation
+        SpinOption(name: "FS", direction: "L180", difficulty: 1),
+    //    SpinOption(name: "FS", direction: "R180", difficulty: 1), //add these for rewind logic
+        SpinOption(name: "360 BS", direction: "R360", difficulty: 2)
+    //    SpinOption(name: "360 BS", direction: "L360", difficulty: 2) //add these for rewind logic
+    ]
+
     // Out-Spins
-    let forwardOutSpins = ["to Forward", "to Fakie", "360 Out to Forward", "540 to Fakie"] // had "" instead of "to Forward
-    let fakieOutSpins = ["to Fakie", "to Forward", "360 Out to Fakie", "540 to Forward"] // had "" instead of "to Fakie
+    let forwardOutSpins: [SpinOption] = [
+        SpinOption(name: "to Forward", direction: "N0", difficulty: 0),
+        SpinOption(name: "to Fakie", direction: "N180", difficulty: 1), 
+//        SpinOption(name: "to Fakie", direction: "R180", difficulty: 1), // figure this out
+        SpinOption(name: "360 Out to Forward", direction: "R360", difficulty: 2),
+//        SpinOption(name: "360 Out to Forward", direction: "L360", difficulty: 2), // figure this out
+        SpinOption(name: "540 to Fakie", direction: "R540", difficulty: 3)
+//        SpinOption(name: "540 to Fakie", direction: "L540", difficulty: 3) // figure this out
+        // FIGURE THIS OUT FIRST: But which way is the hard way out???
+    ]
+
+    let fakieOutSpins: [SpinOption] = [
+        SpinOption(name: "to Fakie", direction: "N0", difficulty: 0),
+        SpinOption(name: "to Forward", direction: "N180", difficulty: 1),
+//        SpinOption(name: "to Forward", direction: "R180", difficulty: 1), // figure this out
+        SpinOption(name: "360 Out to Fakie", direction: "R360", difficulty: 2),
+//        SpinOption(name: "360 Out to Fakie", direction: "L360", difficulty: 2), // figure this out
+        SpinOption(name: "540 to Forward", direction: "R540", difficulty: 3)
+//        SpinOption(name: "540 to Forward", direction: "L540", difficulty: 3) // figure this out
+        // FIGURE THIS OUT FIRST: But which way is the hard way out???
+    ]
+
     // FS Out Spins
-    let fsOutSpins = ["to Fakie", "to Forward", "270 Out to Fakie", "270 Out to Forward", "450 Out to Fakie", "450 Out to Forward"]
-    let fsOutSpinsLeft = ["to Forward", "270 Out to Fakie", "450 Out to Forward"]
-    let fsOutSpinsRight = ["to Fakie", "270 Out to Forward", "450 Out to Fakie"]
-    //BS Out Spins
-    let bsOutSpins = ["to Forward", "to Fakie", "270 Out to Fakie", "270 Out to Forward", "450 Out to Fakie", "450 Out to Forward"]
-    let bsOutSpinsLeft = ["to Fakie", "270 Out to Forward", "450 Out to Fakie"]
-    let bsOutSpinsRight = ["to Forward", "270 Out to Fakie", "450 Out to Forward"]
+    let fsOutSpins: [SpinOption] = [
+        SpinOption(name: "to Fakie", direction: "R90", difficulty: 0),
+        SpinOption(name: "to Forward", direction: "L90", difficulty: 1),
+        SpinOption(name: "270 Out to Fakie", direction: "L270", difficulty: 2),
+        SpinOption(name: "270 Out to Forward", direction: "R270", difficulty: 3),
+        SpinOption(name: "450 Out to Fakie", direction: "R450", difficulty: 4),
+        SpinOption(name: "450 Out to Forward", direction: "L450", difficulty: 5)
+    ]
+
+    // BS Out Spins
+    let bsOutSpins: [SpinOption] = [
+        SpinOption(name: "to Forward", direction: "R90", difficulty: 0),
+        SpinOption(name: "to Fakie", direction: "L90", difficulty: 1),
+        SpinOption(name: "270 Out to Fakie", direction: "R270", difficulty: 2),
+        SpinOption(name: "270 Out to Forward", direction: "L270", difficulty: 3),
+        SpinOption(name: "450 Out to Fakie", direction: "L450", difficulty: 4),
+        SpinOption(name: "450 Out to Forward", direction: "R450", difficulty: 5)
+    ]
+    
+    struct SpinOption {
+        let name: String
+        let direction: String
+        let difficulty: Int  // Lower number = easier
+    }
+    
+    // Add these properties to your class
+    // For Soul Plate spins
+    var forwardToSoulplateSpinsLeft: [SpinOption] {
+        return forwardToSoulplateSpins.filter { $0.direction.hasPrefix("L") }
+    }
+
+    var forwardToSoulplateSpinsRight: [SpinOption] {
+        return forwardToSoulplateSpins.filter { $0.direction.hasPrefix("R") }
+    }
+
+    // For Groove spins
+    var forwardToGrooveSpinsLeft: [SpinOption] {
+        return forwardToGrooveSpins.filter { $0.direction.hasPrefix("L") }
+    }
+
+    var forwardToGrooveSpinsRight: [SpinOption] {
+        return forwardToGrooveSpins.filter { $0.direction.hasPrefix("R") }
+    }
+
+    // For Fakie to Soul Plate spins
+    var fakieToSoulplateSpinsLeft: [SpinOption] {
+        return fakieToSoulplateSpins.filter { $0.direction.hasPrefix("L") }
+    }
+
+    var fakieToSoulplateSpinsRight: [SpinOption] {
+        return fakieToSoulplateSpins.filter { $0.direction.hasPrefix("R") }
+    }
+
+    // For Fakie to Groove spins
+    var fakieToGrooveSpinsLeft: [SpinOption] {
+        return fakieToGrooveSpins.filter { $0.direction.hasPrefix("L") }
+    }
+
+    var fakieToGrooveSpinsRight: [SpinOption] {
+        return fakieToGrooveSpins.filter { $0.direction.hasPrefix("R") }
+    }
+
+    // For FS to Soul Plate spins
+    var fsToSoulplateSpinsLeft: [SpinOption] {
+        return fsToSoulplateSpins.filter { $0.direction.hasPrefix("L") }
+    }
+
+    var fsToSoulplateSpinsRight: [SpinOption] {
+        return fsToSoulplateSpins.filter { $0.direction.hasPrefix("R") }
+    }
+
+    // For BS to Soul Plate spins
+    var bsToSoulplateSpinsLeft: [SpinOption] {
+        return bsToSoulplateSpins.filter { $0.direction.hasPrefix("L") }
+    }
+
+    var bsToSoulplateSpinsRight: [SpinOption] {
+        return bsToSoulplateSpins.filter { $0.direction.hasPrefix("R") }
+    }
+
+    // For FS Out spins
+    var fsOutSpinsLeft: [SpinOption] {
+        return fsOutSpins.filter { $0.direction.hasPrefix("L") }
+    }
+
+    var fsOutSpinsRight: [SpinOption] {
+        return fsOutSpins.filter { $0.direction.hasPrefix("R") }
+    }
+
+    // For BS Out spins
+    var bsOutSpinsLeft: [SpinOption] {
+        return bsOutSpins.filter { $0.direction.hasPrefix("L") }
+    }
+
+    var bsOutSpinsRight: [SpinOption] {
+        return bsOutSpins.filter { $0.direction.hasPrefix("R") }
+    }
+        
+    
+//    // CONSTANTS: Spins -- Order: easy to hard
+//    // IMPORTANT: Ledge is always on the right side (for Left and Right Spins)
+//    // Forward to Soulplate
+//    let forwardToSoulplateSpins = ["", "Alley-Oop", "Truespin", "360", "Hurricane", "540 Alley-Oop", "540 Truespin"]
+//    let forwardToSoulplateSpinsLeft = ["Truespin", "Hurricane", "540 Truespin"]
+//    let forwardToSoulplateSpinsRight = ["Alley-Oop", "360", "540 Alley-Oop"]
+//    // Forward to Groove
+//    let forwardToGrooveSpins = ["FS", "BS", "270 BS", "270 FS", "450 FS", "450 BS"]
+//    let forwardToGrooveSpinsLeft = ["BS", "270 FS", "450 BS"]
+//    let forwardToGrooveSpinsRight = ["FS", "270 BS", "450 FS"]
+//    // Fakie to Soulplate
+//    let fakieToSoulplateSpins = ["In-Spin", "Out-Spin", "Zero Spin", "Cab Alley-Oop", "Cab Truespin", "540 In-Spin", "540 Out-Spin"]
+//    let fakieToSoulplateSpinsLeft = ["In-Spin", "Cab Truespin", "540 In-Spin"]
+//    let fakieToSoulplateSpinsRight = ["Out-Spin", "Cab Alley-Oop", "540 Out-Spin"]
+//    // Fakie to Groove
+//    let fakieToGrooveSpins = ["FS", "BS", "270 BS", "270 FS", "450 FS", "450 BS"]
+//    let fakieToGrooveSpinsLeft = ["FS", "270 BS", "450 FS"]
+//    let fakieToGrooveSpinsRight = ["BS", "270 FS", "450 BS"]
+//    // FS to Soulplate
+//    let fsToSoulplateSpins = ["", "Alley-Oop", "270", "270 Truespin", "450 Alley-Oop", "450 (Hurricane)"]
+//    let fsToSoulplateSpinsLeft = ["", "270 Truespin", "450 (Hurricane)"]
+//    let fsToSoulplateSpinsRight = ["Alley-Oop", "270", "450 Alley-Oop"]
+//    // FS to Groove
+//    let fsToGrooveSpins = ["FS", "BS", "360 FS"]
+//    // BS to Soulplate
+//    let bsToSoulplateSpins = ["", "Truespin", "270", "270 Alley-Oop", "450 Truespin", "450"]
+//    let bsToSoulplateSpinsLeft = ["Truespin", "270", "450 Truespin"]
+//    let bsToSoulplateSpinsRight = ["", "270 Alley-Oop", "450"]
+//    // BS to Groove
+//    let bsToGrooveSpins = ["BS", "FS", "360 BS"] // FS, 360 BS can be regular or rewind
+//    
+//    // Out-Spins
+//    let forwardOutSpins = ["to Forward", "to Fakie", "360 Out to Forward", "540 to Fakie"] // had "" instead of "to Forward
+//    let fakieOutSpins = ["to Fakie", "to Forward", "360 Out to Fakie", "540 to Forward"] // had "" instead of "to Fakie
+//    // FS Out Spins
+//    let fsOutSpins = ["to Fakie", "to Forward", "270 Out to Fakie", "270 Out to Forward", "450 Out to Fakie", "450 Out to Forward"]
+//    let fsOutSpinsLeft = ["to Forward", "270 Out to Fakie", "450 Out to Forward"]
+//    let fsOutSpinsRight = ["to Fakie", "270 Out to Forward", "450 Out to Fakie"]
+//    //BS Out Spins
+//    let bsOutSpins = ["to Forward", "to Fakie", "270 Out to Fakie", "270 Out to Forward", "450 Out to Fakie", "450 Out to Forward"]
+//    let bsOutSpinsLeft = ["to Fakie", "270 Out to Forward", "450 Out to Fakie"]
+//    let bsOutSpinsRight = ["to Forward", "270 Out to Fakie", "450 Out to Forward"]
     
     // SkaterSpinDirection = ["N", "L90", "R90", "L, "]
     
@@ -311,40 +516,59 @@ class TrickViewModel: ObservableObject {
             // Remove rewind spins for switch ups
             if (trickMode == "mid" || trickMode == "exit") {
                 if !customSettings.switchUpRewindAllowed {
+                    // For the soulplate section around line 366
                     if previousTrick?.spinInDirection == "L" {
-                        fakieToSoulplateSpinsAllowed = fakieToSoulplateSpins.filter { !fakieToSoulplateSpinsRight.contains($0) }
-                        forwardToSoulplateSpinsAllowed = forwardToSoulplateSpins.filter { !forwardToSoulplateSpinsRight.contains($0) }
-                        bsToSoulplateSpinsAllowed = bsToSoulplateSpins.filter { !bsToSoulplateSpinsRight.contains($0) }
-                        fsToSoulplateSpinsAllowed = fsToSoulplateSpins.filter { !fsToSoulplateSpinsRight.contains($0) }
+                        fakieToSoulplateSpinsAllowed = fakieToSoulplateSpins.filter { spin in
+                            !fakieToSoulplateSpinsRight.contains { rightSpin in rightSpin.name == spin.name }
+                        }
+                        forwardToSoulplateSpinsAllowed = forwardToSoulplateSpins.filter { spin in
+                            !forwardToSoulplateSpinsRight.contains { rightSpin in rightSpin.name == spin.name }
+                        }
+                        bsToSoulplateSpinsAllowed = bsToSoulplateSpins.filter { spin in
+                            !bsToSoulplateSpinsRight.contains { rightSpin in rightSpin.name == spin.name }
+                        }
+                        fsToSoulplateSpinsAllowed = fsToSoulplateSpins.filter { spin in
+                            !fsToSoulplateSpinsRight.contains { rightSpin in rightSpin.name == spin.name }
+                        }
                         print("Switch up Rewind Spins Blocked")
                     } else if previousTrick?.spinInDirection == "R" {
-                        fakieToSoulplateSpinsAllowed = fakieToSoulplateSpins.filter { !fakieToSoulplateSpinsLeft.contains($0) }
-                        forwardToSoulplateSpinsAllowed = forwardToSoulplateSpins.filter { !forwardToSoulplateSpinsLeft.contains($0) }
-                        bsToSoulplateSpinsAllowed = bsToSoulplateSpins.filter { !bsToSoulplateSpinsLeft.contains($0) }
-                        fsToSoulplateSpinsAllowed = fsToSoulplateSpins.filter { !fsToSoulplateSpinsLeft.contains($0) }
+                        fakieToSoulplateSpinsAllowed = fakieToSoulplateSpins.filter { spin in
+                            !fakieToSoulplateSpinsLeft.contains { leftSpin in leftSpin.name == spin.name }
+                        }
+                        forwardToSoulplateSpinsAllowed = forwardToSoulplateSpins.filter { spin in
+                            !forwardToSoulplateSpinsLeft.contains { leftSpin in leftSpin.name == spin.name }
+                        }
+                        bsToSoulplateSpinsAllowed = bsToSoulplateSpins.filter { spin in
+                            !bsToSoulplateSpinsLeft.contains { leftSpin in leftSpin.name == spin.name }
+                        }
+                        fsToSoulplateSpinsAllowed = fsToSoulplateSpins.filter { spin in
+                            !fsToSoulplateSpinsLeft.contains { leftSpin in leftSpin.name == spin.name }
+                        }
                         print("Switch up Rewind Spins Blocked")
-                    } else if previousTrick?.spinInDirection == "N" {
-                        fakieToSoulplateSpinsAllowed = fakieToSoulplateSpins
-                        forwardToSoulplateSpinsAllowed = forwardToSoulplateSpins
-                        bsToSoulplateSpinsAllowed = bsToSoulplateSpins
-                        fsToSoulplateSpinsAllowed = fsToSoulplateSpins
-                        print("(Neutral) Switch up Rewind Spins NOT Blocked")
                     }
                 } else {
                     print("Switch up rewind spins allowed")
                 }
             }
             if trickObject.initialStance == .fakie {
-                // Choose a spin from the list according to the difficulty
-                let matchingCount = fakieToSoulplateSpins[0..<settings.soulplateFakieInSpinsCAP].filter { item in
-                    fakieToSoulplateSpinsAllowed.contains(where: { $0.caseInsensitiveCompare(item) == .orderedSame })
-                }.count
-                // check if no spins are allowed
-                if !(matchingCount == 0) {
-                    trickObject.spinIn = fakieToSoulplateSpinsAllowed[Int.random(in: 0..<(matchingCount))]
+                // Filter by difficulty first
+                let spinsWithinDifficulty = fakieToSoulplateSpins.filter { $0.difficulty < settings.soulplateFakieInSpinsCAP }
+                
+                // Then filter by allowed spins (for rewind blocking)
+                let allowedSpins = spinsWithinDifficulty.filter { difficultySpin in
+                    fakieToSoulplateSpinsAllowed.contains { allowedSpin in
+                        allowedSpin.name == difficultySpin.name
+                    }
+                }
+                
+                if !allowedSpins.isEmpty {
+                    // Pick a random spin from allowed ones
+                    let randomSpin = allowedSpins.randomElement()!
+                    trickObject.spinIn = randomSpin.name
                 } else {
-                    // if no spins allowed, choose zero spin (this is only for switch ups)
-                    trickObject.spinIn = fakieToSoulplateSpins[2]
+                    // Fallback to Zero Spin
+                    let zeroSpin = fakieToSoulplateSpins.first { $0.name == "Zero Spin" }
+                    trickObject.spinIn = zeroSpin?.name ?? ""
                 }
                 // Update the skater's current stance
                 if trickObject.spinIn.contains("In-Spin") || trickObject.spinIn.contains("Out-Spin") {
@@ -353,27 +577,34 @@ class TrickViewModel: ObservableObject {
                     trickObject.grindStance = .fakie
                 }
                 // Update skater's spin direction
-                if (fakieToSoulplateSpinsLeft.contains(trickObject.spinIn)) {
+                if (fakieToSoulplateSpinsLeft.contains(where: { $0.name == trickObject.spinIn })) {
                     print("Spinning Direction: Left")
                     trickObject.spinInDirection = "L"
-                } else if (fakieToSoulplateSpinsRight.contains(trickObject.spinIn)) {
+                } else if (fakieToSoulplateSpinsRight.contains(where: { $0.name == trickObject.spinIn })) {
                     print("Spinning Direction: Right")
                     trickObject.spinInDirection = "R"
                 } else {
-//                    print("Spinning Direction: Neutral")
-//                    trickObject.spinInDirection = "N"
                     trickObject.spinInDirection = previousTrick?.spinInDirection ?? "N"
                 }
             } else if trickObject.initialStance == .forward {
-                // Choose a spin from the list according to the difficulty
-                let matchingCount = forwardToSoulplateSpins[0..<settings.soulplateForwardInSpinsCAP].filter { item in
-                    forwardToSoulplateSpinsAllowed.contains(where: { $0.caseInsensitiveCompare(item) == .orderedSame })
-                }.count
-                if !(matchingCount == 0) {
-                    trickObject.spinIn = forwardToSoulplateSpinsAllowed[Int.random(in: 0..<(matchingCount))]
+                // Filter by difficulty first
+                let spinsWithinDifficulty = forwardToSoulplateSpins.filter { $0.difficulty < settings.soulplateForwardInSpinsCAP }
+
+                // Then filter by allowed spins (for rewind blocking)
+                let allowedSpins = spinsWithinDifficulty.filter { difficultySpin in
+                    forwardToSoulplateSpinsAllowed.contains { allowedSpin in
+                        allowedSpin.name == difficultySpin.name
+                    }
+                }
+
+                if !allowedSpins.isEmpty {
+                    // Pick a random spin from allowed ones
+                    let randomSpin = allowedSpins.randomElement()!
+                    trickObject.spinIn = randomSpin.name
                 } else {
-                    // if no spins allowed, choose no spin
-                    trickObject.spinIn = forwardToSoulplateSpins[0]
+                    // Fallback to no spin
+                    let noSpin = forwardToSoulplateSpins.first { $0.name == "" }
+                    trickObject.spinIn = noSpin?.name ?? ""
                 }
                 
                 // Update the skater's current stance
@@ -383,23 +614,35 @@ class TrickViewModel: ObservableObject {
                     trickObject.grindStance = .forward
                 }
                 // Update skater's spin direction
-                if (forwardToSoulplateSpinsLeft.contains(trickObject.spinIn)) {
+                if (forwardToSoulplateSpinsLeft.contains(where: { $0.name == trickObject.spinIn })) {
                     print("Spinning Direction: Left")
                     trickObject.spinInDirection = "L"
-                } else if (forwardToSoulplateSpinsRight.contains(trickObject.spinIn)) {
+                } else if (forwardToSoulplateSpinsRight.contains(where: { $0.name == trickObject.spinIn })) {
                     print("Spinning Direction: Right")
                     trickObject.spinInDirection = "R"
                 } else {
-//                    print("Spinning Direction: Neutral")
-//                    trickObject.spinInDirection = "N"
                     trickObject.spinInDirection = previousTrick?.spinInDirection ?? "N"
                 }
             } else if trickObject.initialStance == .bs {
-                // Choose a spin from the list according to the difficulty
-                let matchingCount = bsToSoulplateSpins[0..<settings.grooveBSToSoulplateSpinsCAP].filter { item in
-                    bsToSoulplateSpinsAllowed.contains(where: { $0.caseInsensitiveCompare(item) == .orderedSame })
-                }.count
-                trickObject.spinIn = bsToSoulplateSpinsAllowed[Int.random(in: 0..<(matchingCount))]
+                // Filter by difficulty first
+                let spinsWithinDifficulty = bsToSoulplateSpins.filter { $0.difficulty < settings.grooveBSToSoulplateSpinsCAP }
+
+                // Then filter by allowed spins (for rewind blocking)
+                let allowedSpins = spinsWithinDifficulty.filter { difficultySpin in
+                    bsToSoulplateSpinsAllowed.contains { allowedSpin in
+                        allowedSpin.name == difficultySpin.name
+                    }
+                }
+
+                if !allowedSpins.isEmpty {
+                    // Pick a random spin from allowed ones
+                    let randomSpin = allowedSpins.randomElement()!
+                    trickObject.spinIn = randomSpin.name
+                } else {
+                    // Fallback to no spin
+                    let noSpin = bsToSoulplateSpins.first { $0.name == "" }
+                    trickObject.spinIn = noSpin?.name ?? ""
+                }
                 
                 // Update the skater's current stance
                 if trickObject.spinIn == "Truespin" || trickObject.spinIn == "270 Alley-Oop" || trickObject.spinIn == "450 Truespin" {
@@ -408,29 +651,34 @@ class TrickViewModel: ObservableObject {
                     trickObject.grindStance = .forward
                 }
                 // Update skater's spin direction
-                if (bsToSoulplateSpinsLeft.contains(trickObject.spinIn)) {
+                if (bsToSoulplateSpinsLeft.contains(where: { $0.name == trickObject.spinIn })) {
                     print("Spinning Direction: Left")
                     trickObject.spinInDirection = "L"
-                } else if (bsToSoulplateSpinsRight.contains(trickObject.spinIn)) {
+                } else if (bsToSoulplateSpinsRight.contains(where: { $0.name == trickObject.spinIn })) {
                     print("Spinning Direction: Right")
                     trickObject.spinInDirection = "R"
                 } else {
-//                    print("Spinning Direction: Neutral")
-//                    trickObject.spinInDirection = "N"
                     trickObject.spinInDirection = previousTrick?.spinInDirection ?? "N"
                 }
             } else if trickObject.initialStance == .fs {
-                // Choose a spin from the list according to the difficulty
-                let matchingCount = fsToSoulplateSpins[0..<settings.grooveFSToSoulplateSpinsCAP].filter { item in
-                    fsToSoulplateSpinsAllowed.contains(where: { $0.caseInsensitiveCompare(item) == .orderedSame })
-                }.count
-                
-                if matchingCount > 0 {
-                    trickObject.spinIn = fsToSoulplateSpinsAllowed[Int.random(in: 0..<matchingCount)]
+                // Filter by difficulty first
+                let spinsWithinDifficulty = fsToSoulplateSpins.filter { $0.difficulty < settings.grooveFSToSoulplateSpinsCAP }
+
+                // Then filter by allowed spins (for rewind blocking)
+                let allowedSpins = spinsWithinDifficulty.filter { difficultySpin in
+                    fsToSoulplateSpinsAllowed.contains { allowedSpin in
+                        allowedSpin.name == difficultySpin.name
+                    }
+                }
+
+                if !allowedSpins.isEmpty {
+                    // Pick a random spin from allowed ones
+                    let randomSpin = allowedSpins.randomElement()!
+                    trickObject.spinIn = randomSpin.name
                 } else {
-                    // Fallback if no spins are allowed
-                    print("No allowed spins available, using default spin.")
-                    trickObject.spinIn = fsToSoulplateSpins.first ?? ""  // Ensure there's always a default to avoid nil.
+                    // Fallback to no spin
+                    let noSpin = fsToSoulplateSpins.first { $0.name == "" }
+                    trickObject.spinIn = noSpin?.name ?? ""
                 }
                 
                 // Update the skater's current stance
@@ -440,15 +688,13 @@ class TrickViewModel: ObservableObject {
                     trickObject.grindStance = .forward
                 }
                 // Update skater's spin direction
-                if (fsToSoulplateSpinsLeft.contains(trickObject.spinIn)) {
+                if (fsToSoulplateSpinsLeft.contains(where: { $0.name == trickObject.spinIn })) {
                     print("Spinning Direction: Left")
                     trickObject.spinInDirection = "L"
-                } else if (fsToSoulplateSpinsRight.contains(trickObject.spinIn)) {
+                } else if (fsToSoulplateSpinsRight.contains(where: { $0.name == trickObject.spinIn })) {
                     print("Spinning Direction: Right")
                     trickObject.spinInDirection = "R"
                 } else {
-//                    print("Spinning Direction: Neutral")
-//                    trickObject.spinInDirection = "N"
                     trickObject.spinInDirection = previousTrick?.spinInDirection ?? "N"
                 }
             }
@@ -486,7 +732,14 @@ class TrickViewModel: ObservableObject {
             var noSpinOut = false
             if trickMode == "single" || trickMode == "exit" {
                 if trickObject.grindStance == .fakie {
-                    trickObject.spinOut = fakieOutSpins[Int.random(in: 0..<settings.soulplateFakieOutSpinsCAP)]
+                    let spinsWithinDifficulty = fakieOutSpins.filter { $0.difficulty < settings.soulplateFakieOutSpinsCAP }
+                    if !spinsWithinDifficulty.isEmpty {
+                        let randomSpin = spinsWithinDifficulty.randomElement()!
+                        trickObject.spinOut = randomSpin.name
+                    } else {
+                        trickObject.spinOut = fakieOutSpins[0].name
+                    }
+                    
                     // Update the skater's current stance
                     if trickObject.spinOut.contains("to Forward") {
                         trickObject.outStance = .forward
@@ -497,15 +750,22 @@ class TrickViewModel: ObservableObject {
                     if trickObject.spinOut == "to Fakie" {
                         noSpinOut = true
                     }
-                } else if trickObject.grindStance == .forward{
-                    trickObject.spinOut = forwardOutSpins[Int.random(in: 0..<settings.soulplateForwardOutSpinsCAP)]
+                } else if trickObject.grindStance == .forward {
+                    let spinsWithinDifficulty = forwardOutSpins.filter { $0.difficulty < settings.soulplateForwardOutSpinsCAP }
+                    if !spinsWithinDifficulty.isEmpty {
+                        let randomSpin = spinsWithinDifficulty.randomElement()!
+                        trickObject.spinOut = randomSpin.name
+                    } else {
+                        trickObject.spinOut = forwardOutSpins[0].name
+                    }
+                    
                     // Update the skater's current stance
                     if trickObject.spinOut.contains("to Fakie") {
                         trickObject.outStance = .fakie
                     } else {
                         trickObject.outStance = .forward
                     }
-                    // fakie grind + to fakie = no spin
+                    // forward grind + to forward = no spin
                     if trickObject.spinOut == "to Forward" {
                         noSpinOut = true
                     }
@@ -535,54 +795,57 @@ class TrickViewModel: ObservableObject {
             
             // 1.7 Find the edge cases: Special named tricks
             // Edge Case: Top Makio = Fishbrain
-            if (trickNameStamp == "Makio" && trickObject.isTopside == true) {
+            if (trickObject.trickName == "Makio" && trickObject.isTopside == true) {
                 trickNameStamp = "Fishbrain"
                 topsideStamp = ""
             }
             // Edge Case: Top Christ Makio = Christ Fishbrain
-            if (trickNameStamp == "Christ Makio" && trickObject.isTopside == true) {
+            if (trickObject.trickName == "Christ Makio" && trickObject.isTopside == true) {
                 trickNameStamp = "Christ Fishbrain"
                 topsideStamp = ""
             }
             // Edge Case: Top Mizou = Sweatstance
-            if (trickNameStamp == "Mizou" && trickObject.isTopside == true) {
+            // Edge Case: In-Spin Top Mizou = In-Spin Sweatstance
+            // Edge Case: Out-Spin Top Mizou = Out-Spin Sweatstance
+            // Edge Case: 360 Top Mizou = 360 Sweatstance
+            // Edge Case: Hurricane Top Mizou = Hurricane Sweatstance
+            // Edge Case: In-Spin 540 Top Mizou = In-Spin 540 Sweatstance
+            // Edge Case: Out-Spin 540 Top Mizou = Out-Spin 540 Sweatstance
+            if (trickObject.trickName == "Mizou" && trickObject.isTopside == true && trickObject.grindStance == .forward) {
                 trickNameStamp = "Sweatstance"
                 topsideStamp = ""
             }
-            // Edge Case: Alley-Oop Sweatstance = Kind
-            if (trickNameStamp == "Sweatstance" && trickObject.spinIn == "Alley-Oop") {
+            
+            // Edge Case: Top Mizou Fakie = Kind
+            if (trickObject.trickName == "Mizou" && trickObject.isTopside == true && trickObject.grindStance == .fakie) {
                 trickNameStamp = "Kind Grind"
-                spinInStamp = ""
+                topsideStamp = ""
             }
-            // Edge Case: Cab Alley-Oop Sweatstance = Cab Kind
-            if (trickNameStamp == "Sweatstance" && trickObject.spinIn == "Cab Alley-Oop") {
-                trickNameStamp = "Kind Grind"
-                spinInStamp = "Cab"
+            if trickObject.trickName == "Mizou" && trickObject.isTopside == true && trickObject.spinIn.contains("Alley-Oop") {
+                // Extract the spin part by removing "Alley-Oop" and any preceding space
+                spinInStamp = trickObject.spinIn.replacingOccurrences(of: "\\s*Alley-Oop", with: "", options: .regularExpression)
             }
-            // Edge Case: Truespin Sweatstance = Truespin Kind
-            if (trickNameStamp == "Sweatstance" && (trickObject.spinIn == "Truespin" || trickObject.spinIn == "Cab Truespin" || trickObject.spinIn == "Zero Spin")) {
-                trickNameStamp = "Kind Grind"
+            // Edge Case: Zero Spin Top Mistrial = Zero Spin Misfit
+            // Edge Case: Alley-Oop Top Mistrial = Misfit
+            // Edge Case: Truespin Top Mistrial = Truespin Misfit
+            // Edge Case: Cab Alley-Oop Top Mistrial = Cab Misfit
+            // Edge Case: Cab Truespin Top Mistrial = Cab Truespin Misfit
+            // Edge Case: 540 Alley-Oop Top Mistrial = 540 Misfit
+            // Edge Case: 540 Truespin Top Mistrial = 540 Truespin Misfit
+            if (trickObject.trickName == "Mistrial" && trickObject.isTopside == true && trickObject.grindStance == .fakie) {
+                trickNameStamp = "Misfit"
+                topsideStamp = ""
             }
             // Edge Case: Alley-Oop Top Mistrial = Misfit
-            if (trickNameStamp == "Mistrial" && trickObject.isTopside == true && trickObject.spinIn == "Alley-Oop") {
-                trickNameStamp = "Misfit"
-                spinInStamp = ""
-                topsideStamp = ""
+            // Edge Case: Cab Alley-Oop top Mistrial = Cab Misfit
+            // Edge Case: 540 Alley-Oop top Mistrial = 540 Misfit
+            if trickObject.trickName == "Mistrial" && trickObject.isTopside == true && trickObject.spinIn.contains("Alley-Oop") {
+                // Extract the spin part by removing "Alley-Oop" and any preceding space
+                spinInStamp = trickObject.spinIn.replacingOccurrences(of: "\\s*Alley-Oop", with: "", options: .regularExpression)
             }
-            // Edge Case: Cab Alley-Oop top Mistrial = Misfit
-            if (trickNameStamp == "Mistrial" && trickObject.isTopside == true && trickObject.spinIn == "Cab Alley-Oop") {
-                trickNameStamp = "Misfit"
-                spinInStamp = "Cab"
-                topsideStamp = ""
-            }
-            // Edge Case: Truespin Top Mistrial = Truespin Misfit
-            // MAYBE USE CURRENT STANCE FAKIE INSTEAD OF SPIN IN???
-            if (trickNameStamp == "Mistrial" && trickObject.isTopside == true && (trickObject.spinIn == "Truespin" || trickObject.spinIn == "Cab Truespin")) {
-                trickNameStamp = "Misfit"
-                topsideStamp = ""
-            }
+            
             // Edge Case: fakie stance + torque soul = soulyale
-            if (trickNameStamp == "Torque Soul" && trickObject.grindStance == .fakie) {
+            if (trickObject.trickName == "Torque Soul" && trickObject.grindStance == .fakie) {
                 trickNameStamp = "Soyale"
             }
             
@@ -607,22 +870,23 @@ class TrickViewModel: ObservableObject {
             if (trickMode == "mid" || trickMode == "exit") {
                 if !customSettings.switchUpRewindAllowed {
                     if previousTrick?.spinInDirection == "L" {
-                        fakieToGrooveSpinsAllowed = fakieToGrooveSpins.filter { !fakieToGrooveSpinsRight.contains($0) }
-                        forwardToGrooveSpinsAllowed = forwardToGrooveSpins.filter { !forwardToGrooveSpinsRight.contains($0) }
+                        fakieToGrooveSpinsAllowed = fakieToGrooveSpins.filter { spin in
+                            !fakieToGrooveSpinsRight.contains { rightSpin in rightSpin.name == spin.name }
+                        }
+                        forwardToGrooveSpinsAllowed = forwardToGrooveSpins.filter { spin in
+                            !forwardToGrooveSpinsRight.contains { rightSpin in rightSpin.name == spin.name }
+                        }
                         print("Switch up Rewind Spins Blocked")
                         isSwitchUpRewindBlocked = true
                     } else if previousTrick?.spinInDirection == "R" {
-                        fakieToGrooveSpinsAllowed = fakieToGrooveSpins.filter { !fakieToGrooveSpinsLeft.contains($0) }
-                        forwardToGrooveSpinsAllowed = forwardToGrooveSpins.filter { !forwardToGrooveSpinsLeft.contains($0) }
+                        fakieToGrooveSpinsAllowed = fakieToGrooveSpins.filter { spin in
+                            !fakieToGrooveSpinsLeft.contains { leftSpin in leftSpin.name == spin.name }
+                        }
+                        forwardToGrooveSpinsAllowed = forwardToGrooveSpins.filter { spin in
+                            !forwardToGrooveSpinsLeft.contains { leftSpin in leftSpin.name == spin.name }
+                        }
                         print("Switch up Rewind Spins Blocked")
                         isSwitchUpRewindBlocked = true
-                    } else if previousTrick?.spinInDirection == "N" {
-                        fakieToGrooveSpinsAllowed = fakieToGrooveSpins
-                        forwardToGrooveSpinsAllowed = forwardToGrooveSpins
-                        bsToGrooveSpinsAllowed = bsToGrooveSpins
-                        fsToGrooveSpinsAllowed = fsToGrooveSpins
-                        print("(Neutral) Switch up Rewind Spins NOT Blocked")
-                        isSwitchUpRewindBlocked = false
                     }
                 } else {
                     print("Switch up rewind spins allowed")
@@ -632,17 +896,29 @@ class TrickViewModel: ObservableObject {
             // 2.2 Choose Spin in according to stance
             if (trickObject.initialStance == .fakie) {
                 
-                // Choose a spin from the list according to the difficulty
-                let matchingCount = fakieToGrooveSpins[0..<settings.grooveFakieInSpinsCAP].filter { item in
-                    fakieToGrooveSpinsAllowed.contains(where: { $0.caseInsensitiveCompare(item) == .orderedSame })
-                }.count
-                if !(matchingCount == 0) {
-                    trickObject.spinIn = fakieToGrooveSpinsAllowed[Int.random(in: 0..<(matchingCount))]
+                // Filter by difficulty first
+                let spinsWithinDifficulty = fakieToGrooveSpins.filter { $0.difficulty < settings.grooveFakieInSpinsCAP }
+
+                // Then filter by allowed spins (for rewind blocking)
+                let allowedSpins = spinsWithinDifficulty.filter { difficultySpin in
+                    fakieToGrooveSpinsAllowed.contains { allowedSpin in
+                        allowedSpin.name == difficultySpin.name
+                    }
+                }
+
+                if !allowedSpins.isEmpty {
+                    // Pick a random spin from allowed ones
+                    let randomSpin = allowedSpins.randomElement()!
+                    trickObject.spinIn = randomSpin.name
                 } else {
+                    // Fallback
                     if previousTrick?.spinInDirection == "R" {
-                        trickObject.spinIn = fakieToGrooveSpinsRight[0]
+                        trickObject.spinIn = fakieToGrooveSpinsRight[0].name
                     } else if previousTrick?.spinInDirection == "L" {
-                        trickObject.spinIn = fakieToGrooveSpinsLeft[0]
+                        trickObject.spinIn = fakieToGrooveSpinsLeft[0].name
+                    } else {
+                        // Default case
+                        trickObject.spinIn = fakieToGrooveSpins[0].name
                     }
                 }
                 
@@ -653,29 +929,39 @@ class TrickViewModel: ObservableObject {
                     trickObject.grindStance = .bs
                 }
                 // Update skater's spin direction
-                if (fakieToGrooveSpinsLeft.contains(trickObject.spinIn)) {
+                if (fakieToGrooveSpinsLeft.contains(where: { $0.name == trickObject.spinIn })) {
                     print("Spinning Direction: Left")
                     trickObject.spinInDirection = "L"
-                } else if (fakieToGrooveSpinsRight.contains(trickObject.spinIn)) {
+                } else if (fakieToGrooveSpinsRight.contains(where: { $0.name == trickObject.spinIn })) {
                     print("Spinning Direction: Right")
                     trickObject.spinInDirection = "R"
                 } else {
-                    print("Spinning Direction: Neutral *** CHECK THIS, IT SHOULD NEVER BE NEUTRAL AFTER A GROOVE TRICK (always must spin 90 degrees)")
-//                    trickObject.spinInDirection = "N"
-//                    trickObject.spinInDirection = previousTrick?.spinInDirection ?? "N"
+                    print("Spinning Direction: Neutral *** CHECK THIS...")
                 }
             } else if (trickObject.initialStance == .forward) {
-                // Choose a spin from the list according to the difficulty
-                let matchingCount = forwardToGrooveSpins[0..<settings.grooveForwardInSpinsCAP].filter { item in
-                    forwardToGrooveSpinsAllowed.contains(where: { $0.caseInsensitiveCompare(item) == .orderedSame })
-                }.count
-                if !(matchingCount == 0) {
-                    trickObject.spinIn = forwardToGrooveSpinsAllowed[Int.random(in: 0..<(matchingCount))]
+                // Filter by difficulty first
+                let spinsWithinDifficulty = forwardToGrooveSpins.filter { $0.difficulty < settings.grooveForwardInSpinsCAP }
+
+                // Then filter by allowed spins (for rewind blocking)
+                let allowedSpins = spinsWithinDifficulty.filter { difficultySpin in
+                    forwardToGrooveSpinsAllowed.contains { allowedSpin in
+                        allowedSpin.name == difficultySpin.name
+                    }
+                }
+
+                if !allowedSpins.isEmpty {
+                    // Pick a random spin from allowed ones
+                    let randomSpin = allowedSpins.randomElement()!
+                    trickObject.spinIn = randomSpin.name
                 } else {
+                    // Fallback
                     if previousTrick?.spinInDirection == "R" {
-                        trickObject.spinIn = forwardToGrooveSpinsRight[0]
+                        trickObject.spinIn = forwardToGrooveSpinsRight[0].name
                     } else if previousTrick?.spinInDirection == "L" {
-                        trickObject.spinIn = forwardToGrooveSpinsLeft[0]
+                        trickObject.spinIn = forwardToGrooveSpinsLeft[0].name
+                    } else {
+                        // Default case
+                        trickObject.spinIn = forwardToGrooveSpins[0].name
                     }
                 }
                 // Update the skater's current stance
@@ -685,10 +971,10 @@ class TrickViewModel: ObservableObject {
                     trickObject.grindStance = .bs
                 }
                 // Update skater's spin direction
-                if (forwardToGrooveSpinsLeft.contains(trickObject.spinIn)) {
+                if (forwardToGrooveSpinsLeft.contains(where: { $0.name == trickObject.spinIn })) {
                     print("Spinning Direction: Left")
                     trickObject.spinInDirection = "L"
-                } else if (forwardToGrooveSpinsRight.contains(trickObject.spinIn)) {
+                } else if (forwardToGrooveSpinsRight.contains(where: { $0.name == trickObject.spinIn })) {
                     print("Spinning Direction: Right")
                     trickObject.spinInDirection = "R"
                 } else {
@@ -700,24 +986,26 @@ class TrickViewModel: ObservableObject {
 //                } else if (trickMode == "mid" || trickMode == "exit") {
 //                }
                 // REMINDER: in case of "FS Fahrv to FS Svannah -> SpinInDirection = previousTrick.spinInDirection
-                trickObject.spinIn = bsToGrooveSpins[Int.random(in: 0..<settings.grooveBSToGrooveSpinsCAP)]
-                // Update the skater's current stance
-                if trickObject.spinIn.contains("FS") {
-                    trickObject.grindStance = .fs
-                } else if trickObject.spinIn.contains("BS") {
-                    trickObject.grindStance = .bs
+                // Filter by difficulty
+                let spinsWithinDifficulty = bsToGrooveSpins.filter { $0.difficulty < settings.grooveBSToGrooveSpinsCAP }
+                if !spinsWithinDifficulty.isEmpty {
+                    let randomSpin = spinsWithinDifficulty.randomElement()!
+                    trickObject.spinIn = randomSpin.name
+                } else {
+                    trickObject.spinIn = bsToGrooveSpins[0].name
                 }
             } else if trickObject.initialStance == .fs {
 //                (trickMode == "single" || trickMode == "entry") {
 //                } else if (trickMode == "mid" || trickMode == "exit") {
 //                }
                 // REMINDER: in case of "FS Fahrv to FS Svannah -> SpinInDirection = previousTrick.spinInDirection
-                trickObject.spinIn = fsToGrooveSpins[Int.random(in: 0..<settings.grooveFSToGrooveSpinsCAP)]
-                // Update the skater's current stance
-                if trickObject.spinIn.contains("BS") {
-                    trickObject.grindStance = .bs
-                } else if trickObject.spinIn.contains("FS") {
-                    trickObject.grindStance = .fs
+                // Filter by difficulty
+                let spinsWithinDifficulty = fsToGrooveSpins.filter { $0.difficulty < settings.grooveFSToGrooveSpinsCAP }
+                if !spinsWithinDifficulty.isEmpty {
+                    let randomSpin = spinsWithinDifficulty.randomElement()!
+                    trickObject.spinIn = randomSpin.name
+                } else {
+                    trickObject.spinIn = fsToGrooveSpins[0].name
                 }
             }
             
@@ -736,32 +1024,40 @@ class TrickViewModel: ObservableObject {
                 if rewindChosen {
                     // Remove same direction out spins
                     if trickObject.spinInDirection == "L" {
-                        fsOutSpinsAllowed = fsOutSpins.filter { !fsOutSpinsLeft.contains($0) }
-                        bsOutSpinsAllowed = bsOutSpins.filter { !bsOutSpinsLeft.contains($0) }
+                        fsOutSpinsAllowed = fsOutSpins.filter { spin in
+                            !fsOutSpinsLeft.contains { leftSpin in leftSpin.name == spin.name }
+                        }
+                        bsOutSpinsAllowed = bsOutSpins.filter { spin in
+                            !bsOutSpinsLeft.contains { leftSpin in leftSpin.name == spin.name }
+                        }
                         print("YES rewind chosen! removing all rewind spins 1")
-//                        trickObject.spinOutDirection = "R"
                     } else if trickObject.spinInDirection == "R" {
-                        fsOutSpinsAllowed = fsOutSpins.filter { !fsOutSpinsRight.contains($0) }
-                        bsOutSpinsAllowed = bsOutSpins.filter { !bsOutSpinsRight.contains($0) }
+                        fsOutSpinsAllowed = fsOutSpins.filter { spin in
+                            !fsOutSpinsRight.contains { rightSpin in rightSpin.name == spin.name }
+                        }
+                        bsOutSpinsAllowed = bsOutSpins.filter { spin in
+                            !bsOutSpinsRight.contains { rightSpin in rightSpin.name == spin.name }
+                        }
                         print("YES rewind chosen! removing all rewind spins 2")
-//                        trickObject.spinOutDirection = "L"
-                    } else {
-                        print("YES rewind chosen! (somehow reached else statement)")
                     }
                 } else {
                     // Remove rewind out spins
                     if trickObject.spinInDirection == "L" {
-                        fsOutSpinsAllowed = fsOutSpins.filter { !fsOutSpinsRight.contains($0) }
-                        bsOutSpinsAllowed = bsOutSpins.filter { !bsOutSpinsRight.contains($0) }
+                        fsOutSpinsAllowed = fsOutSpins.filter { spin in
+                            !fsOutSpinsRight.contains { rightSpin in rightSpin.name == spin.name }
+                        }
+                        bsOutSpinsAllowed = bsOutSpins.filter { spin in
+                            !bsOutSpinsRight.contains { rightSpin in rightSpin.name == spin.name }
+                        }
                         print("NOT rewind chosen! removing all rewind spins 1")
-//                        trickObject.spinOutDirection = "L"
                     } else if trickObject.spinInDirection == "R" {
-                        fsOutSpinsAllowed = fsOutSpins.filter { !fsOutSpinsLeft.contains($0) }
-                        bsOutSpinsAllowed = bsOutSpins.filter { !bsOutSpinsLeft.contains($0) }
+                        fsOutSpinsAllowed = fsOutSpins.filter { spin in
+                            !fsOutSpinsLeft.contains { leftSpin in leftSpin.name == spin.name }
+                        }
+                        bsOutSpinsAllowed = bsOutSpins.filter { spin in
+                            !bsOutSpinsLeft.contains { leftSpin in leftSpin.name == spin.name }
+                        }
                         print("NOT rewind chosen! removing all rewind spins 2")
-//                        trickObject.spinOutDirection = "R"
-                    } else {
-                        print("NOT rewind chosen! (somehow reached else statement)")
                     }
                 }
             }
@@ -769,50 +1065,64 @@ class TrickViewModel: ObservableObject {
             // 2.3 Choose Spin Out
             if trickMode == "single" || trickMode == "exit" {
                 if trickObject.grindStance == .fs {
-                    let matchingCount = fsOutSpins[0..<settings.fsOutSpinsCAP].filter { item in
-                        fsOutSpinsAllowed.contains(where: { $0.caseInsensitiveCompare(item) == .orderedSame })
-                    }.count
+                    // Filter by difficulty first
+                    let spinsWithinDifficulty = fsOutSpins.filter { $0.difficulty < settings.fsOutSpinsCAP }
                     
-                    if matchingCount > 0 {
-                            trickObject.spinOut = fsOutSpinsAllowed[Int.random(in: 0..<(matchingCount))]
-                        } else {
-                            // Fallback option when no spins are allowed
-                            trickObject.spinOut = fsOutSpinsAllowed.first ?? ""  // Use the first option or empty string
-                            print("Warning: No valid BS out spins available after filtering. Using fallback.")
+                    // Then filter by allowed spins
+                    let allowedSpins = spinsWithinDifficulty.filter { difficultySpin in
+                        fsOutSpinsAllowed.contains { allowedSpin in
+                            allowedSpin.name == difficultySpin.name
                         }
-                    print("")
+                    }
+                    
+                    if !allowedSpins.isEmpty {
+                        // Pick a random spin
+                        let randomSpin = allowedSpins.randomElement()!
+                        trickObject.spinOut = randomSpin.name
+                    } else {
+                        // Fallback option when no spins are allowed
+                        trickObject.spinOut = fsOutSpinsAllowed.first?.name ?? ""
+                        print("Warning: No valid FS out spins available after filtering. Using fallback.")
+                    }
                     
                     spinOutStamp = trickObject.spinOut
                     if trickObject.spinInDirection == "L" {
-                        if fsOutSpinsRight.contains(trickObject.spinOut) {
+                        if fsOutSpinsRight.contains(where: { $0.name == trickObject.spinOut }) {
                             trickObject.isSpinOutRewind = true
                         }
                     } else if trickObject.spinInDirection == "R" {
-                        if fsOutSpinsLeft.contains(trickObject.spinOut) {
+                        if fsOutSpinsLeft.contains(where: { $0.name == trickObject.spinOut }) {
                             trickObject.isSpinOutRewind = true
                         }
                     }
                 } else if trickObject.grindStance == .bs {
-                    let matchingCount = bsOutSpins[0..<settings.bsOutSpinsCAP].filter { item in
-                        bsOutSpinsAllowed.contains(where: { $0.caseInsensitiveCompare(item) == .orderedSame })
-                    }.count
+                    // Filter by difficulty first
+                    let spinsWithinDifficulty = bsOutSpins.filter { $0.difficulty < settings.bsOutSpinsCAP }
                     
-                    if matchingCount > 0 {
-                            trickObject.spinOut = bsOutSpinsAllowed[Int.random(in: 0..<matchingCount)]
-                        } else {
-                            // Fallback option when no spins are allowed
-                            trickObject.spinOut = bsOutSpinsAllowed.first ?? ""  // Use the first option or empty string
-                            print("Warning: No valid BS out spins available after filtering. Using fallback.")
+                    // Then filter by allowed spins
+                    let allowedSpins = spinsWithinDifficulty.filter { difficultySpin in
+                        bsOutSpinsAllowed.contains { allowedSpin in
+                            allowedSpin.name == difficultySpin.name
                         }
-                    print("")
+                    }
+                    
+                    if !allowedSpins.isEmpty {
+                        // Pick a random spin
+                        let randomSpin = allowedSpins.randomElement()!
+                        trickObject.spinOut = randomSpin.name
+                    } else {
+                        // Fallback option when no spins are allowed
+                        trickObject.spinOut = bsOutSpinsAllowed.first?.name ?? ""
+                        print("Warning: No valid BS out spins available after filtering. Using fallback.")
+                    }
                     
                     spinOutStamp = trickObject.spinOut
                     if trickObject.spinInDirection == "L" {
-                        if bsOutSpinsRight.contains(trickObject.spinOut) {
+                        if bsOutSpinsRight.contains(where: { $0.name == trickObject.spinOut }) {
                             trickObject.isSpinOutRewind = true
                         }
                     } else if trickObject.spinInDirection == "R" {
-                        if bsOutSpinsLeft.contains(trickObject.spinOut) {
+                        if bsOutSpinsLeft.contains(where: { $0.name == trickObject.spinOut }) {
                             trickObject.isSpinOutRewind = true
                         }
                     }
