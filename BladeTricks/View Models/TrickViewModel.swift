@@ -48,7 +48,7 @@ class TrickViewModel: ObservableObject {
     
     // CONSTANTS: Trick Names -- Order: easy to hard
     
-    let allTricks = ["Makio", "Grind", "Soul", "Mizou", "Porn Star", "Acid", "Fahrv", "Royale", "Unity", "X-Grind", "Torque Soul", "Mistrial", "Savannah", "UFO", "Torque", "Backslide", "Cab Driver", "Christ Makio", "Fastslide", "Stub Soul", "Tea Kettle", "Pudslide"]
+    let allTricks = ["Royale"]
     let soulplateTricks = ["Makio", "Soul", "Mizou", "Porn Star", "Acid", "X-Grind", "Torque Soul", "Mistrial", "Christ Makio", "Stub Soul", "Tea Kettle"]
     let grooveTricks = ["Grind", "Fahrvergnugen ", "Royale", "Unity", "Savannah", "Torque", "Backslide", "Cab Driver", "UFO", "Fastslide", "Pudslide"]
     let topsideNegativeTricks = ["Makio", "Soul", "Mizou", "Porn Star", "Acid", "X-Grind", "Torque Soul", "Mistrial", "Christ Makio", "Tea Kettle"]
@@ -110,10 +110,10 @@ class TrickViewModel: ObservableObject {
     // FS to Groove
     let fsToGrooveSpins: [SpinOption] = [
         SpinOption(name: "FS", direction: "N0", difficulty: 0), // No additional rotation
-        SpinOption(name: "BS", direction: "R180", difficulty: 1),
-    //    SpinOption(name: "BS", direction: "L180", difficulty: 1), //add these for rewind logic
-        SpinOption(name: "360 FS", direction: "L360", difficulty: 2)
-    //    SpinOption(name: "360 FS", direction: "R360", difficulty: 2) //add these for rewind logic
+        SpinOption(name: "BS", direction: "C180", difficulty: 1),
+        SpinOption(name: "Rewind BS", direction: "R180", difficulty: 2), // Changed from B180 to clear C/R distinction
+        SpinOption(name: "360 FS", direction: "C360", difficulty: 3),
+        SpinOption(name: "Rewind 360 FS", direction: "R360", difficulty: 4) // Changed from B360 to clear C/R distinction
     ]
 
     // BS to Soulplate
@@ -129,10 +129,10 @@ class TrickViewModel: ObservableObject {
     // BS to Groove
     let bsToGrooveSpins: [SpinOption] = [
         SpinOption(name: "BS", direction: "N0", difficulty: 0), // No additional rotation
-        SpinOption(name: "FS", direction: "L180", difficulty: 1),
-    //    SpinOption(name: "FS", direction: "R180", difficulty: 1), //add these for rewind logic
-        SpinOption(name: "360 BS", direction: "R360", difficulty: 2)
-    //    SpinOption(name: "360 BS", direction: "L360", difficulty: 2) //add these for rewind logic
+        SpinOption(name: "FS", direction: "C180", difficulty: 1),
+        SpinOption(name: "Rewind FS", direction: "R180", difficulty: 2), //add these for rewind logic - B for both directions
+        SpinOption(name: "360 BS", direction: "C360", difficulty: 3),
+        SpinOption(name: "Rewind 360 BS", direction: "R360", difficulty: 4) //add these for rewind logic - B for both directions
     ]
 
     // Out-Spins
@@ -185,7 +185,7 @@ class TrickViewModel: ObservableObject {
     }
     
     // Add these properties to your class
-    // For Soul Plate spins
+    // For Forward to Soul Plate spins
     var forwardToSoulplateSpinsLeft: [SpinOption] {
         return forwardToSoulplateSpins.filter { $0.direction.hasPrefix("L") }
     }
@@ -194,7 +194,7 @@ class TrickViewModel: ObservableObject {
         return forwardToSoulplateSpins.filter { $0.direction.hasPrefix("R") }
     }
 
-    // For Groove spins
+    // For Forward to Groove spins
     var forwardToGrooveSpinsLeft: [SpinOption] {
         return forwardToGrooveSpins.filter { $0.direction.hasPrefix("L") }
     }
@@ -229,6 +229,19 @@ class TrickViewModel: ObservableObject {
     var fsToSoulplateSpinsRight: [SpinOption] {
         return fsToSoulplateSpins.filter { $0.direction.hasPrefix("R") }
     }
+    
+    // For FS to Groove spins
+    var fsToGrooveContinuousSpins: [SpinOption] {
+        return fsToGrooveSpins.filter { $0.direction.hasPrefix("C") }
+    }
+
+    var fsToGrooveRewindSpins: [SpinOption] {
+        return fsToGrooveSpins.filter { $0.direction.hasPrefix("R") }
+    }
+
+    var fsToGrooveNoSpins: [SpinOption] {
+        return fsToGrooveSpins.filter { $0.direction.hasPrefix("N") }
+    }
 
     // For BS to Soul Plate spins
     var bsToSoulplateSpinsLeft: [SpinOption] {
@@ -238,7 +251,19 @@ class TrickViewModel: ObservableObject {
     var bsToSoulplateSpinsRight: [SpinOption] {
         return bsToSoulplateSpins.filter { $0.direction.hasPrefix("R") }
     }
+    
+    // For BS to Groove spins
+    var bsToGrooveContinuousSpins: [SpinOption] {
+        return bsToGrooveSpins.filter { $0.direction.hasPrefix("C") }
+    }
 
+    var bsToGrooveRewindSpins: [SpinOption] {
+        return bsToGrooveSpins.filter { $0.direction.hasPrefix("R") }
+    }
+
+    var bsToGrooveNoSpins: [SpinOption] {
+        return bsToGrooveSpins.filter { $0.direction.hasPrefix("N") }
+    }
     // For FS Out spins
     var fsOutSpinsLeft: [SpinOption] {
         return fsOutSpins.filter { $0.direction.hasPrefix("L") }
@@ -867,23 +892,44 @@ class TrickViewModel: ObservableObject {
             var fsToGrooveSpinsAllowed = fsToGrooveSpins
             var isSwitchUpRewindBlocked = false
             
+            // Remove rewind spins for switch ups
             if (trickMode == "mid" || trickMode == "exit") {
                 if !customSettings.switchUpRewindAllowed {
                     if previousTrick?.spinInDirection == "L" {
+                        // Remove rewind spins for Fakie to Groove
                         fakieToGrooveSpinsAllowed = fakieToGrooveSpins.filter { spin in
                             !fakieToGrooveSpinsRight.contains { rightSpin in rightSpin.name == spin.name }
                         }
+                        // Remove rewind spins for Forward to Groove
                         forwardToGrooveSpinsAllowed = forwardToGrooveSpins.filter { spin in
                             !forwardToGrooveSpinsRight.contains { rightSpin in rightSpin.name == spin.name }
+                        }
+                        // Remove rewind spins for FS to Groove
+                        fsToGrooveSpinsAllowed = fsToGrooveSpins.filter { spin in
+                            spin.direction.hasPrefix("N") || spin.direction.hasPrefix("C")
+                        }
+                        // Remove rewind spins for BS to Groove
+                        bsToGrooveSpinsAllowed = bsToGrooveSpins.filter { spin in
+                            spin.direction.hasPrefix("N") || spin.direction.hasPrefix("C")
                         }
                         print("Switch up Rewind Spins Blocked")
                         isSwitchUpRewindBlocked = true
                     } else if previousTrick?.spinInDirection == "R" {
+                        // Remove rewind spins for Fakie to Groove
                         fakieToGrooveSpinsAllowed = fakieToGrooveSpins.filter { spin in
                             !fakieToGrooveSpinsLeft.contains { leftSpin in leftSpin.name == spin.name }
                         }
+                        // Remove rewind spins for Forward to Groove
                         forwardToGrooveSpinsAllowed = forwardToGrooveSpins.filter { spin in
                             !forwardToGrooveSpinsLeft.contains { leftSpin in leftSpin.name == spin.name }
+                        }
+                        // Remove rewind spins for FS to Groove
+                        fsToGrooveSpinsAllowed = fsToGrooveSpins.filter { spin in
+                            spin.direction.hasPrefix("N") || spin.direction.hasPrefix("C")
+                        }
+                        // Remove rewind spins for BS to Groove
+                        bsToGrooveSpinsAllowed = bsToGrooveSpins.filter { spin in
+                            spin.direction.hasPrefix("N") || spin.direction.hasPrefix("C")
                         }
                         print("Switch up Rewind Spins Blocked")
                         isSwitchUpRewindBlocked = true
@@ -982,30 +1028,94 @@ class TrickViewModel: ObservableObject {
                     trickObject.spinInDirection = "N"
                 }
             } else if trickObject.initialStance == .bs {
-//                if (trickMode == "single" || trickMode == "entry") {
-//                } else if (trickMode == "mid" || trickMode == "exit") {
-//                }
-                // REMINDER: in case of "FS Fahrv to FS Svannah -> SpinInDirection = previousTrick.spinInDirection
-                // Filter by difficulty
-                let spinsWithinDifficulty = bsToGrooveSpins.filter { $0.difficulty < settings.grooveBSToGrooveSpinsCAP }
+                // Filter by difficulty first
+                let spinsWithinDifficulty = bsToGrooveSpinsAllowed.filter { $0.difficulty < settings.grooveBSToGrooveSpinsCAP }
+                
                 if !spinsWithinDifficulty.isEmpty {
                     let randomSpin = spinsWithinDifficulty.randomElement()!
                     trickObject.spinIn = randomSpin.name
+                    
+                    // Set the actual spin direction based on the spin type
+                    if randomSpin.direction.hasPrefix("C") {
+                        // For continuous spins, continue in the same direction as previous trick
+                        if previousTrick?.spinInDirection == "L" {
+                            trickObject.spinInDirection = "L"
+                        } else if previousTrick?.spinInDirection == "R" {
+                            trickObject.spinInDirection = "R"
+                        } else {
+                            // Default direction if no previous direction
+                            trickObject.spinInDirection = "L"
+                        }
+                    } else if randomSpin.direction.hasPrefix("R") {
+                        // For rewind spins, go opposite to the previous direction
+                        if previousTrick?.spinInDirection == "L" {
+                            trickObject.spinInDirection = "R"
+                        } else if previousTrick?.spinInDirection == "R" {
+                            trickObject.spinInDirection = "L"
+                        } else {
+                            // Default direction if no previous direction
+                            trickObject.spinInDirection = "R"
+                        }
+                    } else if randomSpin.direction.hasPrefix("N") {
+                        // For neutral spins, keep the previous direction
+                        trickObject.spinInDirection = previousTrick?.spinInDirection ?? "N"
+                    }
                 } else {
+                    // Fallback if no spins are allowed
                     trickObject.spinIn = bsToGrooveSpins[0].name
+                    trickObject.spinInDirection = previousTrick?.spinInDirection ?? "N"  // Keep previous direction here too
+                }
+                
+                // Update grind stance based on spin
+                if trickObject.spinIn.contains("FS") {
+                    trickObject.grindStance = .fs
+                } else if trickObject.spinIn.contains("BS") {
+                    trickObject.grindStance = .bs
                 }
             } else if trickObject.initialStance == .fs {
-//                (trickMode == "single" || trickMode == "entry") {
-//                } else if (trickMode == "mid" || trickMode == "exit") {
-//                }
-                // REMINDER: in case of "FS Fahrv to FS Svannah -> SpinInDirection = previousTrick.spinInDirection
-                // Filter by difficulty
-                let spinsWithinDifficulty = fsToGrooveSpins.filter { $0.difficulty < settings.grooveFSToGrooveSpinsCAP }
+                // Filter by difficulty first
+                let spinsWithinDifficulty = fsToGrooveSpinsAllowed.filter { $0.difficulty < settings.grooveFSToGrooveSpinsCAP }
+                
                 if !spinsWithinDifficulty.isEmpty {
                     let randomSpin = spinsWithinDifficulty.randomElement()!
                     trickObject.spinIn = randomSpin.name
+                    
+                    // Set the actual spin direction based on the spin type
+                    if randomSpin.direction.hasPrefix("C") {
+                        // For continuous spins, continue in the same direction as previous trick
+                        if previousTrick?.spinInDirection == "L" {
+                            trickObject.spinInDirection = "L"
+                        } else if previousTrick?.spinInDirection == "R" {
+                            trickObject.spinInDirection = "R"
+                        } else {
+                            // Default direction if no previous direction
+                            trickObject.spinInDirection = "L"
+                        }
+                    } else if randomSpin.direction.hasPrefix("R") {
+                        // For rewind spins, go opposite to the previous direction
+                        if previousTrick?.spinInDirection == "L" {
+                            trickObject.spinInDirection = "R"
+                        } else if previousTrick?.spinInDirection == "R" {
+                            trickObject.spinInDirection = "L"
+                        } else {
+                            // Default direction if no previous direction
+                            trickObject.spinInDirection = "R"
+                        }
+                    } else if randomSpin.direction.hasPrefix("N") {
+                        // For neutral spins, keep the previous direction
+                        trickObject.spinInDirection = previousTrick?.spinInDirection ?? "N"
+                    }
                 } else {
+                    // Fallback if no spins are allowed
                     trickObject.spinIn = fsToGrooveSpins[0].name
+                    trickObject.spinInDirection = previousTrick?.spinInDirection ?? "N"  // Keep previous direction here too
+                }
+                
+                // Update grind stance based on spin
+                if trickObject.spinIn.contains("FS") {
+                    trickObject.grindStance = .fs
+                } else if trickObject.spinIn.contains("BS") {
+                    trickObject.grindStance = .bs
                 }
             }
             
