@@ -48,7 +48,7 @@ class TrickViewModel: ObservableObject {
     
     // CONSTANTS: Trick Names -- Order: easy to hard
     
-    let allTricks = ["Royale"]
+    let allTricks = ["Makio", "Grind", "Soul", "Mizou", "Porn Star", "Acid", "Fahrv", "Royale", "Unity", "X-Grind", "Torque Soul", "Mistrial", "Savannah", "UFO", "Torque", "Backslide", "Cab Driver", "Christ Makio", "Fastslide", "Stub Soul", "Tea Kettle", "Pudslide"]
     let soulplateTricks = ["Makio", "Soul", "Mizou", "Porn Star", "Acid", "X-Grind", "Torque Soul", "Mistrial", "Christ Makio", "Stub Soul", "Tea Kettle"]
     let grooveTricks = ["Grind", "Fahrvergnugen ", "Royale", "Unity", "Savannah", "Torque", "Backslide", "Cab Driver", "UFO", "Fastslide", "Pudslide"]
     let topsideNegativeTricks = ["Makio", "Soul", "Mizou", "Porn Star", "Acid", "X-Grind", "Torque Soul", "Mistrial", "Christ Makio", "Tea Kettle"]
@@ -139,7 +139,7 @@ class TrickViewModel: ObservableObject {
     let forwardOutSpins: [SpinOption] = [
         SpinOption(name: "to Forward", direction: "N0", difficulty: 0),
         SpinOption(name: "to Fakie", direction: "N180", difficulty: 1), 
-//        SpinOption(name: "to Fakie", direction: "R180", difficulty: 1), // figure this out
+//        SpinOption(name: "to Fakie", direction: "C180", difficulty: 1), // figure this out
         SpinOption(name: "360 Out to Forward", direction: "R360", difficulty: 2),
 //        SpinOption(name: "360 Out to Forward", direction: "L360", difficulty: 2), // figure this out
         SpinOption(name: "540 to Fakie", direction: "R540", difficulty: 3)

@@ -33,9 +33,9 @@ struct DifficultyCard: View {
                 Text(difficulty.level)
                     .font(.headline)
                     .frame(width: 60, height: 20, alignment: .center)
-                    .foregroundColor(isActive ? .clear : .white) // Clear for active to show gradient, black for inactive
+                    .foregroundColor(isActive ? .clear : .white.opacity(0.6)) // Use opacity for inactive text
                     .background(
-                        LinearGradient(gradient: Gradient(colors: isActive ? [.yellow, .white] : [.black, .black]), startPoint: .bottom, endPoint: .top)
+                        LinearGradient(gradient: Gradient(colors: isActive ? [.yellow, .white] : [.clear, .clear]), startPoint: .bottom, endPoint: .top)
                             .mask(
                                 Text(difficulty.level)
                                     .font(.headline)
@@ -43,10 +43,12 @@ struct DifficultyCard: View {
                     )
                 
                 VStack(spacing: -10) {
-                    // MARK: Difficulty Level Small Icon
-                    Image(getImageName(for: difficulty.icon, isActive: isActive))
+                    // MARK: Difficulty Level Icon - Use the active/inactive versions
+                    Image(getIconName(for: difficulty))
                         .resizable()
                         .frame(width: 70, height: 70)
+                        .colorMultiply(isActive ? .white : .gray) // Apply gray tint when inactive
+                        .opacity(isActive ? 1.0 : 0.6) // Reduce opacity when inactive
                     
                     // MARK: Forecast Probability
                     Text("")
@@ -61,13 +63,9 @@ struct DifficultyCard: View {
             .frame(width: 60, height: 100)
         }
     }
-    private func getImageName(for icon: String, isActive: Bool) -> String {
-        isActive ? "\(icon)_active" : icon
-    }
-}
-
-struct DifficultyCard_Previews: PreviewProvider {
-    static var previews: some View {
-        DifficultyCard(difficulty: Difficulty.levels[2], isActive: false)
+    
+    // Use this function to get the appropriate icon name
+    private func getIconName(for difficulty: Difficulty) -> String {
+        isActive ? "\(difficulty.icon)_active" : difficulty.icon
     }
 }
