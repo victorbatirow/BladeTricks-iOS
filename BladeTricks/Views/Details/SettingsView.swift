@@ -294,52 +294,87 @@ struct SettingsView: View {
     
     private var fakieChanceSlider: some View {
         // Use a binding that only writes to customSettings when in custom mode
-        let binding = Binding<Double>(
-            get: { self.currentSettings.fakieChance },
-            set: { newValue in
-                if viewModel.currentDifficulty.isCustom {
-                    viewModel.customSettings.fakieChance = newValue
+            let binding = Binding<Double>(
+                get: { self.currentSettings.fakieChance },
+                set: { newValue in
+                    if viewModel.currentDifficulty.isCustom {
+                        viewModel.customSettings.fakieChance = newValue
+                        viewModel.applyCustomSettings()
+                    }
                 }
-            }
-        )
-        return sliderView(title: "Fakie Chance", value: binding, range: 0...1, step: 0.05)
-    }
+            )
+            return PercentageSlider(
+                value: binding,
+                title: "Fakie Chance",
+                type: .fakie
+            )
+            .padding(.horizontal)
+            .disabled(!viewModel.currentDifficulty.isCustom)
+            .opacity(viewModel.currentDifficulty.isCustom ? 1.0 : 0.6)
+        }
 
-    private var topsideChanceSlider: some View {
-        let binding = Binding<Double>(
-            get: { self.currentSettings.topsideChance },
-            set: { newValue in
-                if viewModel.currentDifficulty.isCustom {
-                    viewModel.customSettings.topsideChance = newValue
+        private var topsideChanceSlider: some View {
+            // Use a binding that only writes to customSettings when in custom mode
+            let binding = Binding<Double>(
+                get: { self.currentSettings.topsideChance },
+                set: { newValue in
+                    if viewModel.currentDifficulty.isCustom {
+                        viewModel.customSettings.topsideChance = newValue
+                        viewModel.applyCustomSettings()
+                    }
                 }
-            }
-        )
-        return sliderView(title: "Topside Chance", value: binding, range: 0...1, step: 0.05)
-    }
+            )
+            return PercentageSlider(
+                value: binding,
+                title: "Topside Chance",
+                type: .topside
+            )
+            .padding(.horizontal)
+            .disabled(!viewModel.currentDifficulty.isCustom)
+            .opacity(viewModel.currentDifficulty.isCustom ? 1.0 : 0.6)
+        }
 
-    private var negativeChanceSlider: some View {
-        let binding = Binding<Double>(
-            get: { self.currentSettings.negativeChance },
-            set: { newValue in
-                if viewModel.currentDifficulty.isCustom {
-                    viewModel.customSettings.negativeChance = newValue
+        private var negativeChanceSlider: some View {
+            // Use a binding that only writes to customSettings when in custom mode
+            let binding = Binding<Double>(
+                get: { self.currentSettings.negativeChance },
+                set: { newValue in
+                    if viewModel.currentDifficulty.isCustom {
+                        viewModel.customSettings.negativeChance = newValue
+                        viewModel.applyCustomSettings()
+                    }
                 }
-            }
-        )
-        return sliderView(title: "Negative Chance", value: binding, range: 0...1, step: 0.05)
-    }
+            )
+            return PercentageSlider(
+                value: binding,
+                title: "Negative Chance",
+                type: .negative
+            )
+            .padding(.horizontal)
+            .disabled(!viewModel.currentDifficulty.isCustom)
+            .opacity(viewModel.currentDifficulty.isCustom ? 1.0 : 0.6)
+        }
 
-    private var rewindChanceSlider: some View {
-        let binding = Binding<Double>(
-            get: { self.currentSettings.rewindOutChance },
-            set: { newValue in
-                if viewModel.currentDifficulty.isCustom {
-                    viewModel.customSettings.rewindOutChance = newValue
+        private var rewindChanceSlider: some View {
+            // Use a binding that only writes to customSettings when in custom mode
+            let binding = Binding<Double>(
+                get: { self.currentSettings.rewindOutChance },
+                set: { newValue in
+                    if viewModel.currentDifficulty.isCustom {
+                        viewModel.customSettings.rewindOutChance = newValue
+                        viewModel.applyCustomSettings()
+                    }
                 }
-            }
-        )
-        return sliderView(title: "Rewind Spin Out Chance", value: binding, range: 0...1, step: 0.05)
-    }
+            )
+            return PercentageSlider(
+                value: binding,
+                title: "Rewind Spin Out Chance",
+                type: .rewind
+            )
+            .padding(.horizontal)
+            .disabled(!viewModel.currentDifficulty.isCustom)
+            .opacity(viewModel.currentDifficulty.isCustom ? 1.0 : 0.6)
+        }
 
     private var tricksCAPSlider: some View {
         CAPSliderView(
@@ -468,20 +503,32 @@ struct SettingsView: View {
     }
     
     private var switchUpRewindToggle: some View {
-        VStack {
-            // Toggle for enabling/disabling a feature
-            Toggle("Rewinds on Switch-Ups:", isOn: Binding<Bool>(
-                get: { self.currentSettings.switchUpRewindAllowed },
-                set: { newValue in
-                    if viewModel.currentDifficulty.isCustom {
-                        viewModel.customSettings.switchUpRewindAllowed = newValue
-                        viewModel.applyCustomSettings()
+        HStack {
+            // Label
+            Text("Rewinds on Switch-Ups:")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            
+            Spacer()
+            
+            // Toggle on the same line
+            CustomToggle(
+                isOn: Binding<Bool>(
+                    get: { self.currentSettings.switchUpRewindAllowed },
+                    set: { newValue in
+                        if viewModel.currentDifficulty.isCustom {
+                            viewModel.customSettings.switchUpRewindAllowed = newValue
+                            viewModel.applyCustomSettings()
+                        }
                     }
-                }
-            ))
-            .frame(height: 20)
-            .opacity(viewModel.currentDifficulty.isCustom ? 1.0 : 0.7)
-        }.padding()
+                ),
+                toggleSize: CGSize(width: 80, height: 30)
+            )
+            .disabled(!viewModel.currentDifficulty.isCustom)
+            .opacity(viewModel.currentDifficulty.isCustom ? 1.0 : 0.6)
+        }
+        .padding(.horizontal)
+        .padding(.vertical, 8)
     }
 }
 
