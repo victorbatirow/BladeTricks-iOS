@@ -21,73 +21,79 @@ struct PercentageSlider: View {
     
     var body: some View {
         VStack(spacing: 8) {
-            // Header with title and percentage
-            HStack {
-                // Icon and title
-                HStack(spacing: 4) {
-                    Image(systemName: iconForType())
-                        .foregroundColor(color)
-                        .font(.system(size: 14))
-                    Text(title)
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(.secondary)
-                }
-                
+            // Title and icon
+            HStack(spacing: 4) {
+                Image(systemName: iconForType())
+                    .foregroundColor(color)
+                    .font(.system(size: 14))
+                Text(title)
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(.secondary)
+                Spacer()
+            }
+            
+            // Percentage controls - centered
+            HStack(spacing: 4) {
                 Spacer()
                 
-                // Percentage pill with minus/plus buttons on sides
-                HStack(spacing: 4) {
-                    // Minus button
-                    Button(action: { decrementValue() }) {
-                        Image(systemName: "minus")
-                            .font(.system(size: 12, weight: .bold))
-                            .foregroundColor(.white)
-                            .frame(width: 24, height: 24)
-                            .background(
-                                Circle()
-                                    .fill(color)
-                            )
-                    }
-                    .buttonStyle(BorderlessButtonStyle())
-                    
-                    // Percentage pill
-                    Text("\(Int(value * 100))%")
-                        .font(.system(size: 16, weight: .bold))
-                        .foregroundColor(color)
-                        .frame(minWidth: 46)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 4)
+                // Minus button
+                Button(action: { decrementValue() }) {
+                    Image(systemName: "minus")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(.white)
+                        .frame(width: 24, height: 24)
                         .background(
-                            Capsule()
-                                .fill(color.opacity(0.15))
+                            Circle()
+                                .fill(color)
                         )
-                    
-                    // Plus button
-                    Button(action: { incrementValue() }) {
-                        Image(systemName: "plus")
-                            .font(.system(size: 12, weight: .bold))
-                            .foregroundColor(.white)
-                            .frame(width: 24, height: 24)
-                            .background(
-                                Circle()
-                                    .fill(color)
-                            )
-                    }
-                    .buttonStyle(BorderlessButtonStyle())
                 }
+                .buttonStyle(BorderlessButtonStyle())
+                
+                // Percentage pill
+                Text("\(Int(value * 100))%")
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(color)
+                    .frame(minWidth: 46)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
+                    .background(
+                        Capsule()
+                            .fill(color.opacity(0.15))
+                    )
+                
+                // Plus button
+                Button(action: { incrementValue() }) {
+                    Image(systemName: "plus")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(.white)
+                        .frame(width: 24, height: 24)
+                        .background(
+                            Circle()
+                                .fill(color)
+                        )
+                }
+                .buttonStyle(BorderlessButtonStyle())
+                
+                Spacer()
             }
             
             // Simple to use slider with visual step markers
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
                     // Track background with tap handling
-                    RoundedRectangle(cornerRadius: 6)
+                    // Reduce width by slider thumb radius at both ends
+                    let sliderInset: CGFloat = 12  // Inset from edge (half thumb width)
+                    let usableWidth = geometry.size.width - (sliderInset * 2)
+                    
+                    Rectangle()
                         .fill(Color.white.opacity(0.1))
-                        .frame(height: 8)
+                        .frame(width: usableWidth, height: 8)
+                        .position(x: geometry.size.width/2, y: 12)
                         .contentShape(Rectangle())
                         .onTapGesture { location in
-                            // Convert tap location to a percentage value
-                            let percentage = min(max(0, location.x / geometry.size.width), 1.0)
+                            // Adjust for the inset when calculating value
+                            let adjustedX = max(sliderInset, min(location.x, geometry.size.width - sliderInset))
+                            let percentage = (adjustedX - sliderInset) / usableWidth
                             let newValue = range.lowerBound + (range.upperBound - range.lowerBound) * Double(percentage)
                             let steppedValue = round(newValue / step) * step
                             
@@ -98,26 +104,29 @@ struct PercentageSlider: View {
                         }
                     
                     // Progress bar
-                    RoundedRectangle(cornerRadius: 6)
+                    Rectangle()
                         .fill(color)
-                        .frame(width: calculateWidth(geometry: geometry), height: 8)
+                        .frame(width: calculateWidth(geometry: geometry, inset: sliderInset, usableWidth: usableWidth), height: 8)
+                        .position(x: sliderInset + calculateWidth(geometry: geometry, inset: sliderInset, usableWidth: usableWidth)/2, y: 12)
                     
-                    // Step markers
-                    HStack(spacing: 0) {
+                    // Step markers - positioned to align with the slider track
+                    ZStack {
                         ForEach(0..<21) { i in
+                            let markerX = sliderInset + (usableWidth / 20 * CGFloat(i))
                             if i % 5 == 0 {
+                                // Major markers (0%, 25%, 50%, 75%, 100%)
                                 Rectangle()
                                     .fill(Color.white.opacity(0.5))
                                     .frame(width: 1, height: 12)
-                                    .offset(y: isDragging ? -8 : -6)
+                                    .position(x: markerX, y: 10)
                             } else {
+                                // Minor markers
                                 Rectangle()
                                     .fill(Color.white.opacity(0.2))
                                     .frame(width: 1, height: 6)
-                                    .offset(y: isDragging ? -6 : -4)
+                                    .position(x: markerX, y: 11)
                             }
                         }
-                        .frame(maxWidth: .infinity)
                     }
                     
                     // Draggable thumb
@@ -129,14 +138,15 @@ struct PercentageSlider: View {
                             Circle()
                                 .stroke(color, lineWidth: 2)
                         )
-                        .position(x: calculateThumbPosition(geometry: geometry), y: 12)
+                        .position(x: calculateThumbPosition(geometry: geometry, inset: sliderInset, usableWidth: usableWidth), y: 12)
                         .gesture(
                             DragGesture(minimumDistance: 0)
                                 .onChanged { gesture in
                                     isDragging = true
                                     
-                                    // Convert drag location to a percentage value
-                                    let percentage = min(max(0, gesture.location.x / geometry.size.width), 1.0)
+                                    // Adjust for the inset when calculating value
+                                    let adjustedX = max(sliderInset, min(gesture.location.x, geometry.size.width - sliderInset))
+                                    let percentage = (adjustedX - sliderInset) / usableWidth
                                     let newValue = range.lowerBound + (range.upperBound - range.lowerBound) * Double(percentage)
                                     let steppedValue = round(newValue / step) * step
                                     
@@ -159,31 +169,22 @@ struct PercentageSlider: View {
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color.black.opacity(0.2))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .strokeBorder(color.opacity(0.3), lineWidth: 1.5)
+                )
         )
     }
     
-    // Helper functions
-    private func calculateWidth(geometry: GeometryProxy) -> CGFloat {
+    // Helper functions - updated to account for inset
+    private func calculateWidth(geometry: GeometryProxy, inset: CGFloat, usableWidth: CGFloat) -> CGFloat {
         let percentage = (value - range.lowerBound) / (range.upperBound - range.lowerBound)
-        return CGFloat(percentage) * geometry.size.width
+        return CGFloat(percentage) * usableWidth
     }
     
-    private func calculateThumbPosition(geometry: GeometryProxy) -> CGFloat {
+    private func calculateThumbPosition(geometry: GeometryProxy, inset: CGFloat, usableWidth: CGFloat) -> CGFloat {
         let percentage = (value - range.lowerBound) / (range.upperBound - range.lowerBound)
-        return CGFloat(percentage) * geometry.size.width
-    }
-    
-    private func updateValueFromDrag(dragLocation: CGPoint, geometry: GeometryProxy) {
-        let percentage = min(max(0, dragLocation.x / geometry.size.width), 1.0)
-        let newValue = range.lowerBound + (range.upperBound - range.lowerBound) * Double(percentage)
-        let steppedValue = round(newValue / step) * step
-        
-        if abs(value - steppedValue) >= step / 2 {
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                value = max(range.lowerBound, min(range.upperBound, steppedValue))
-            }
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
-        }
+        return inset + (CGFloat(percentage) * usableWidth)
     }
     
     private func incrementValue() {
@@ -224,40 +225,5 @@ struct PercentageSlider: View {
 extension PercentageSlider {
     enum ControlType {
         case fakie, topside, negative, rewind, custom
-    }
-}
-
-struct ReliablePercentageControl_Previews: PreviewProvider {
-    static var previews: some View {
-        ZStack {
-            Color(red: 0.1, green: 0.1, blue: 0.2).edgesIgnoringSafeArea(.all)
-            
-            VStack(spacing: 16) {
-                PercentageSlider(
-                    value: .constant(0.55),
-                    title: "Fakie Chance",
-                    type: .fakie
-                )
-                
-                PercentageSlider(
-                    value: .constant(0.5),
-                    title: "Topside Chance",
-                    type: .topside
-                )
-                
-                PercentageSlider(
-                    value: .constant(0.0),
-                    title: "Negative Chance",
-                    type: .negative
-                )
-                
-                PercentageSlider(
-                    value: .constant(0.75),
-                    title: "Rewind Spin Out Chance",
-                    type: .rewind
-                )
-            }
-            .padding(24)
-        }
     }
 }
