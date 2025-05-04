@@ -155,8 +155,9 @@ struct SettingsView: View {
     
     private var customSettingsView: some View {
         Group {
-            // Title
-            settingsTitle
+            // Bag of Tricks moved to top, right after title
+            tricksCAPSlider
+                .padding(.bottom, 12) // Add bottom padding for spacing
             
             // Probabilities in a 2-column grid layout
             VStack(spacing: 12) {
@@ -164,21 +165,20 @@ struct SettingsView: View {
                 HStack(spacing: 12) {
                     fakieChanceSlider
                         .frame(maxWidth: .infinity)
-                    topsideChanceSlider
+                    rewindChanceSlider
                         .frame(maxWidth: .infinity)
                 }
                 
                 // Row 2: Negative and Rewind
                 HStack(spacing: 12) {
-                    negativeChanceSlider
+                    topsideChanceSlider
                         .frame(maxWidth: .infinity)
-                    rewindChanceSlider
+                    negativeChanceSlider
                         .frame(maxWidth: .infinity)
                 }
             }
             .padding(.horizontal)
-            // Tricks
-            tricksCAPSlider
+            
             // Spin In
             soulplateForwardInSpinsCAPSlider
             soulplateFakieInSpinsCAPSlider
@@ -203,11 +203,11 @@ struct SettingsView: View {
         .opacity(Double(bottomSheetTranslationProrated))
     }
 
-    private var settingsTitle: some View {
-        Text("Customize Your Difficulty")
-            .font(.headline)
-            .padding()
-    }
+//    private var settingsTitle: some View {
+//        Text("Customize Your Difficulty")
+//            .font(.headline)
+//            .padding()
+//    }
 
     // Update the sliderView function
     private func sliderView(title: String, value: Binding<Double>, range: ClosedRange<Double>, step: Double) -> some View {
@@ -320,7 +320,7 @@ struct SettingsView: View {
         )
         return PercentageSlider(
             value: binding,
-            title: "Fakie",
+            title: "Fakie In",
             type: .fakie
         )
         .disabled(!viewModel.currentDifficulty.isCustom)
@@ -388,17 +388,24 @@ struct SettingsView: View {
     }
 
     private var tricksCAPSlider: some View {
-        CAPSliderView(
+        CompactRangeSlider(
+            value: Binding<Int>(
+                get: { self.currentSettings.tricksCAP },
+                set: { newValue in
+                    if viewModel.currentDifficulty.isCustom {
+                        viewModel.customSettings.tricksCAP = newValue
+                        viewModel.applyCustomSettings()
+                    }
+                }
+            ),
             title: "Bag of Tricks",
-            currentValue: currentSettings.tricksCAP,
-            values: viewModel.allTricks,
-            range: 1...Double(viewModel.allTricks.count)
-        ) { newValue in
-            if viewModel.currentDifficulty.isCustom {
-                viewModel.customSettings.tricksCAP = newValue
-                viewModel.applyCustomSettings()
-            }
-        }
+            range: 1...viewModel.allTricks.count,
+            totalItems: viewModel.allTricks.count,
+            items: viewModel.allTricks, // Use allTricks directly
+            showMoreButton: true // Enable the show all/show active toggle
+        )
+        .disabled(!viewModel.currentDifficulty.isCustom)
+        .opacity(viewModel.currentDifficulty.isCustom ? 1.0 : 0.6)
     }
     
     private var soulplateForwardInSpinsCAPSlider: some View {

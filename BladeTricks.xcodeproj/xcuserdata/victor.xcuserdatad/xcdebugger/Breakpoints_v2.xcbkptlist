@@ -82,6 +82,38 @@
             endingLineNumber = "255"
             landmarkName = "TrickViewModel"
             landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "F504742A-519A-4D4C-85DF-053CBECF2CB0 - 6373fc2d66e33e2f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BladeTricks.TrickViewModel.bsToGrooveContinuousSpins.getter : Swift.Array&lt;BladeTricks.TrickViewModel.SpinOption&gt;"
+                  moduleName = "BladeTricks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/victor/Desktop/Blade%20Tricks%20App%20BACKUPS/BladeTricks%20development/BladeTricks/View%20Models/TrickViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "257"
+                  endingLineNumber = "257"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "F504742A-519A-4D4C-85DF-053CBECF2CB0 - 6373fc2d66e33e2f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BladeTricks.TrickViewModel.bsToGrooveContinuousSpins.getter : Swift.Array&lt;BladeTricks.TrickViewModel.SpinOption&gt;"
+                  moduleName = "BladeTricks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/victor/Desktop/Blade%20Tricks%20App%20BACKUPS/BladeTricks%20development/BladeTricks/View%20Models/TrickViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "257"
+                  endingLineNumber = "257"
+                  offsetFromSymbolStart = "29">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

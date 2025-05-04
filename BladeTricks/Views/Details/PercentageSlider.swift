@@ -20,7 +20,7 @@ struct PercentageSlider: View {
     }
     
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 12) {
             // Title and icon
             HStack(spacing: 4) {
                 Image(systemName: iconForType())
@@ -33,43 +33,55 @@ struct PercentageSlider: View {
             }
             
             // Percentage controls - centered
-            HStack(spacing: 4) {
+            HStack(spacing: 8) {
                 Spacer()
                 
-                // Minus button
+                // Minus button - more subtle design
                 Button(action: { decrementValue() }) {
                     Image(systemName: "minus")
-                        .font(.system(size: 12, weight: .bold))
-                        .foregroundColor(.white)
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundColor(color)
                         .frame(width: 24, height: 24)
                         .background(
                             Circle()
-                                .fill(color)
+                                .fill(color.opacity(0.15))
+                                .overlay(
+                                    Circle()
+                                        .strokeBorder(color.opacity(0.3), lineWidth: 1)
+                                )
                         )
                 }
                 .buttonStyle(BorderlessButtonStyle())
                 
-                // Percentage pill
+                // Percentage pill - made more prominent
                 Text("\(Int(value * 100))%")
                     .font(.system(size: 16, weight: .bold))
                     .foregroundColor(color)
-                    .frame(minWidth: 46)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 4)
+                    .frame(minWidth: 42)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 3)
                     .background(
                         Capsule()
-                            .fill(color.opacity(0.15))
+                            .fill(color.opacity(0.2))
+                            .overlay(
+                                Capsule()
+                                    .strokeBorder(color.opacity(0.4), lineWidth: 1)
+                            )
                     )
                 
-                // Plus button
+                // Plus button - more subtle design
                 Button(action: { incrementValue() }) {
                     Image(systemName: "plus")
-                        .font(.system(size: 12, weight: .bold))
-                        .foregroundColor(.white)
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundColor(color)
                         .frame(width: 24, height: 24)
                         .background(
                             Circle()
-                                .fill(color)
+                                .fill(color.opacity(0.15))
+                                .overlay(
+                                    Circle()
+                                        .strokeBorder(color.opacity(0.3), lineWidth: 1)
+                                )
                         )
                 }
                 .buttonStyle(BorderlessButtonStyle())
@@ -82,7 +94,7 @@ struct PercentageSlider: View {
                 ZStack(alignment: .leading) {
                     // Track background with tap handling
                     // Reduce width by slider thumb radius at both ends
-                    let sliderInset: CGFloat = 12  // Inset from edge (half thumb width)
+                    let sliderInset: CGFloat = 14  // Increased inset from edge
                     let usableWidth = geometry.size.width - (sliderInset * 2)
                     
                     Rectangle()
@@ -165,7 +177,7 @@ struct PercentageSlider: View {
             }
             .frame(height: 30)
         }
-        .padding(8)
+        .padding(10)
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color.black.opacity(0.2))
