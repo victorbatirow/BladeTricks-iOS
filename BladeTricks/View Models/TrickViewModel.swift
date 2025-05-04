@@ -332,6 +332,11 @@ class TrickViewModel: ObservableObject {
     @Published var currentDifficulty: Difficulty = Difficulty.levels[0]  // Default to first difficulty
     @Published var customSettings: Difficulty.DifficultySettings
     @Published var SwitchUpMode: Int = 0  // 0 for single, 1 for double, 2 for triple
+    // Spin Settings Managers
+    @Published var inSpinManager: SpinSettingsManager!
+    @Published var outSpinManager: SpinSettingsManager!
+    @Published var switchUpSpinManager: SpinSettingsManager!
+    
     private var lastTricks: [String] = []  // This array will store the history of generated tricks
     // Skater's current stance during a trick
 
@@ -348,6 +353,11 @@ class TrickViewModel: ObservableObject {
         if let savedDifficulty = Difficulty.levels.first(where: {$0.level == savedDifficultyLevel}) {
             currentDifficulty = savedDifficulty
         }
+        
+        // Initialize spin settings managers
+        self.inSpinManager = SpinSettingsManager(spinType: .inSpin, viewModel: self)
+        self.outSpinManager = SpinSettingsManager(spinType: .outSpin, viewModel: self)
+        self.switchUpSpinManager = SpinSettingsManager(spinType: .switchUpSpin, viewModel: self)
     }
     
     func loadCustomSettings() -> Difficulty.DifficultySettings? {
@@ -1378,6 +1388,13 @@ class TrickViewModel: ObservableObject {
         // Apply custom settings only if we're in custom mode
         if difficulty.isCustom {
             applyCustomSettings()
+        }
+        
+        // Sync spin settings with current difficulty
+        if let inManager = self.inSpinManager, let outManager = self.outSpinManager, let switchUpManager = self.switchUpSpinManager {
+            inManager.setSimpleDegree(inManager.findHighestDegreeFromSettings())
+            outManager.setSimpleDegree(outManager.findHighestDegreeFromSettings())
+            switchUpManager.setSimpleDegree(switchUpManager.findHighestDegreeFromSettings())
         }
         
         print("""

@@ -20,6 +20,8 @@
 		5721B8EB2BDE6622007793E0 /* DifficultyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721B8EA2BDE6622007793E0 /* DifficultyModel.swift */; };
 		5721B8EF2BDE68D7007793E0 /* DifficultyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721B8EE2BDE68D7007793E0 /* DifficultyCard.swift */; };
 		5721B8F22BDE6C19007793E0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721B8F12BDE6C19007793E0 /* Extensions.swift */; };
+		5730463C2D8D0DE4006EC422 /* SpinSettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5730463B2D8D0DE4006EC422 /* SpinSettingsManager.swift */; };
+		5730463E2D8D0E0F006EC422 /* SpinSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5730463D2D8D0E0F006EC422 /* SpinSettingsView.swift */; };
 		57398D5D2D894D00007D12A3 /* PercentageSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57398D5C2D894D00007D12A3 /* PercentageSlider.swift */; };
 		57398D5F2D8A3308007D12A3 /* RangeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57398D5E2D8A3308007D12A3 /* RangeSlider.swift */; };
 		5760B9CC2D7EB86900CAFBD0 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5760B9CB2D7EB86900CAFBD0 /* SegmentedControl.swift */; };
@@ -42,6 +44,8 @@
 		5721B8EA2BDE6622007793E0 /* DifficultyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifficultyModel.swift; sourceTree = "<group>"; };
 		5721B8EE2BDE68D7007793E0 /* DifficultyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifficultyCard.swift; sourceTree = "<group>"; };
 		5721B8F12BDE6C19007793E0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		5730463B2D8D0DE4006EC422 /* SpinSettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinSettingsManager.swift; sourceTree = "<group>"; };
+		5730463D2D8D0E0F006EC422 /* SpinSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinSettingsView.swift; sourceTree = "<group>"; };
 		57398D5C2D894D00007D12A3 /* PercentageSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentageSlider.swift; sourceTree = "<group>"; };
 		57398D5E2D8A3308007D12A3 /* RangeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSlider.swift; sourceTree = "<group>"; };
 		5760B9CB2D7EB86900CAFBD0 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
@@ -171,6 +175,8 @@
 				57FD81AC2D89483600B2895E /* CustomToggle.swift */,
 				57398D5C2D894D00007D12A3 /* PercentageSlider.swift */,
 				57398D5E2D8A3308007D12A3 /* RangeSlider.swift */,
+				5730463B2D8D0DE4006EC422 /* SpinSettingsManager.swift */,
+				5730463D2D8D0E0F006EC422 /* SpinSettingsView.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";
@@ -259,6 +265,7 @@
 				571135912BE079D900748F26 /* TabBar.swift in Sources */,
 				5721B8D22BD89968007793E0 /* ContentView.swift in Sources */,
 				571135932BE079E300748F26 /* NavigationBar.swift in Sources */,
+				5730463C2D8D0DE4006EC422 /* SpinSettingsManager.swift in Sources */,
 				57FD81AD2D89483600B2895E /* CustomToggle.swift in Sources */,
 				57398D5D2D894D00007D12A3 /* PercentageSlider.swift in Sources */,
 				5721B8D02BD89968007793E0 /* BladeTricksApp.swift in Sources */,
@@ -267,6 +274,7 @@
 				57CD49982BED5C350030A5C6 /* TrickModel.swift in Sources */,
 				5760B9CC2D7EB86900CAFBD0 /* SegmentedControl.swift in Sources */,
 				5721B8EF2BDE68D7007793E0 /* DifficultyCard.swift in Sources */,
+				5730463E2D8D0E0F006EC422 /* SpinSettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

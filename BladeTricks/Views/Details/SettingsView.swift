@@ -179,22 +179,20 @@ struct SettingsView: View {
             }
             .padding(.horizontal)
             
-            // Spin In
-            soulplateForwardInSpinsCAPSlider
-            soulplateFakieInSpinsCAPSlider
-            grooveForwardInSpinsCAPSlider
-            grooveFakieInSpinsCAPSlider
-            // Spin Out
-            soulplateForwardOutSpinsCAPSlider
-            soulplateFakieOutSpinsCAPSlider
-            fsOutSpinsCAPSlider
-            bsOutSpinsCAPSlider
-            // SwitchUp
-            switchUpChooser
-            grooveFSToSoulplateSpinsCAPSlider
-            grooveBSToSoulplateSpinsCAPSlider
-            grooveFSToGrooveSpinsCAPSlider
-            grooveBSToGrooveSpinsCAPSlider
+            // In Spins Settings
+            SpinSettingsView(manager: viewModel.inSpinManager)
+                .environmentObject(viewModel)
+                .padding(.top, 8)
+
+            // Out Spins Settings
+            SpinSettingsView(manager: viewModel.outSpinManager)
+                .environmentObject(viewModel)
+                .padding(.top, 8)
+
+            // Switch-Up Spins Settings
+            SpinSettingsView(manager: viewModel.switchUpSpinManager)
+                .environmentObject(viewModel)
+                .padding(.top, 8)
             switchUpRewindToggle
             Spacer(minLength: 50)
             Text("Scroll to top button goes here").opacity(0.2)
